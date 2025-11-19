@@ -1,4 +1,4 @@
-package study_project.demo.services;
+package study_project.demo.exceptions;
 
 /**
  * Eccezione di validazione: segnala input non valido con contesto del campo.

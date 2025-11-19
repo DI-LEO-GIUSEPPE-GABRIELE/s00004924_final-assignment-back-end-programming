@@ -5,6 +5,7 @@ import java.util.Optional;
 import study_project.demo.entities.User;
 import org.springframework.stereotype.Service;
 import study_project.demo.repositories.UserRepository;
+import study_project.demo.exceptions.ValidationException;
 
 /**
  * Service: logica applicativa e storage in memoria per la risorsa User.
