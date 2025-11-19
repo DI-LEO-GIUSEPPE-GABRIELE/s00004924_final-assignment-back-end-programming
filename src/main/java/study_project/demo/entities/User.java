@@ -1,10 +1,24 @@
 package study_project.demo.entities;
 
-// Modello/DTO della risorsa esposta dall'API.
-// In un progetto reale sarebbe un @Entity o un record, qui è una classe semplice.
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.Column;
+
+// Entity JPA persistita su database (PostgreSQL)
+@Entity
+@Table(name = "users")
 public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false, length = 50)
     private String name;
+
+    @Column(nullable = false, unique = true, length = 255)
     private String email;
 
     public User() {
