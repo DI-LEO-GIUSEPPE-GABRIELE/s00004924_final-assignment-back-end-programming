@@ -1,4 +1,4 @@
-package study_project.demo.controllers;
+package study_project.demo.exceptions;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -6,7 +6,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import study_project.demo.exceptions.ValidationException;
 
 /**
  * Gestione centralizzata degli errori di validazione.

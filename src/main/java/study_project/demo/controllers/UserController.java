@@ -11,10 +11,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import study_project.demo.dto.CreateUserRequest;
+import study_project.demo.dto.UpdateUserRequest;
 import study_project.demo.entities.User;
 import study_project.demo.services.UserService;
-import study_project.demo.controllers.dto.CreateUserRequest;
-import study_project.demo.controllers.dto.UpdateUserRequest;
 
 /**
  * Controller REST per /users con filtri semplici.
@@ -23,14 +24,16 @@ import study_project.demo.controllers.dto.UpdateUserRequest;
 @RequestMapping("/users")
 public class UserController {
     private final UserService service;
-    public UserController(UserService service) { this.service = service; }
+
+    public UserController(UserService service) {
+        this.service = service;
+    }
 
     // Recupera tutti gli utenti (Read All) con query params opzionali
     @GetMapping
     public List<User> list(
             @RequestParam(required = false) String nameContains,
-            @RequestParam(required = false) String emailDomain
-    ) {
+            @RequestParam(required = false) String emailDomain) {
         if (nameContains == null && emailDomain == null) {
             return service.findAll();
         }
