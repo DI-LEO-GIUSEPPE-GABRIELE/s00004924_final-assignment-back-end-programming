@@ -11,14 +11,17 @@ import jakarta.persistence.Column;
 @Entity
 @Table(name = "users")
 public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id // Serve per indicare la chiave primaria dell'entità
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Serve per generare automaticamente il valore della chiave
+                                                        // primaria
     private Long id;
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = 50) // Serve per indicare che il campo non può essere nullo e ha una lunghezza
+                                           // massima di 50 caratteri
     private String name;
 
-    @Column(nullable = false, unique = true, length = 255)
+    @Column(nullable = false, unique = true, length = 255) // Serve per indicare che il campo non può essere nullo, deve
+                                                           // essere unico e ha una lunghezza massima di 255 caratteri
     private String email;
 
     public User() {
