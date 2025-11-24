@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.util.UUID;
+
 // Entity JPA persistita su database (PostgreSQL)
 @Entity
 @Table(name = "users")
@@ -26,7 +28,7 @@ public class User {
     @Id // Serve per indicare la chiave primaria dell'entità
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Serve per generare automaticamente il valore della chiave
                                                         // primaria
-    private Long id;
+    private UUID id;
 
     @Column(nullable = false, length = 50) // Serve per indicare che il campo non può essere nullo e ha una lunghezza
                                            // massima di 50 caratteri
@@ -60,17 +62,17 @@ public class User {
     public User() {
     }
 
-    public User(Long id, String name, String email) {
+    public User(UUID id, String name, String email) {
         this.id = id;
         this.name = name;
         this.email = email;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
