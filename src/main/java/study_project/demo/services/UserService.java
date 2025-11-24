@@ -2,10 +2,13 @@ package study_project.demo.services;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import study_project.demo.entities.User;
 import org.springframework.stereotype.Service;
 import study_project.demo.repositories.UserRepository;
 import study_project.demo.exceptions.ValidationException;
+import study_project.demo.repositories.OrderRepository;
+import study_project.demo.dto.UserDetailsDto;
 
 /**
  * Service: logica applicativa e storage in memoria per la risorsa User.
@@ -13,14 +16,11 @@ import study_project.demo.exceptions.ValidationException;
 @Service
 public class UserService {
     private final UserRepository repo;
+    private final OrderRepository orders;
 
-    /**
-     * Costruttore per iniettare il repository UserRepository.
-     * 
-     * @param repo repository per l'accesso al database
-     */
-    public UserService(UserRepository repo) {
+    public UserService(UserRepository repo, OrderRepository orders) {
         this.repo = repo;
+        this.orders = orders;
     }
 
     // Read All: restituisce tutti gli utenti
@@ -49,6 +49,25 @@ public class UserService {
     // Read One: trova utente per ID
     public Optional<User> findById(Long id) {
         return repo.findById(id);
+    }
+
+    public Optional<UserDetailsDto> loadDetails(Long id) {
+        return repo.findWithRolesAndProfileById(id).map(u -> {
+            UserDetailsDto dto = new UserDetailsDto();
+            dto.setId(u.getId());
+            dto.setName(u.getName());
+            dto.setEmail(u.getEmail());
+            dto.setProfileBio(u.getProfile() != null ? u.getProfile().getBio() : null);
+            List<String> codes = orders.findByUserId(u.getId()).stream()
+                    .map(o -> o.getCode())
+                    .collect(Collectors.toList());
+            java.util.Set<String> roleNames = u.getRoles().stream()
+                    .map(r -> r.getName())
+                    .collect(java.util.stream.Collectors.toSet());
+            dto.setOrderCodes(codes);
+            dto.setRoleNames(roleNames);
+            return dto;
+        });
     }
 
     // Create: crea un utente con ID auto-generato
