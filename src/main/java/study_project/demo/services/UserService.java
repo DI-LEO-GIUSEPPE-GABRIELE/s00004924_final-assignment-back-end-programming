@@ -2,6 +2,7 @@ package study_project.demo.services;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import study_project.demo.entities.User;
 import org.springframework.stereotype.Service;
@@ -47,11 +48,11 @@ public class UserService {
     }
 
     // Read One: trova utente per ID
-    public Optional<User> findById(Long id) {
+    public Optional<User> findById(UUID id) {
         return repo.findById(id);
     }
 
-    public Optional<UserDetailsDto> loadDetails(Long id) {
+    public Optional<UserDetailsDto> loadDetails(UUID id) {
         return repo.findWithRolesAndProfileById(id).map(u -> {
             UserDetailsDto dto = new UserDetailsDto();
             dto.setId(u.getId());
@@ -79,7 +80,7 @@ public class UserService {
     }
 
     // Update: aggiorna campi dell'utente se esiste
-    public Optional<User> update(Long id, String name, String email) {
+    public Optional<User> update(UUID id, String name, String email) {
         return repo.findById(id).map(existing -> {
             // Validazioni preliminari
             validateUpdate(id, name, email);
@@ -90,7 +91,7 @@ public class UserService {
     }
 
     // Delete: rimuove utente per ID
-    public boolean delete(Long id) {
+    public boolean delete(UUID id) {
         if (repo.existsById(id)) {
             repo.deleteById(id);
             return true;
@@ -110,7 +111,7 @@ public class UserService {
     }
 
     // Validazioni per update
-    private void validateUpdate(Long id, String name, String email) {
+    private void validateUpdate(UUID id, String name, String email) {
         // Validazioni preliminari
         validateName(name);
         validateEmail(email);

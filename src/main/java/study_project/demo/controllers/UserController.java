@@ -1,6 +1,8 @@
 package study_project.demo.controllers;
 
 import java.util.List;
+import java.util.UUID;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,7 +44,7 @@ public class UserController {
 
     // Recupera utente per ID
     @GetMapping("/{id}")
-    public ResponseEntity<User> get(@PathVariable Long id) {
+    public ResponseEntity<User> get(@PathVariable UUID id) {
         return service.findById(id)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
@@ -57,7 +59,7 @@ public class UserController {
 
     // Aggiorna utente (payload UpdateUserRequest)
     @PutMapping("/{id}")
-    public ResponseEntity<User> update(@PathVariable Long id, @RequestBody UpdateUserRequest body) {
+    public ResponseEntity<User> update(@PathVariable UUID id, @RequestBody UpdateUserRequest body) {
         return service.update(id, body.getName(), body.getEmail())
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
@@ -65,7 +67,7 @@ public class UserController {
 
     // Cancella utente (nessun payload)
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable UUID id) {
         return service.delete(id) ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 }

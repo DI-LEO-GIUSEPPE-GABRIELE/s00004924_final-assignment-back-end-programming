@@ -2,13 +2,15 @@ package study_project.demo.repositories;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
+
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import study_project.demo.entities.User;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, UUID> {
     // Metodo per trovare un utente per email ignorando la case sensitivity
     Optional<User> findByEmailIgnoreCase(String email);
 
@@ -23,6 +25,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     // suffisso ignorando la case sensitivity
     List<User> findByNameContainingIgnoreCaseAndEmailEndingWithIgnoreCase(String name, String suffix);
 
-    @EntityGraph(attributePaths = {"roles", "profile"})
-    Optional<User> findWithRolesAndProfileById(Long id);
+    @EntityGraph(attributePaths = { "roles", "profile" })
+    Optional<User> findWithRolesAndProfileById(UUID id);
 }
