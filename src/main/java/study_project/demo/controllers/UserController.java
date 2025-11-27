@@ -4,6 +4,10 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,6 +44,17 @@ public class UserController {
             return service.findAll();
         }
         return service.findAllFiltered(nameContains, emailDomain);
+    }
+
+    // Ricerca con pagination & sorting e scelta del tipo di query
+    // Esempi sort: ?sort=name,asc&sort=email,desc
+    @GetMapping("/search")
+    public Page<User> search(
+            @RequestParam(required = false) String mode, // derived|jpql|native
+            @RequestParam(required = false) String nameContains,
+            @RequestParam(required = false) String emailDomain,
+            @PageableDefault(size = 10, sort = { "name" }, direction = Sort.Direction.ASC) Pageable pageable) {
+        return service.searchPaged(mode, nameContains, emailDomain, pageable);
     }
 
     // Recupera utente per ID

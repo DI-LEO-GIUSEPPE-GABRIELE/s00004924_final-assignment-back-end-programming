@@ -10,6 +10,8 @@ import study_project.demo.repositories.UserRepository;
 import study_project.demo.exceptions.ValidationException;
 import study_project.demo.repositories.OrderRepository;
 import study_project.demo.dto.UserDetailsDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 /**
  * Service: logica applicativa e storage in memoria per la risorsa User.
@@ -45,6 +47,30 @@ public class UserService {
         }
         // Nessun filtro applicato, restituisce tutti gli utenti
         return repo.findAll();
+    }
+
+    // Ricerca paginata/sortata con tre modalità di query (derived, jpql, native)
+    public Page<User> searchPaged(String mode, String nameContains, String emailDomain, Pageable pageable) {
+        String nc = nameContains;
+        String domain = emailDomain;
+        // Modalità: derived (metodi di naming), jpql (@Query JPQL), native (SQL Postgres)
+        switch (mode == null ? "derived" : mode.toLowerCase()) {
+            case "jpql":
+                return repo.searchUsersJpql(nc, domain, pageable);
+            case "native":
+                return repo.searchUsersNative(nc, domain, pageable);
+            case "derived":
+            default:
+                if (nc != null && domain != null) {
+                    return repo.findByNameContainingIgnoreCaseAndEmailEndingWithIgnoreCase(nc, "@" + domain, pageable);
+                } else if (nc != null) {
+                    return repo.findByNameContainingIgnoreCase(nc, pageable);
+                } else if (domain != null) {
+                    return repo.findByEmailEndingWithIgnoreCase("@" + domain, pageable);
+                }
+                // Nessun filtro: usa findAll(Pageable)
+                return repo.findAll(pageable);
+        }
     }
 
     // Read One: trova utente per ID
