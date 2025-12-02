@@ -12,6 +12,10 @@ import study_project.demo.repositories.UserRepository;
 import study_project.demo.repositories.ProfileRepository;
 import study_project.demo.repositories.OrderRepository;
 import study_project.demo.repositories.RoleRepository;
+import study_project.demo.repositories.PaymentRepository;
+import study_project.demo.entities.Payment;
+import study_project.demo.entities.CardPayment;
+import study_project.demo.entities.PaypalPayment;
 
 // Runner didattico: crea dati di esempio per le relationships JPA
 @Component
@@ -22,12 +26,14 @@ public class JpaRelationshipsRunner implements CommandLineRunner {
     private final ProfileRepository profiles;
     private final OrderRepository orders;
     private final RoleRepository roles;
+    private final PaymentRepository payments;
 
-    public JpaRelationshipsRunner(UserRepository users, ProfileRepository profiles, OrderRepository orders, RoleRepository roles) {
+    public JpaRelationshipsRunner(UserRepository users, ProfileRepository profiles, OrderRepository orders, RoleRepository roles, PaymentRepository payments) {
         this.users = users;
         this.profiles = profiles;
         this.orders = orders;
         this.roles = roles;
+        this.payments = payments;
     }
 
     @Override
@@ -70,6 +76,22 @@ public class JpaRelationshipsRunner implements CommandLineRunner {
                 u.getProfile() != null ? u.getProfile().getId() : null,
                 u.getOrders().size(),
                 u.getRoles().size());
+
+        // Inheritance demo: SINGLE_TABLE
+        if (payments.count() == 0) {
+            CardPayment cp = new CardPayment();
+            cp.setReference("REF-CARD-001");
+            cp.setAmount(new java.math.BigDecimal("19.99"));
+            cp.setCardMasked("4111********1111");
+            cp.setCircuit("VISA");
+
+            PaypalPayment pp = new PaypalPayment();
+            pp.setReference("REF-PP-001");
+            pp.setAmount(new java.math.BigDecimal("9.50"));
+            pp.setPaypalTxnId("TXN-ABC-123");
+
+            payments.save(cp);
+            payments.save(pp);
+        }
     }
 }
-

@@ -1,7 +1,6 @@
 package study_project.demo.entities;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Column;
 import jakarta.persistence.OneToOne;
@@ -18,18 +17,11 @@ import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.UUID;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.annotations.UuidGenerator;
-import org.hibernate.type.SqlTypes;
 
 // Entity JPA persistita su database (PostgreSQL)
 @Entity
 @Table(name = "users")
-public class User {
-    @Id
-    @UuidGenerator
-    @JdbcTypeCode(SqlTypes.UUID)
-    private UUID id;
+public class User extends BaseUuidEntity {
 
     @Column(nullable = false, length = 50) // Serve per indicare che il campo non può essere nullo e ha una lunghezza
                                            // massima di 50 caratteri
@@ -64,17 +56,17 @@ public class User {
     }
 
     public User(UUID id, String name, String email) {
-        this.id = id;
+        this.setId(id);
         this.name = name;
         this.email = email;
     }
 
     public UUID getId() {
-        return id;
+        return super.getId();
     }
 
     public void setId(UUID id) {
-        this.id = id;
+        super.setId(id);
     }
 
     public String getName() {
