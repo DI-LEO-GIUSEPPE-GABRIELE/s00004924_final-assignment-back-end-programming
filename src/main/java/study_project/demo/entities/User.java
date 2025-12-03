@@ -31,6 +31,9 @@ public class User extends BaseUuidEntity {
                                                            // essere unico e ha una lunghezza massima di 255 caratteri
     private String email;
 
+    @Column(nullable = true, length = 255)
+    private String password;
+
     // One-to-One: un utente ha un singolo profilo
     // Owner della relazione: User (possiede la FK profile_id)
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -83,6 +86,14 @@ public class User extends BaseUuidEntity {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     // Getter/Setter per relationships
