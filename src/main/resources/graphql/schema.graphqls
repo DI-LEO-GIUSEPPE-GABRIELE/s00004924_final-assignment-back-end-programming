@@ -1,0 +1,14 @@
+type Query {
+  flights(page: Int!, size: Int!): [Flight!]!
+  flight(id: ID!): Flight
+  convertPrice(flightId: ID!, base: String, target: String!): Float
+}
+
+type Flight {
+  id: ID!
+  flightCode: String!
+  departureDate: String!
+  arrivalDate: String!
+  basePrice: Float!
+  status: String!
+}
