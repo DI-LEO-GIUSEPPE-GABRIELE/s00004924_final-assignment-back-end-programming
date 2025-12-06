@@ -24,7 +24,7 @@ import bluesky.airline.entities.User;
 import bluesky.airline.services.UserService;
 
 /**
- * Controller REST per /users con filtri semplici.
+ * REST controller for /users with simple filters.
  */
 @RestController
 @RequestMapping("/users")
@@ -35,7 +35,7 @@ public class UserController {
         this.service = service;
     }
 
-    // Recupera tutti gli utenti (Read All) con query params opzionali
+    // Retrieve all users (Read All) with optional query params
     @GetMapping
     public List<User> list(
             @RequestParam(required = false) String nameContains,
@@ -46,8 +46,8 @@ public class UserController {
         return service.findAllFiltered(nameContains, emailDomain);
     }
 
-    // Ricerca con pagination & sorting e scelta del tipo di query
-    // Esempi sort: ?sort=name,asc&sort=email,desc
+    // Search with pagination & sorting and selectable query type
+    // Sort examples: ?sort=name,asc&sort=email,desc
     @GetMapping("/search")
     public Page<User> search(
             @RequestParam(required = false) String mode, // derived|jpql|native
@@ -57,7 +57,7 @@ public class UserController {
         return service.searchPaged(mode, nameContains, emailDomain, pageable);
     }
 
-    // Recupera utente per ID
+    // Retrieve user by ID
     @GetMapping("/{id}")
     public ResponseEntity<User> get(@PathVariable UUID id) {
         return service.findById(id)
@@ -65,14 +65,14 @@ public class UserController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    // Crea utente (payload CreateUserRequest)
+    // Create user (payload CreateUserRequest)
     @PostMapping
     public ResponseEntity<User> create(@RequestBody CreateUserRequest body) {
         User u = service.create(body.getName(), body.getEmail());
         return ResponseEntity.created(java.net.URI.create("/users/" + u.getId())).body(u);
     }
 
-    // Aggiorna utente (payload UpdateUserRequest)
+    // Update user (payload UpdateUserRequest)
     @PutMapping("/{id}")
     public ResponseEntity<User> update(@PathVariable UUID id, @RequestBody UpdateUserRequest body) {
         return service.update(id, body.getName(), body.getEmail())
@@ -80,7 +80,7 @@ public class UserController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    // Cancella utente (nessun payload)
+    // Delete user (no payload)
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable UUID id) {
         return service.delete(id) ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();

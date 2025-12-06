@@ -1,7 +1,7 @@
 package bluesky.airline.dto;
 
 /**
- * DTO per l'aggiornamento utente.
+ * DTO for user update.
  */
 public class UpdateUserRequest {
     private String name;

@@ -1,7 +1,7 @@
 package bluesky.airline.dto;
 
 /**
- * DTO per la creazione utente.
+ * DTO for user creation.
  */
 public class CreateUserRequest {
     private String name;

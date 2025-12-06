@@ -17,27 +17,25 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.UUID;
 
-// Entity JPA persistita su database (PostgreSQL)
+// JPA entity persisted on database (PostgreSQL)
 @Entity
 @Table(name = "users")
 public class User extends BaseUuidEntity {
 
-    @Column(nullable = false, length = 50) // Serve per indicare che il campo non può essere nullo e ha una lunghezza
-                                           // massima di 50 caratteri
+    @Column(nullable = false, length = 50) // Non-null field with max length 50
     private String name;
 
-    @Column(nullable = false, unique = true, length = 255) // Serve per indicare che il campo non può essere nullo, deve
-                                                           // essere unico e ha una lunghezza massima di 255 caratteri
+    @Column(nullable = false, unique = true, length = 255) // Non-null, unique, max length 255
     private String email;
 
     @Column(nullable = true, length = 255)
     private String password;
 
-    // Rimosse relazioni demo (Profile, Order)
+    // Removed demo relationships (Profile, Order)
 
-    // Many-to-Many: un utente può avere più ruoli e un ruolo può appartenere a più
-    // utenti
-    // Owner: User definisce la tabella di join user_roles
+    // Many-to-Many: a user can have multiple roles and a role can belong to
+    // multiple users
+    // Owner: User defines the join table user_roles
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id", columnDefinition = "uuid"), inverseJoinColumns = @JoinColumn(name = "role_id", columnDefinition = "uuid"))
     @JsonIgnore
@@ -84,7 +82,7 @@ public class User extends BaseUuidEntity {
         this.password = password;
     }
 
-    // Getter/Setter per relationships
+    // Getters/Setters for relationships
 
     public Set<Role> getRoles() {
         return roles;

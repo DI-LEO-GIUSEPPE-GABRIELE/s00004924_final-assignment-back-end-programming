@@ -11,7 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 /**
- * Service: logica applicativa e storage in memoria per la risorsa User.
+ * Service: application logic and in-memory storage for the User resource.
  */
 @Service
 public class UserService {
@@ -21,34 +21,34 @@ public class UserService {
         this.repo = repo;
     }
 
-    // Read All: restituisce tutti gli utenti
+    // Read All: return all users
     public List<User> findAll() {
         return repo.findAll();
     }
 
-    // Read All filtrato: nameContains e emailDomain
+    // Read All filtered: nameContains and emailDomain
     public List<User> findAllFiltered(String nameContains, String emailDomain) {
         String nc = nameContains;
         String suffix = emailDomain != null ? ("@" + emailDomain) : null;
         if (nc != null && suffix != null) {
-            // Filtra per nome contenente e dominio email
+            // Filter by name containing and email domain
             return repo.findByNameContainingIgnoreCaseAndEmailEndingWithIgnoreCase(nc, suffix);
         } else if (nc != null) {
-            // Filtra solo per nome contenente
+            // Filter only by name containing
             return repo.findByNameContainingIgnoreCase(nc);
         } else if (suffix != null) {
-            // Filtra solo per dominio email
+            // Filter only by email domain
             return repo.findByEmailEndingWithIgnoreCase(suffix);
         }
-        // Nessun filtro applicato, restituisce tutti gli utenti
+        // No filters applied: return all users
         return repo.findAll();
     }
 
-    // Ricerca paginata/sortata con tre modalità di query (derived, jpql, native)
+    // Paged/sorted search with three query modes (derived, jpql, native)
     public Page<User> searchPaged(String mode, String nameContains, String emailDomain, Pageable pageable) {
         String nc = nameContains;
         String domain = emailDomain;
-        // Modalità: derived (metodi di naming), jpql (@Query JPQL), native (SQL
+        // Modes: derived (method naming), jpql (@Query JPQL), native (Postgres SQL)
         // Postgres)
         switch (mode == null ? "derived" : mode.toLowerCase()) {
             case "jpql":
@@ -64,30 +64,30 @@ public class UserService {
                 } else if (domain != null) {
                     return repo.findByEmailEndingWithIgnoreCase("@" + domain, pageable);
                 }
-                // Nessun filtro: usa findAll(Pageable)
+                // No filters: use findAll(Pageable)
                 return repo.findAll(pageable);
         }
     }
 
-    // Read One: trova utente per ID
+    // Read One: find user by ID
     public Optional<User> findById(UUID id) {
         return repo.findById(id);
     }
 
-    // Metodo demo rimosso (details con profilo e ordini)
+    // Demo method removed (details with profile and orders)
 
-    // Create: crea un utente con ID auto-generato
+    // Create: create a user with auto-generated ID
     public User create(String name, String email) {
-        // Validazioni preliminari
+        // Preliminary validations
         validateCreate(name, email);
         User u = new User(null, name, email);
         return repo.save(u);
     }
 
-    // Update: aggiorna campi dell'utente se esiste
+    // Update: update user fields if exists
     public Optional<User> update(UUID id, String name, String email) {
         return repo.findById(id).map(existing -> {
-            // Validazioni preliminari
+            // Preliminary validations
             validateUpdate(id, name, email);
             existing.setName(name);
             existing.setEmail(email);
@@ -95,7 +95,7 @@ public class UserService {
         });
     }
 
-    // Delete: rimuove utente per ID
+    // Delete: remove user by ID
     public boolean delete(UUID id) {
         if (repo.existsById(id)) {
             repo.deleteById(id);
@@ -104,57 +104,50 @@ public class UserService {
         return false;
     }
 
-    // Validazioni per create
+    // Validations for create
     private void validateCreate(String name, String email) {
-        // Validazioni preliminari
+        // Preliminary validations
         validateName(name);
         validateEmail(email);
-        // Unicità email (case-insensitive)
+        // Email uniqueness (case-insensitive)
         boolean exists = repo.findByEmailIgnoreCase(email).isPresent();
         if (exists)
-            throw new ValidationException("email", "Email già registrata");
+            throw new ValidationException("email", "Email already registered");
     }
 
-    // Validazioni per update
+    // Validations for update
     private void validateUpdate(UUID id, String name, String email) {
-        // Validazioni preliminari
+        // Preliminary validations
         validateName(name);
         validateEmail(email);
-        // Unicità email (case-insensitive), escluso l'utente corrente
+        // Email uniqueness (case-insensitive), excluding current user
         boolean existsOther = repo.findByEmailIgnoreCase(email)
                 .map(u -> !u.getId().equals(id))
                 .orElse(false);
         if (existsOther)
-            // Se l'email è già usata da un altro utente, l'utente corrente non può
-            // cambiarla
-            throw new ValidationException("email", "Email già usata da un altro utente");
+            throw new ValidationException("email", "Email already used by another user");
     }
 
-    // Regole: name non vuoto, lunghezza 2..50
+    // Rules: name not empty, length 2..50
     private void validateName(String name) {
-        // Validazioni preliminari
+        // Preliminary validations
         if (name == null || name.trim().isEmpty())
-            // Se il nome è nullo o vuoto, l'utente non può essere creato
-            throw new ValidationException("name", "Nome obbligatorio");
+            throw new ValidationException("name", "Name is required");
         String n = name.trim();
         if (n.length() < 2)
-            // Se il nome è più corto di 2 caratteri, l'utente non può essere creato
-            throw new ValidationException("name", "Nome troppo corto (min 2)");
+            throw new ValidationException("name", "Name too short (min 2)");
         if (n.length() > 50)
-            // Se il nome è più lungo di 50 caratteri, l'utente non può essere creato
-            throw new ValidationException("name", "Nome troppo lungo (max 50)");
+            throw new ValidationException("name", "Name too long (max 50)");
     }
 
-    // Regole: formato email semplice
+    // Rules: simple email format
     private void validateEmail(String email) {
-        // Validazioni preliminari
+        // Preliminary validations
         if (email == null || email.trim().isEmpty())
-            // Se l'email è nullo o vuota, l'utente non può essere creato
-            throw new ValidationException("email", "Email obbligatoria");
+            throw new ValidationException("email", "Email is required");
         String e = email.trim();
-        // Controllo basilare; si può sostituire con Bean Validation @Email
+        // Basic check; can be replaced by Bean Validation @Email
         if (!e.contains("@") || !e.contains("."))
-            // Se l'email non contiene "@" o "." o è vuota, l'utente non può essere creato
-            throw new ValidationException("email", "Formato email non valido");
+            throw new ValidationException("email", "Invalid email format");
     }
 }

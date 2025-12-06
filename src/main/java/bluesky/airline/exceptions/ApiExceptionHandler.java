@@ -26,7 +26,7 @@ public class ApiExceptionHandler {
     public ResponseEntity<Map<String, Object>> onBadJson(HttpMessageNotReadableException ex) {
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("code", "BAD_JSON");
-        body.put("message", "Body JSON non valido");
+        body.put("message", "Invalid JSON body");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body);
     }
 }

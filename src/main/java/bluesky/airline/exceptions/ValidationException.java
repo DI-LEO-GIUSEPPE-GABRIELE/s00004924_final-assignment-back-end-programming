@@ -1,10 +1,17 @@
 package bluesky.airline.exceptions;
 
 /**
- * Eccezione di validazione: segnala input non valido con contesto del campo.
+ * Validation exception: signals invalid input and the related field context.
  */
 public class ValidationException extends RuntimeException {
     private final String field;
-    public ValidationException(String field, String message) { super(message); this.field = field; }
-    public String getField() { return field; }
+
+    public ValidationException(String field, String message) {
+        super(message);
+        this.field = field;
+    }
+
+    public String getField() {
+        return field;
+    }
 }

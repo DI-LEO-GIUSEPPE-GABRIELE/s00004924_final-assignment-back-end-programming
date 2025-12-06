@@ -5,14 +5,19 @@ import jakarta.persistence.Table;
 
 import java.util.UUID;
 
-// Entità "Role" usata nel Many-to-Many con User
+// Role entity used in Many-to-Many with User
 @Entity
 @Table(name = "roles")
 public class Role extends BaseUuidEntity {
     private String name;
 
-    public UUID getId() { return super.getId(); }
-    public void setId(UUID id) { super.setId(id); }
+    public UUID getId() {
+        return super.getId();
+    }
+
+    public void setId(UUID id) {
+        super.setId(id);
+    }
 
     public String getName() {
         return name;
