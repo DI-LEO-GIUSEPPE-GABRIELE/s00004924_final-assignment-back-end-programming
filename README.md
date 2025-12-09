@@ -174,14 +174,6 @@ Centralized in `ApiExceptionHandler`:
   - Security: `bluesky.airline.security.*`
   - Exceptions: `bluesky.airline.exceptions.*`
 
-## Tests
-
-- Run tests:
-
-```bash
-mvn test
-```
-
 ## Security Notes
 
 - Do not keep `jwt.secret` and API keys in `application.properties` in production; use environment variables or a secrets manager.
