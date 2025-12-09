@@ -81,13 +81,13 @@ public class UserService {
     // Demo method removed (details with profile and orders)
 
     // Create: create a user with auto-generated ID
-    public User create(String name, String email, java.util.Set<String> roleNames) {
+    public User create(String name, String email, java.util.Set<java.util.UUID> roleIds) {
         // Preliminary validations
         validateCreate(name, email);
         User u = new User(null, name, email);
-        if (roleNames != null && !roleNames.isEmpty()) {
-            java.util.Set<Role> rs = roleNames.stream()
-                    .map(n -> roles.findByNameIgnoreCase(n).orElse(null))
+        if (roleIds != null && !roleIds.isEmpty()) {
+            java.util.Set<Role> rs = roleIds.stream()
+                    .map(id -> roles.findById(id).orElse(null))
                     .filter(java.util.Objects::nonNull)
                     .collect(java.util.stream.Collectors.toSet());
             u.setRoles(rs);
@@ -96,15 +96,15 @@ public class UserService {
     }
 
     // Update: update user fields if exists
-    public Optional<User> update(UUID id, String name, String email, java.util.Set<String> roleNames) {
+    public Optional<User> update(UUID id, String name, String email, java.util.Set<java.util.UUID> roleIds) {
         return repo.findById(id).map(existing -> {
             // Preliminary validations
             validateUpdate(id, name, email);
             existing.setName(name);
             existing.setEmail(email);
-            if (roleNames != null) {
-                java.util.Set<Role> rs = roleNames.stream()
-                        .map(n -> roles.findByNameIgnoreCase(n).orElse(null))
+            if (roleIds != null) {
+                java.util.Set<Role> rs = roleIds.stream()
+                        .map(rid -> roles.findById(rid).orElse(null))
                         .filter(java.util.Objects::nonNull)
                         .collect(java.util.stream.Collectors.toSet());
                 existing.setRoles(rs);
