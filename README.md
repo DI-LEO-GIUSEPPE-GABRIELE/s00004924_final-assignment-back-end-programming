@@ -6,7 +6,7 @@ Spring Boot backend for managing users and flights, with JWT authentication, JPA
 
 - Java `21`
 - Spring Boot `3.5.7` (Web, Data JPA, Security, Actuator, GraphQL)
-- Database: PostgreSQL (driver included), optional H2 for development
+- Database: PostgreSQL (driver included)
 - Build: Maven (`spring-boot-maven-plugin`)
 
 ## Requirements
@@ -44,15 +44,6 @@ Create the database (macOS/Linux):
 
 ```bash
 psql -U postgres -h 127.0.0.1 -c "CREATE DATABASE bluesky_airline;"
-```
-
-If you prefer in-memory H2, start with overrides:
-
-```bash
-mvn -Dspring.datasource.url=jdbc:h2:mem:testdb \
-    -Dspring.datasource.driver-class-name=org.h2.Driver \
-    -Dspring.jpa.hibernate.ddl-auto=create-drop \
-    spring-boot:run
 ```
 
 ## Run the Project
