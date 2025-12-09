@@ -6,7 +6,7 @@ package bluesky.airline.dto;
 public class CreateUserRequest {
     private String name;
     private String email;
-    private java.util.Set<java.util.UUID> roleIds;
+    private java.util.UUID roleId;
 
     public String getName() {
         return name;
@@ -24,11 +24,11 @@ public class CreateUserRequest {
         this.email = email;
     }
 
-    public java.util.Set<java.util.UUID> getRoleIds() {
-        return roleIds;
+    public java.util.UUID getRoleId() {
+        return roleId;
     }
 
-    public void setRoleIds(java.util.Set<java.util.UUID> roleIds) {
-        this.roleIds = roleIds;
+    public void setRoleId(java.util.UUID roleId) {
+        this.roleId = roleId;
     }
 }

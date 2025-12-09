@@ -109,15 +109,15 @@ curl 'http://localhost:3001/users?mode=derived&nameContains=al&emailDomain=examp
 ```
 
 - `GET /users/{id}` — user detail
-- `POST /users` — create user (optional `roleIds`: array of UUIDs)
+- `POST /users` — create user (optional `roleId`: UUID of role)
 
 ```bash
 curl -X POST http://localhost:3001/users \
   -H 'Authorization: Bearer <token>' -H 'Content-Type: application/json' \
-  -d '{"name":"Bob","email":"bob@example.com","roleIds":["<ROLE_UUID>"]}'
+  -d '{"name":"Bob","email":"bob@example.com","roleId":"<ROLE_UUID>"}'
 ```
 
-- `PUT /users/{id}` — update user (optional `roleIds`: array of UUIDs)
+- `PUT /users/{id}` — update user (optional `roleId`: UUID of role)
 - `DELETE /users/{id}` — delete user
 
 ### Flights

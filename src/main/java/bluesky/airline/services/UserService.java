@@ -81,36 +81,43 @@ public class UserService {
     // Demo method removed (details with profile and orders)
 
     // Create: create a user with auto-generated ID
-    public User create(String name, String email, java.util.Set<java.util.UUID> roleIds) {
+    public User create(String name, String email, java.util.UUID roleId) {
         // Preliminary validations
         validateCreate(name, email);
         User u = new User(null, name, email);
-        if (roleIds != null && !roleIds.isEmpty()) {
-            java.util.Set<Role> rs = roleIds.stream()
-                    .map(id -> roles.findById(id).orElse(null))
-                    .filter(java.util.Objects::nonNull)
-                    .collect(java.util.stream.Collectors.toSet());
+        if (roleId != null) {
+            Role r = roles.findById(roleId).orElse(null);
+            if (r == null || !isAllowedRole(r))
+                throw new bluesky.airline.exceptions.ValidationException("roleId", "Invalid role");
+            java.util.Set<Role> rs = new java.util.HashSet<>();
+            rs.add(r);
             u.setRoles(rs);
         }
         return repo.save(u);
     }
 
     // Update: update user fields if exists
-    public Optional<User> update(UUID id, String name, String email, java.util.Set<java.util.UUID> roleIds) {
+    public Optional<User> update(UUID id, String name, String email, java.util.UUID roleId) {
         return repo.findById(id).map(existing -> {
             // Preliminary validations
             validateUpdate(id, name, email);
             existing.setName(name);
             existing.setEmail(email);
-            if (roleIds != null) {
-                java.util.Set<Role> rs = roleIds.stream()
-                        .map(rid -> roles.findById(rid).orElse(null))
-                        .filter(java.util.Objects::nonNull)
-                        .collect(java.util.stream.Collectors.toSet());
+            if (roleId != null) {
+                Role r = roles.findById(roleId).orElse(null);
+                if (r == null || !isAllowedRole(r))
+                    throw new bluesky.airline.exceptions.ValidationException("roleId", "Invalid role");
+                java.util.Set<Role> rs = new java.util.HashSet<>();
+                rs.add(r);
                 existing.setRoles(rs);
             }
             return repo.save(existing);
         });
+    }
+
+    private boolean isAllowedRole(Role r) {
+        String n = r.getName();
+        return n != null && (n.equalsIgnoreCase("ADMIN") || n.equalsIgnoreCase("TOUR_OPERATOR"));
     }
 
     // Delete: remove user by ID

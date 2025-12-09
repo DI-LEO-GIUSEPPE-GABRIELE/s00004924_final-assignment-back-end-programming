@@ -56,14 +56,14 @@ public class UserController {
     // Create user (payload CreateUserRequest)
     @PostMapping
     public ResponseEntity<User> create(@RequestBody CreateUserRequest body) {
-        User u = service.create(body.getName(), body.getEmail(), body.getRoleIds());
+        User u = service.create(body.getName(), body.getEmail(), body.getRoleId());
         return ResponseEntity.created(java.net.URI.create("/users/" + u.getId())).body(u);
     }
 
     // Update user (payload UpdateUserRequest)
     @PutMapping("/{id}")
     public ResponseEntity<User> update(@PathVariable UUID id, @RequestBody UpdateUserRequest body) {
-        return service.update(id, body.getName(), body.getEmail(), body.getRoleIds())
+        return service.update(id, body.getName(), body.getEmail(), body.getRoleId())
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
