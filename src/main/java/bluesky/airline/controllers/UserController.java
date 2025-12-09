@@ -35,22 +35,10 @@ public class UserController {
         this.service = service;
     }
 
-    // Retrieve all users (Read All) with optional query params
+    // Single list endpoint: pagination/sorting + optional filters
     @GetMapping
-    public List<User> list(
-            @RequestParam(required = false) String nameContains,
-            @RequestParam(required = false) String emailDomain) {
-        if (nameContains == null && emailDomain == null) {
-            return service.findAll();
-        }
-        return service.findAllFiltered(nameContains, emailDomain);
-    }
-
-    // Search with pagination & sorting and selectable query type
-    // Sort examples: ?sort=name,asc&sort=email,desc
-    @GetMapping("/search")
-    public Page<User> search(
-            @RequestParam(required = false) String mode, // derived|jpql|native
+    public Page<User> list(
+            @RequestParam(required = false) String mode,
             @RequestParam(required = false) String nameContains,
             @RequestParam(required = false) String emailDomain,
             @PageableDefault(size = 10, sort = { "name" }, direction = Sort.Direction.ASC) Pageable pageable) {
@@ -68,14 +56,14 @@ public class UserController {
     // Create user (payload CreateUserRequest)
     @PostMapping
     public ResponseEntity<User> create(@RequestBody CreateUserRequest body) {
-        User u = service.create(body.getName(), body.getEmail());
+        User u = service.create(body.getName(), body.getEmail(), body.getRoles());
         return ResponseEntity.created(java.net.URI.create("/users/" + u.getId())).body(u);
     }
 
     // Update user (payload UpdateUserRequest)
     @PutMapping("/{id}")
     public ResponseEntity<User> update(@PathVariable UUID id, @RequestBody UpdateUserRequest body) {
-        return service.update(id, body.getName(), body.getEmail())
+        return service.update(id, body.getName(), body.getEmail(), body.getRoles())
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }

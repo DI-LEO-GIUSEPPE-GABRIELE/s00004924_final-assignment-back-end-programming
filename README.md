@@ -74,7 +74,7 @@ java -jar target/bluesky-airline-0.0.1-SNAPSHOT.jar
 
 ## Authentication & Authorization
 
-- Public endpoints: `/auth/**`, `/actuator/**`
+- Public endpoints: `/auth/**`
 - All other endpoints require a JWT Bearer token in `Authorization: Bearer <token>`
 - Roles: `ADMIN`, `TOUR_OPERATOR`, `FLIGHT_MANAGER`
 - Bootstrap admin: set `bootstrap.admin.email` and `bootstrap.admin.password` to create an admin user on first start
@@ -101,36 +101,28 @@ curl -X POST http://localhost:3001/auth/login \
 
 ### Users
 
-- `GET /users` — list users, optional filters `nameContains`, `emailDomain`
+- `GET /users` — single endpoint with pagination/sorting and filters `mode`, `nameContains`, `emailDomain`
 
 ```bash
-curl 'http://localhost:3001/users?nameContains=al&emailDomain=example.com' \
-  -H 'Authorization: Bearer <token>'
-```
-
-- `GET /users/search` — pagination/sorting, `mode=derived|jpql|native`
-
-```bash
-curl 'http://localhost:3001/users/search?mode=derived&nameContains=al&emailDomain=example.com&size=10&sort=name,asc' \
+curl 'http://localhost:3001/users?mode=derived&nameContains=al&emailDomain=example.com&size=10&sort=name,asc' \
   -H 'Authorization: Bearer <token>'
 ```
 
 - `GET /users/{id}` — user detail
-- `POST /users` — create user
+- `POST /users` — create user (optional `roles`: array of role names)
 
 ```bash
 curl -X POST http://localhost:3001/users \
   -H 'Authorization: Bearer <token>' -H 'Content-Type: application/json' \
-  -d '{"name":"Bob","email":"bob@example.com"}'
+  -d '{"name":"Bob","email":"bob@example.com","roles":["ADMIN"]}'
 ```
 
-- `PUT /users/{id}` — update user
+- `PUT /users/{id}` — update user (optional `roles`: array of role names)
 - `DELETE /users/{id}` — delete user
 
 ### Flights
 
-- `GET /flights` — list with `status` filter and pagination
-- `GET /flights/search` — filters on `code`, `from`, `to` (ISO date-time)
+- `GET /flights` — single endpoint with pagination/sorting and filters `status`, `code`, `from`, `to` (ISO date-time)
 - `GET /flights/{id}` — flight detail
 - `POST /flights` — create flight (roles: `ADMIN` or `FLIGHT_MANAGER`)
 - `PUT /flights/{id}` — update flight (roles: `ADMIN` or `FLIGHT_MANAGER`)
@@ -168,9 +160,7 @@ Centralized in `ApiExceptionHandler`:
 - `VALIDATION_ERROR` — 400 with `message` and `field`
 - `BAD_JSON` — 400 on invalid JSON body
 
-## Actuator
-
-- `GET /actuator/health` — application health
+<!-- Actuator endpoints removed (not required by assignment) -->
 
 ## Code Structure
 

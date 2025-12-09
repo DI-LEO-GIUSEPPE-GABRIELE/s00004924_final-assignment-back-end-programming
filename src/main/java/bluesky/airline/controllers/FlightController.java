@@ -36,18 +36,19 @@ public class FlightController {
     }
 
     @GetMapping
-    public Page<Flight> list(@RequestParam(required = false) FlightStatus status, Pageable pageable) {
-        if (status != null)
-            return flights.findByStatus(status, pageable);
-        return flights.findAll(pageable);
-    }
-
-    @GetMapping("/search")
-    public Page<Flight> search(@RequestParam(required = false) String code,
+    public Page<Flight> list(
+            @RequestParam(required = false) String code,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant from,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant to,
+            @RequestParam(required = false) FlightStatus status,
             Pageable pageable) {
-        return flights.search(code, from, to, pageable);
+        if (code != null || from != null || to != null) {
+            return flights.search(code, from, to, pageable);
+        }
+        if (status != null) {
+            return flights.findByStatus(status, pageable);
+        }
+        return flights.findAll(pageable);
     }
 
     @GetMapping("/{id}")

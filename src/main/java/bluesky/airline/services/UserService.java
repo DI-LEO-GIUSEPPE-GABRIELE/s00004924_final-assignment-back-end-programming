@@ -4,8 +4,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import bluesky.airline.entities.User;
+import bluesky.airline.entities.Role;
 import org.springframework.stereotype.Service;
 import bluesky.airline.repositories.UserRepository;
+import bluesky.airline.repositories.RoleRepository;
 import bluesky.airline.exceptions.ValidationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,9 +18,11 @@ import org.springframework.data.domain.Pageable;
 @Service
 public class UserService {
     private final UserRepository repo;
+    private final RoleRepository roles;
 
-    public UserService(UserRepository repo) {
+    public UserService(UserRepository repo, RoleRepository roles) {
         this.repo = repo;
+        this.roles = roles;
     }
 
     // Read All: return all users
@@ -77,20 +81,34 @@ public class UserService {
     // Demo method removed (details with profile and orders)
 
     // Create: create a user with auto-generated ID
-    public User create(String name, String email) {
+    public User create(String name, String email, java.util.Set<String> roleNames) {
         // Preliminary validations
         validateCreate(name, email);
         User u = new User(null, name, email);
+        if (roleNames != null && !roleNames.isEmpty()) {
+            java.util.Set<Role> rs = roleNames.stream()
+                    .map(n -> roles.findByNameIgnoreCase(n).orElse(null))
+                    .filter(java.util.Objects::nonNull)
+                    .collect(java.util.stream.Collectors.toSet());
+            u.setRoles(rs);
+        }
         return repo.save(u);
     }
 
     // Update: update user fields if exists
-    public Optional<User> update(UUID id, String name, String email) {
+    public Optional<User> update(UUID id, String name, String email, java.util.Set<String> roleNames) {
         return repo.findById(id).map(existing -> {
             // Preliminary validations
             validateUpdate(id, name, email);
             existing.setName(name);
             existing.setEmail(email);
+            if (roleNames != null) {
+                java.util.Set<Role> rs = roleNames.stream()
+                        .map(n -> roles.findByNameIgnoreCase(n).orElse(null))
+                        .filter(java.util.Objects::nonNull)
+                        .collect(java.util.stream.Collectors.toSet());
+                existing.setRoles(rs);
+            }
             return repo.save(existing);
         });
     }
