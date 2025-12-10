@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import bluesky.airline.repositories.UserRepository;
-import bluesky.airline.security.JwtService;
+import bluesky.airline.security.JwtTools;
 import bluesky.airline.entities.User;
 import bluesky.airline.dto.AuthLoginRequest;
 import bluesky.airline.dto.AuthRegisterRequest;
@@ -19,13 +19,13 @@ import bluesky.airline.dto.AuthRegisterRequest;
 @RequestMapping("/auth")
 public class AuthController {
     private final AuthenticationManager authManager;
-    private final JwtService jwtService;
+    private final JwtTools jwtTools;
     private final UserRepository users;
     private final PasswordEncoder encoder;
 
-    public AuthController(AuthenticationManager authManager, JwtService jwtService, UserRepository users, PasswordEncoder encoder) {
+    public AuthController(AuthenticationManager authManager, JwtTools jwtTools, UserRepository users, PasswordEncoder encoder) {
         this.authManager = authManager;
-        this.jwtService = jwtService;
+        this.jwtTools = jwtTools;
         this.users = users;
         this.encoder = encoder;
     }
@@ -33,8 +33,8 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthLoginRequest body) {
         Authentication auth = authManager.authenticate(new UsernamePasswordAuthenticationToken(body.getEmail(), body.getPassword()));
-        String token = jwtService.generate(auth);
-        return ResponseEntity.ok(java.util.Map.of("token", token));
+            String token = jwtTools.generate(auth);
+            return ResponseEntity.ok(java.util.Map.of("token", token));
     }
 
     @PostMapping("/register")
