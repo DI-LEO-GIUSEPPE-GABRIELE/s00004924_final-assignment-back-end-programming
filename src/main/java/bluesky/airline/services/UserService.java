@@ -88,7 +88,7 @@ public class UserService {
         if (roleId != null) {
             Role r = roles.findById(roleId).orElse(null);
             if (r == null || !isAllowedRole(r))
-                throw new bluesky.airline.exceptions.ValidationException("roleId", "Invalid role");
+                throw new bluesky.airline.exceptions.ValidationException(java.util.List.of("roleId: Invalid role"));
             java.util.Set<Role> rs = new java.util.HashSet<>();
             rs.add(r);
             u.setRoles(rs);
@@ -106,7 +106,7 @@ public class UserService {
             if (roleId != null) {
                 Role r = roles.findById(roleId).orElse(null);
                 if (r == null || !isAllowedRole(r))
-                    throw new bluesky.airline.exceptions.ValidationException("roleId", "Invalid role");
+                    throw new bluesky.airline.exceptions.ValidationException(java.util.List.of("roleId: Invalid role"));
                 java.util.Set<Role> rs = new java.util.HashSet<>();
                 rs.add(r);
                 existing.setRoles(rs);
@@ -137,7 +137,7 @@ public class UserService {
         // Email uniqueness (case-insensitive)
         boolean exists = repo.findByEmailIgnoreCase(email).isPresent();
         if (exists)
-            throw new ValidationException("email", "Email already registered");
+            throw new ValidationException(java.util.List.of("email: Email already registered"));
     }
 
     // Validations for update
@@ -150,29 +150,29 @@ public class UserService {
                 .map(u -> !u.getId().equals(id))
                 .orElse(false);
         if (existsOther)
-            throw new ValidationException("email", "Email already used by another user");
+            throw new ValidationException(java.util.List.of("email: Email already used by another user"));
     }
 
     // Rules: name not empty, length 2..50
     private void validateName(String name) {
         // Preliminary validations
         if (name == null || name.trim().isEmpty())
-            throw new ValidationException("name", "Name is required");
+            throw new ValidationException(java.util.List.of("name: Name is required"));
         String n = name.trim();
         if (n.length() < 2)
-            throw new ValidationException("name", "Name too short (min 2)");
+            throw new ValidationException(java.util.List.of("name: Name too short (min 2)"));
         if (n.length() > 50)
-            throw new ValidationException("name", "Name too long (max 50)");
+            throw new ValidationException(java.util.List.of("name: Name too long (max 50)"));
     }
 
     // Rules: simple email format
     private void validateEmail(String email) {
         // Preliminary validations
         if (email == null || email.trim().isEmpty())
-            throw new ValidationException("email", "Email is required");
+            throw new ValidationException(java.util.List.of("email: Email is required"));
         String e = email.trim();
         // Basic check; can be replaced by Bean Validation @Email
         if (!e.contains("@") || !e.contains("."))
-            throw new ValidationException("email", "Invalid email format");
+            throw new ValidationException(java.util.List.of("email: Invalid email format"));
     }
 }
