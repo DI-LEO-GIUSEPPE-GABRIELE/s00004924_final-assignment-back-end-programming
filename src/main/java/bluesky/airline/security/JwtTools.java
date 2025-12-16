@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
+import bluesky.airline.entities.User;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 
@@ -29,6 +30,17 @@ public class JwtTools {
         return Jwts.builder()
                 .subject(auth.getName())
                 .claim("roles", roles)
+                .issuedAt(Date.from(now))
+                .expiration(Date.from(exp))
+                .signWith(Keys.hmacShaKeyFor(secret))
+                .compact();
+    }
+
+    public String generateForUser(User user) {
+        Instant now = Instant.now();
+        Instant exp = now.plusSeconds(expirationSeconds);
+        return Jwts.builder()
+                .subject(user.getId().toString())
                 .issuedAt(Date.from(now))
                 .expiration(Date.from(exp))
                 .signWith(Keys.hmacShaKeyFor(secret))

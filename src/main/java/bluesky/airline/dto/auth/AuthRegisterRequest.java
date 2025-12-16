@@ -3,6 +3,7 @@ package bluesky.airline.dto.auth;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.NotNull;
 
 public class AuthRegisterRequest {
     @NotBlank(message = "name: Name is required")
@@ -14,6 +15,8 @@ public class AuthRegisterRequest {
     @NotBlank(message = "password: Password is required")
     @Size(min = 4, message = "password: Password too short (min 4)")
     private String password;
+    @NotNull(message = "roleId: Role is required")
+    private java.util.UUID roleId;
 
     public String getName() {
         return name;
@@ -37,5 +40,13 @@ public class AuthRegisterRequest {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public java.util.UUID getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(java.util.UUID roleId) {
+        this.roleId = roleId;
     }
 }

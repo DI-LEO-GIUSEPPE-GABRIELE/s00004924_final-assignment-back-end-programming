@@ -3,28 +3,30 @@ package bluesky.airline.controllers;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import bluesky.airline.repositories.UserRepository;
 import bluesky.airline.services.AuthService;
+import bluesky.airline.services.UserService;
 import bluesky.airline.entities.User;
 import bluesky.airline.dto.auth.AuthLoginRequest;
 import bluesky.airline.dto.auth.AuthRegisterRequest;
+import bluesky.airline.dto.auth.LoginRespDTO;
+import bluesky.airline.dto.auth.NewUserRespDTO;
 
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
     private final AuthService authService;
+    private final UserService userService;
     private final UserRepository users;
-    private final PasswordEncoder encoder;
 
-    public AuthController(AuthService authService, UserRepository users, PasswordEncoder encoder) {
+    public AuthController(AuthService authService, UserService userService, UserRepository users) {
         this.authService = authService;
+        this.userService = userService;
         this.users = users;
-        this.encoder = encoder;
     }
 
     @PostMapping("/login")
@@ -34,7 +36,7 @@ public class AuthController {
                     validationResult.getFieldErrors().stream().map(fe -> fe.getDefaultMessage()).toList());
         }
         String token = authService.checkCredentialsAndGenerateToken(body);
-        return ResponseEntity.ok(java.util.Map.of("token", token));
+        return ResponseEntity.ok(new LoginRespDTO(token));
     }
 
     @PostMapping("/register")
@@ -47,10 +49,8 @@ public class AuthController {
         boolean exists = users.findByEmailIgnoreCase(body.getEmail()).isPresent();
         if (exists)
             return ResponseEntity.status(409).body(java.util.Map.of("error", "email exists"));
-        User u = new User(null, body.getName(), body.getEmail());
-        u.setPassword(encoder.encode(body.getPassword()));
-        u = users.save(u);
+        User u = userService.register(body.getName(), body.getEmail(), body.getPassword(), body.getRoleId());
         return ResponseEntity.created(java.net.URI.create("/users/" + u.getId()))
-                .body(java.util.Map.of("id", u.getId()));
+                .body(new NewUserRespDTO(u.getId()));
     }
 }

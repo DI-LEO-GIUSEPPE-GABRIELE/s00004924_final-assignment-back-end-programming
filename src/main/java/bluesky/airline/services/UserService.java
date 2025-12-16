@@ -11,6 +11,7 @@ import bluesky.airline.repositories.RoleRepository;
 import bluesky.airline.exceptions.ValidationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  * Service: application logic and in-memory storage for the User resource.
@@ -19,10 +20,12 @@ import org.springframework.data.domain.Pageable;
 public class UserService {
     private final UserRepository repo;
     private final RoleRepository roles;
+    private final PasswordEncoder encoder;
 
-    public UserService(UserRepository repo, RoleRepository roles) {
+    public UserService(UserRepository repo, RoleRepository roles, PasswordEncoder encoder) {
         this.repo = repo;
         this.roles = roles;
+        this.encoder = encoder;
     }
 
     // Read All: return all users
@@ -96,6 +99,21 @@ public class UserService {
         return repo.save(u);
     }
 
+    public User register(String name, String email, String password, java.util.UUID roleId) {
+        validateCreate(name, email);
+        User u = new User(null, name, email);
+        u.setPassword(encoder.encode(password));
+        if (roleId != null) {
+            Role r = roles.findById(roleId).orElse(null);
+            if (r == null || !isAllowedRole(r))
+                throw new bluesky.airline.exceptions.ValidationException(java.util.List.of("roleId: Invalid role"));
+            java.util.Set<Role> rs = new java.util.HashSet<>();
+            rs.add(r);
+            u.setRoles(rs);
+        }
+        return repo.save(u);
+    }
+
     // Update: update user fields if exists
     public Optional<User> update(UUID id, String name, String email, java.util.UUID roleId) {
         return repo.findById(id).map(existing -> {
@@ -117,7 +135,9 @@ public class UserService {
 
     private boolean isAllowedRole(Role r) {
         String n = r.getName();
-        return n != null && (n.equalsIgnoreCase("ADMIN") || n.equalsIgnoreCase("TOUR_OPERATOR"));
+        return n != null && (n.equalsIgnoreCase("ADMIN")
+                || n.equalsIgnoreCase("TOUR_OPERATOR")
+                || n.equalsIgnoreCase("FLIGHT_MANAGER"));
     }
 
     // Delete: remove user by ID

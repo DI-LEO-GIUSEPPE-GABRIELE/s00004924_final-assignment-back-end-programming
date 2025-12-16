@@ -24,11 +24,6 @@ public class AuthService {
                 .orElseThrow(() -> new bluesky.airline.exceptions.UnauthorizedException("Credenziali errate"));
         if (!encoder.matches(body.getPassword(), u.getPassword()))
             throw new bluesky.airline.exceptions.UnauthorizedException("Credenziali errate");
-        java.util.List<org.springframework.security.core.authority.SimpleGrantedAuthority> auths = u.getRoles().stream()
-                .map(r -> new org.springframework.security.core.authority.SimpleGrantedAuthority("ROLE_" + r.getName()))
-                .toList();
-        org.springframework.security.core.Authentication auth = new org.springframework.security.authentication.UsernamePasswordAuthenticationToken(
-                u.getEmail(), null, auths);
-        return jwtTools.generate(auth);
+        return jwtTools.generateForUser(u);
     }
 }

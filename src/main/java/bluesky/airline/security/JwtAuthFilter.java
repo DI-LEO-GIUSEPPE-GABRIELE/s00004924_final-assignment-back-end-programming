@@ -11,13 +11,18 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import bluesky.airline.repositories.UserRepository;
+import bluesky.airline.entities.User;
+import java.util.UUID;
 
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
     private final JwtTools jwtTools;
+    private final UserRepository users;
 
-    public JwtAuthFilter(JwtTools jwtTools) {
+    public JwtAuthFilter(JwtTools jwtTools, UserRepository users) {
         this.jwtTools = jwtTools;
+        this.users = users;
     }
 
     @Override
@@ -27,14 +32,22 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         if (header != null && header.startsWith("Bearer ")) {
             String token = header.substring(7);
             if (jwtTools.validate(token)) {
-                String username = jwtTools.extractUsername(token);
-                if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                    java.util.List<org.springframework.security.core.authority.SimpleGrantedAuthority> auths = jwtTools
-                            .extractAuthorities(token);
-                    UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(username, null,
-                            auths);
-                    auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                    SecurityContextHolder.getContext().setAuthentication(auth);
+                String subject = jwtTools.extractUsername(token);
+                if (subject != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                    try {
+                        UUID userId = UUID.fromString(subject);
+                        User u = users.findWithRolesById(userId).orElse(null);
+                        if (u != null) {
+                            java.util.List<org.springframework.security.core.authority.SimpleGrantedAuthority> auths = u.getRoles().stream()
+                                    .map(r -> new org.springframework.security.core.authority.SimpleGrantedAuthority("ROLE_" + r.getName()))
+                                    .toList();
+                            UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(u, null, auths);
+                            auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                            SecurityContextHolder.getContext().setAuthentication(auth);
+                        }
+                    } catch (IllegalArgumentException ex) {
+                        // invalid UUID subject -> ignore, no auth set
+                    }
                 }
             }
         }
