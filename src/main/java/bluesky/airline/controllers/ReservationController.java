@@ -17,6 +17,7 @@ import bluesky.airline.repositories.TourOperatorRepository;
 
 @RestController
 @RequestMapping("/reservations")
+@org.springframework.security.access.prepost.PreAuthorize("hasRole('ADMIN') or hasRole('TOUR_OPERATOR')")
 public class ReservationController {
     private final ReservationRepository reservations;
     private final FlightRepository flights;
@@ -41,7 +42,6 @@ public class ReservationController {
         return reservations.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
-    @PreAuthorize("hasRole('TOUR_OPERATOR')")
     @PostMapping
     public ResponseEntity<Reservation> create(@RequestParam UUID flightId, @RequestParam UUID operatorId,
             @RequestBody Reservation body) {

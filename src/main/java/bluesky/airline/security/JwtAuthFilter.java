@@ -38,15 +38,17 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                         UUID userId = UUID.fromString(subject);
                         User u = users.findWithRolesById(userId).orElse(null);
                         if (u != null) {
-                            java.util.List<org.springframework.security.core.authority.SimpleGrantedAuthority> auths = u.getRoles().stream()
-                                    .map(r -> new org.springframework.security.core.authority.SimpleGrantedAuthority("ROLE_" + r.getName()))
+                            java.util.List<org.springframework.security.core.authority.SimpleGrantedAuthority> auths = u
+                                    .getRoles().stream()
+                                    .map(r -> new org.springframework.security.core.authority.SimpleGrantedAuthority(
+                                            "ROLE_" + r.getName()))
                                     .toList();
-                            UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(u, null, auths);
+                            UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(u, null,
+                                    auths);
                             auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                             SecurityContextHolder.getContext().setAuthentication(auth);
                         }
                     } catch (IllegalArgumentException ex) {
-                        // invalid UUID subject -> ignore, no auth set
                     }
                 }
             }

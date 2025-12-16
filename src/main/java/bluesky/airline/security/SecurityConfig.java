@@ -34,7 +34,9 @@ public class SecurityConfig {
                 .formLogin(form -> form.disable())
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(req -> req.requestMatchers("/**").permitAll())
+                .authorizeHttpRequests(req -> req
+                        .requestMatchers("/auth/**").permitAll()
+                        .anyRequest().authenticated())
                 .cors(Customizer.withDefaults())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();

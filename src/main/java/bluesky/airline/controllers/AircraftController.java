@@ -13,6 +13,7 @@ import bluesky.airline.repositories.AircraftRepository;
 
 @RestController
 @RequestMapping("/aircrafts")
+@org.springframework.security.access.prepost.PreAuthorize("hasRole('ADMIN') or hasRole('TOUR_OPERATOR')")
 public class AircraftController {
     private final AircraftRepository aircrafts;
 
@@ -30,21 +31,18 @@ public class AircraftController {
         return aircrafts.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
-    @PreAuthorize("hasRole('ADMIN') or hasRole('FLIGHT_MANAGER')")
     @PostMapping("/passenger")
     public ResponseEntity<PassengerAircraft> createPassenger(@RequestBody PassengerAircraft body) {
         PassengerAircraft a = (PassengerAircraft) aircrafts.save(body);
         return ResponseEntity.created(java.net.URI.create("/aircrafts/" + a.getId())).body(a);
     }
 
-    @PreAuthorize("hasRole('ADMIN') or hasRole('FLIGHT_MANAGER')")
     @PostMapping("/cargo")
     public ResponseEntity<CargoAircraft> createCargo(@RequestBody CargoAircraft body) {
         CargoAircraft a = (CargoAircraft) aircrafts.save(body);
         return ResponseEntity.created(java.net.URI.create("/aircrafts/" + a.getId())).body(a);
     }
 
-    @PreAuthorize("hasRole('ADMIN') or hasRole('FLIGHT_MANAGER')")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable UUID id) {
         if (!aircrafts.existsById(id))

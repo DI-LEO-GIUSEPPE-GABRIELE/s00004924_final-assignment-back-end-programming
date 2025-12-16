@@ -28,6 +28,7 @@ import bluesky.airline.services.UserService;
  */
 @RestController
 @RequestMapping("/users")
+@org.springframework.security.access.prepost.PreAuthorize("hasRole('ADMIN')")
 public class UserController {
     private final UserService service;
 

@@ -4,6 +4,8 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Max;
 
 public class AuthRegisterRequest {
     @NotBlank(message = "name: Name is required")
@@ -15,8 +17,10 @@ public class AuthRegisterRequest {
     @NotBlank(message = "password: Password is required")
     @Size(min = 4, message = "password: Password too short (min 4)")
     private String password;
-    @NotNull(message = "roleId: Role is required")
-    private java.util.UUID roleId;
+    @NotNull(message = "roleCode: Role code is required")
+    @Min(value = 0, message = "roleCode: Invalid role code")
+    @Max(value = 2, message = "roleCode: Invalid role code")
+    private Integer roleCode;
 
     public String getName() {
         return name;
@@ -42,11 +46,11 @@ public class AuthRegisterRequest {
         this.password = password;
     }
 
-    public java.util.UUID getRoleId() {
-        return roleId;
+    public Integer getRoleCode() {
+        return roleCode;
     }
 
-    public void setRoleId(java.util.UUID roleId) {
-        this.roleId = roleId;
+    public void setRoleCode(Integer roleCode) {
+        this.roleCode = roleCode;
     }
 }

@@ -99,19 +99,31 @@ public class UserService {
         return repo.save(u);
     }
 
-    public User register(String name, String email, String password, java.util.UUID roleId) {
+    public User register(String name, String email, String password, Integer roleCode) {
         validateCreate(name, email);
         User u = new User(null, name, email);
         u.setPassword(encoder.encode(password));
-        if (roleId != null) {
-            Role r = roles.findById(roleId).orElse(null);
+        if (roleCode != null) {
+            String roleName = mapRoleCode(roleCode);
+            Role r = roleName == null ? null : roles.findByNameIgnoreCase(roleName).orElse(null);
             if (r == null || !isAllowedRole(r))
-                throw new bluesky.airline.exceptions.ValidationException(java.util.List.of("roleId: Invalid role"));
+                throw new bluesky.airline.exceptions.ValidationException(java.util.List.of("roleCode: Invalid role"));
             java.util.Set<Role> rs = new java.util.HashSet<>();
             rs.add(r);
             u.setRoles(rs);
         }
         return repo.save(u);
+    }
+
+    private String mapRoleCode(Integer code) {
+        if (code == null)
+            return null;
+        return switch (code) {
+            case 0 -> "ADMIN";
+            case 1 -> "FLIGHT_MANAGER";
+            case 2 -> "TOUR_OPERATOR";
+            default -> null;
+        };
     }
 
     // Update: update user fields if exists

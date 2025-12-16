@@ -21,6 +21,7 @@ import bluesky.airline.services.WeatherService;
 
 @RestController
 @RequestMapping("/flights")
+@org.springframework.security.access.prepost.PreAuthorize("hasRole('ADMIN') or hasRole('FLIGHT_MANAGER')")
 public class FlightController {
     private final FlightRepository flights;
     private final AirportRepository airports;
