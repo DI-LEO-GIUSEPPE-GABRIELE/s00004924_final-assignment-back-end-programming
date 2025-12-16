@@ -1,12 +1,9 @@
-package bluesky.airline.dto;
+package bluesky.airline.dto.auth;
 
-/**
- * DTO for user update.
- */
-public class UpdateUserRequest {
+public class AuthRegisterRequest {
     private String name;
     private String email;
-    private java.util.UUID roleId;
+    private String password;
 
     public String getName() {
         return name;
@@ -24,11 +21,11 @@ public class UpdateUserRequest {
         this.email = email;
     }
 
-    public java.util.UUID getRoleId() {
-        return roleId;
+    public String getPassword() {
+        return password;
     }
 
-    public void setRoleId(java.util.UUID roleId) {
-        this.roleId = roleId;
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

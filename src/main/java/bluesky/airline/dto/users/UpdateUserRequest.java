@@ -1,9 +1,9 @@
-package bluesky.airline.dto;
+package bluesky.airline.dto.users;
 
 /**
- * DTO for user creation.
+ * DTO for user update.
  */
-public class CreateUserRequest {
+public class UpdateUserRequest {
     private String name;
     private String email;
     private java.util.UUID roleId;

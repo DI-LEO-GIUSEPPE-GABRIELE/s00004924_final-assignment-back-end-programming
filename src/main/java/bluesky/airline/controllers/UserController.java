@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import bluesky.airline.dto.CreateUserRequest;
-import bluesky.airline.dto.UpdateUserRequest;
+import bluesky.airline.dto.users.CreateUserRequest;
+import bluesky.airline.dto.users.UpdateUserRequest;
 import bluesky.airline.entities.User;
 import bluesky.airline.services.UserService;
 

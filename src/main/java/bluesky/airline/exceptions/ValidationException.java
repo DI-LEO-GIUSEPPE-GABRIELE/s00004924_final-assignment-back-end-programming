@@ -1,17 +1,20 @@
 package bluesky.airline.exceptions;
 
-/**
- * Validation exception: signals invalid input and the related field context.
- */
-public class ValidationException extends RuntimeException {
-    private final String field;
+import java.util.List;
 
-    public ValidationException(String field, String message) {
+public class ValidationException extends RuntimeException {
+    private List<String> errorsList;
+
+    public ValidationException(String message) {
         super(message);
-        this.field = field;
     }
 
-    public String getField() {
-        return field;
+    public ValidationException(List<String> errorsList) {
+        super("Errori nel payload");
+        this.errorsList = errorsList;
+    }
+
+    public List<String> getErrorsList() {
+        return errorsList;
     }
 }
