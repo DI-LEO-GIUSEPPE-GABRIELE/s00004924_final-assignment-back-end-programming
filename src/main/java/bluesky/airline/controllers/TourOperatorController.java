@@ -13,7 +13,7 @@ import bluesky.airline.repositories.TourOperatorRepository;
 @RequestMapping("/operators")
 public class TourOperatorController {
     @org.springframework.beans.factory.annotation.Autowired
-    private TourOperatorRepository operators;
+    private bluesky.airline.services.TourOperatorService operators;
 
     @GetMapping
     public Page<TourOperator> list(Pageable pageable) {
@@ -22,7 +22,10 @@ public class TourOperatorController {
 
     @GetMapping("/{id}")
     public ResponseEntity<TourOperator> get(@PathVariable UUID id) {
-        return operators.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+        TourOperator op = operators.findById(id);
+        if (op == null)
+            return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(op);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -35,9 +38,10 @@ public class TourOperatorController {
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<TourOperator> update(@PathVariable UUID id, @RequestBody TourOperator body) {
-        return operators.findById(id).map(found -> {
-            body.setId(found.getId());
-            return ResponseEntity.ok(operators.save(body));
-        }).orElse(ResponseEntity.notFound().build());
+        TourOperator found = operators.findById(id);
+        if (found == null)
+            return ResponseEntity.notFound().build();
+        body.setId(found.getId());
+        return ResponseEntity.ok(operators.save(body));
     }
 }

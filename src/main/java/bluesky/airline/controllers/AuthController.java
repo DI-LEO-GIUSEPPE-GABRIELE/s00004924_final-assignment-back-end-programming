@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import bluesky.airline.repositories.UserRepository;
 import bluesky.airline.services.AuthService;
 import bluesky.airline.services.UserService;
 import bluesky.airline.entities.User;
@@ -23,8 +22,6 @@ public class AuthController {
     private AuthService authService;
     @org.springframework.beans.factory.annotation.Autowired
     private UserService userService;
-    @org.springframework.beans.factory.annotation.Autowired
-    private UserRepository users;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody @Validated AuthLoginRequest body, BindingResult validationResult) {
@@ -43,7 +40,7 @@ public class AuthController {
             throw new bluesky.airline.exceptions.ValidationException(
                     validationResult.getFieldErrors().stream().map(fe -> fe.getDefaultMessage()).toList());
         }
-        boolean exists = users.findByEmailIgnoreCase(body.getEmail()).isPresent();
+        boolean exists = userService.findByEmail(body.getEmail()).isPresent();
         if (exists)
             return ResponseEntity.status(409).body(java.util.Map.of("error", "email exists"));
         User u = userService.register(body.getName(), body.getEmail(), body.getPassword(), body.getRoleCode());

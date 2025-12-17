@@ -29,6 +29,7 @@ public class User extends BaseUuidEntity {
     private String email;
 
     @Column(nullable = true, length = 255)
+    @JsonIgnore
     private String password;
 
     // Removed demo relationships (Profile, Order)

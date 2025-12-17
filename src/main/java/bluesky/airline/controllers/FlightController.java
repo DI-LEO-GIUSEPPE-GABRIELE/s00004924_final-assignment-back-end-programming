@@ -15,7 +15,7 @@ import bluesky.airline.entities.Airport;
 import bluesky.airline.entities.Flight;
 import bluesky.airline.entities.WeatherData;
 import bluesky.airline.entities.enums.FlightStatus;
-import bluesky.airline.repositories.AirportRepository;
+import bluesky.airline.services.AirportService;
 import bluesky.airline.services.FlightService;
 import bluesky.airline.services.ExchangeRateService;
 import bluesky.airline.services.WeatherService;
@@ -27,7 +27,7 @@ public class FlightController {
     @Autowired
     private FlightService flights;
     @Autowired
-    private AirportRepository airports;
+    private AirportService airportService;
     @Autowired
     private WeatherService weatherService;
     @Autowired
@@ -92,7 +92,8 @@ public class FlightController {
         Airport dep = f.getDepartureAirport();
         if (dep == null)
             return ResponseEntity.badRequest().build();
-        WeatherData wd = weatherService.refreshForFlight(f, airports.findById(dep.getId()).orElse(dep));
+        Airport found = airportService.findById(dep.getId());
+        WeatherData wd = weatherService.refreshForFlight(f, found != null ? found : dep);
         return ResponseEntity.ok(wd);
     }
 

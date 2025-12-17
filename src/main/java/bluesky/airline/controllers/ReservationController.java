@@ -20,11 +20,11 @@ import bluesky.airline.repositories.TourOperatorRepository;
 @org.springframework.security.access.prepost.PreAuthorize("hasRole('ADMIN') or hasRole('TOUR_OPERATOR')")
 public class ReservationController {
     @org.springframework.beans.factory.annotation.Autowired
-    private ReservationRepository reservations;
+    private bluesky.airline.services.ReservationService reservations;
     @org.springframework.beans.factory.annotation.Autowired
-    private FlightRepository flights;
+    private bluesky.airline.services.FlightService flights;
     @org.springframework.beans.factory.annotation.Autowired
-    private TourOperatorRepository operators;
+    private bluesky.airline.services.TourOperatorService operators;
 
     @GetMapping
     public Page<Reservation> list(@RequestParam(required = false) ReservationStatus status, Pageable pageable) {
@@ -35,14 +35,17 @@ public class ReservationController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Reservation> get(@PathVariable UUID id) {
-        return reservations.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+        Reservation r = reservations.findById(id);
+        if (r == null)
+            return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(r);
     }
 
     @PostMapping
     public ResponseEntity<Reservation> create(@RequestParam UUID flightId, @RequestParam UUID operatorId,
             @RequestBody Reservation body) {
-        Flight f = flights.findById(flightId).orElse(null);
-        TourOperator op = operators.findById(operatorId).orElse(null);
+        Flight f = flights.findById(flightId);
+        TourOperator op = operators.findById(operatorId);
         if (f == null || op == null)
             return ResponseEntity.badRequest().build();
         body.setFlight(f);
@@ -58,9 +61,10 @@ public class ReservationController {
     @PreAuthorize("hasRole('ADMIN') or hasRole('TOUR_OPERATOR')")
     @PutMapping("/{id}/status")
     public ResponseEntity<Reservation> updateStatus(@PathVariable UUID id, @RequestParam ReservationStatus status) {
-        return reservations.findById(id).map(r -> {
-            r.setStatus(status);
-            return ResponseEntity.ok(reservations.save(r));
-        }).orElse(ResponseEntity.notFound().build());
+        Reservation r = reservations.findById(id);
+        if (r == null)
+            return ResponseEntity.notFound().build();
+        r.setStatus(status);
+        return ResponseEntity.ok(reservations.save(r));
     }
 }

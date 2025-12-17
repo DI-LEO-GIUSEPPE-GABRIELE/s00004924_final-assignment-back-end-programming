@@ -16,35 +16,38 @@ import bluesky.airline.repositories.AircraftRepository;
 @org.springframework.security.access.prepost.PreAuthorize("hasRole('ADMIN') or hasRole('TOUR_OPERATOR')")
 public class AircraftController {
     @org.springframework.beans.factory.annotation.Autowired
-    private AircraftRepository aircrafts;
+    private bluesky.airline.services.AircraftService service;
 
     @GetMapping
     public Page<Aircraft> list(Pageable pageable) {
-        return aircrafts.findAll(pageable);
+        return service.findAll(pageable);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Aircraft> get(@PathVariable UUID id) {
-        return aircrafts.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+        Aircraft a = service.findById(id);
+        if (a == null)
+            return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(a);
     }
 
     @PostMapping("/passenger")
     public ResponseEntity<PassengerAircraft> createPassenger(@RequestBody PassengerAircraft body) {
-        PassengerAircraft a = (PassengerAircraft) aircrafts.save(body);
+        PassengerAircraft a = (PassengerAircraft) service.save(body);
         return ResponseEntity.created(java.net.URI.create("/aircrafts/" + a.getId())).body(a);
     }
 
     @PostMapping("/cargo")
     public ResponseEntity<CargoAircraft> createCargo(@RequestBody CargoAircraft body) {
-        CargoAircraft a = (CargoAircraft) aircrafts.save(body);
+        CargoAircraft a = (CargoAircraft) service.save(body);
         return ResponseEntity.created(java.net.URI.create("/aircrafts/" + a.getId())).body(a);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable UUID id) {
-        if (!aircrafts.existsById(id))
+        if (!service.existsById(id))
             return ResponseEntity.notFound().build();
-        aircrafts.deleteById(id);
+        service.delete(id);
         return ResponseEntity.noContent().build();
     }
 }

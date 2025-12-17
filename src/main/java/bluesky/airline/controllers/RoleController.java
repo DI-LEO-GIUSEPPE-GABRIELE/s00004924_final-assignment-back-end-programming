@@ -13,14 +13,10 @@ import bluesky.airline.repositories.UserRepository;
 @RequestMapping("/roles")
 public class RoleController {
     @org.springframework.beans.factory.annotation.Autowired
-    private RoleRepository roles;
-    @org.springframework.beans.factory.annotation.Autowired
-    private UserRepository users;
+    private bluesky.airline.services.RoleService roles;
 
     @GetMapping
     public java.util.List<Role> list() {
         return roles.findAll();
     }
-
-    
 }
