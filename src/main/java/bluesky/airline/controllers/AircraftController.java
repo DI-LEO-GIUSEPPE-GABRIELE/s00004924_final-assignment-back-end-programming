@@ -4,12 +4,10 @@ import java.util.UUID;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import bluesky.airline.entities.Aircraft;
 import bluesky.airline.entities.PassengerAircraft;
 import bluesky.airline.entities.CargoAircraft;
-import bluesky.airline.repositories.AircraftRepository;
 
 @RestController
 @RequestMapping("/aircrafts")

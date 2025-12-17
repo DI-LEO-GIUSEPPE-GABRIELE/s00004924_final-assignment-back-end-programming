@@ -11,9 +11,6 @@ import bluesky.airline.entities.Flight;
 import bluesky.airline.entities.Reservation;
 import bluesky.airline.entities.TourOperator;
 import bluesky.airline.entities.enums.ReservationStatus;
-import bluesky.airline.repositories.FlightRepository;
-import bluesky.airline.repositories.ReservationRepository;
-import bluesky.airline.repositories.TourOperatorRepository;
 
 @RestController
 @RequestMapping("/reservations")

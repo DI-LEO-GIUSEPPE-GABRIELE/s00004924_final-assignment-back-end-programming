@@ -2,7 +2,6 @@ package bluesky.airline.entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-
 import java.util.UUID;
 
 // Role entity used in Many-to-Many with User
