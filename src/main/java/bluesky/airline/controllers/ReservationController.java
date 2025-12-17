@@ -19,16 +19,12 @@ import bluesky.airline.repositories.TourOperatorRepository;
 @RequestMapping("/reservations")
 @org.springframework.security.access.prepost.PreAuthorize("hasRole('ADMIN') or hasRole('TOUR_OPERATOR')")
 public class ReservationController {
-    private final ReservationRepository reservations;
-    private final FlightRepository flights;
-    private final TourOperatorRepository operators;
-
-    public ReservationController(ReservationRepository reservations, FlightRepository flights,
-            TourOperatorRepository operators) {
-        this.reservations = reservations;
-        this.flights = flights;
-        this.operators = operators;
-    }
+    @org.springframework.beans.factory.annotation.Autowired
+    private ReservationRepository reservations;
+    @org.springframework.beans.factory.annotation.Autowired
+    private FlightRepository flights;
+    @org.springframework.beans.factory.annotation.Autowired
+    private TourOperatorRepository operators;
 
     @GetMapping
     public Page<Reservation> list(@RequestParam(required = false) ReservationStatus status, Pageable pageable) {

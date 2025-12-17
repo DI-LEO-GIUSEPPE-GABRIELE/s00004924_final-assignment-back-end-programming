@@ -14,21 +14,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Component
 public class DataInitializer {
-    private final RoleRepository roles;
-    private final UserRepository users;
-    private final PasswordEncoder encoder;
-    private final String adminEmail;
-    private final String adminPassword;
-
-    public DataInitializer(RoleRepository roles, UserRepository users, PasswordEncoder encoder,
-            @Value("${bootstrap.admin.email:}") String adminEmail,
-            @Value("${bootstrap.admin.password:}") String adminPassword) {
-        this.roles = roles;
-        this.users = users;
-        this.encoder = encoder;
-        this.adminEmail = adminEmail;
-        this.adminPassword = adminPassword;
-    }
+    @org.springframework.beans.factory.annotation.Autowired
+    private RoleRepository roles;
+    @org.springframework.beans.factory.annotation.Autowired
+    private UserRepository users;
+    @org.springframework.beans.factory.annotation.Autowired
+    private PasswordEncoder encoder;
+    @Value("${bootstrap.admin.email:}")
+    private String adminEmail;
+    @Value("${bootstrap.admin.password:}")
+    private String adminPassword;
 
     @EventListener(ApplicationReadyEvent.class)
     @Transactional

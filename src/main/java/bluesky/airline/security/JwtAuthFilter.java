@@ -17,13 +17,10 @@ import java.util.UUID;
 
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
-    private final JwtTools jwtTools;
-    private final UserRepository users;
-
-    public JwtAuthFilter(JwtTools jwtTools, UserRepository users) {
-        this.jwtTools = jwtTools;
-        this.users = users;
-    }
+    @org.springframework.beans.factory.annotation.Autowired
+    private JwtTools jwtTools;
+    @org.springframework.beans.factory.annotation.Autowired
+    private UserRepository users;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)

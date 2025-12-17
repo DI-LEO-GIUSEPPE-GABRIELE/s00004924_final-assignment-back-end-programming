@@ -30,11 +30,8 @@ import bluesky.airline.services.UserService;
 @RequestMapping("/users")
 @org.springframework.security.access.prepost.PreAuthorize("hasRole('ADMIN')")
 public class UserController {
-    private final UserService service;
-
-    public UserController(UserService service) {
-        this.service = service;
-    }
+    @org.springframework.beans.factory.annotation.Autowired
+    private UserService service;
 
     // Single list endpoint: pagination/sorting + optional filters
     @GetMapping

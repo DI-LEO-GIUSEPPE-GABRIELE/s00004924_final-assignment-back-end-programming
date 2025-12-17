@@ -12,11 +12,8 @@ import bluesky.airline.repositories.TourOperatorRepository;
 @RestController
 @RequestMapping("/operators")
 public class TourOperatorController {
-    private final TourOperatorRepository operators;
-
-    public TourOperatorController(TourOperatorRepository operators) {
-        this.operators = operators;
-    }
+    @org.springframework.beans.factory.annotation.Autowired
+    private TourOperatorRepository operators;
 
     @GetMapping
     public Page<TourOperator> list(Pageable pageable) {

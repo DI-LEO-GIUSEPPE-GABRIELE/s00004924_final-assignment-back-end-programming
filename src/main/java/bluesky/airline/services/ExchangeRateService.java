@@ -9,14 +9,10 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class ExchangeRateService {
     private final RestTemplate http = new RestTemplate();
-    private final String apiKey;
-    private final String baseUrl;
-
-    public ExchangeRateService(@Value("${exchangerate.apiKey}") String apiKey,
-            @Value("${exchangerate.baseUrl:https://v6.exchangerate-api.com/v6}") String baseUrl) {
-        this.apiKey = apiKey;
-        this.baseUrl = baseUrl;
-    }
+    @Value("${exchangerate.apiKey}")
+    private String apiKey;
+    @Value("${exchangerate.baseUrl:https://v6.exchangerate-api.com/v6}")
+    private String baseUrl;
 
     public BigDecimal convert(BigDecimal amount, String base, String target) {
         String url = baseUrl + "/" + apiKey + "/latest/" + base;

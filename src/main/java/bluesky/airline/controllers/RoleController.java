@@ -12,13 +12,10 @@ import bluesky.airline.repositories.UserRepository;
 @RestController
 @RequestMapping("/roles")
 public class RoleController {
-    private final RoleRepository roles;
-    private final UserRepository users;
-
-    public RoleController(RoleRepository roles, UserRepository users) {
-        this.roles = roles;
-        this.users = users;
-    }
+    @org.springframework.beans.factory.annotation.Autowired
+    private RoleRepository roles;
+    @org.springframework.beans.factory.annotation.Autowired
+    private UserRepository users;
 
     @GetMapping
     public java.util.List<Role> list() {

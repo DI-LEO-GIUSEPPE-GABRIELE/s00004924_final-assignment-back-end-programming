@@ -3,34 +3,36 @@ package bluesky.airline.services;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import bluesky.airline.entities.User;
-import bluesky.airline.entities.Role;
-import org.springframework.stereotype.Service;
-import bluesky.airline.repositories.UserRepository;
-import bluesky.airline.repositories.RoleRepository;
-import bluesky.airline.exceptions.ValidationException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import bluesky.airline.entities.Role;
+import bluesky.airline.entities.User;
+import bluesky.airline.exceptions.ValidationException;
+import bluesky.airline.repositories.RoleRepository;
+import bluesky.airline.repositories.UserRepository;
 
 /**
  * Service: application logic and in-memory storage for the User resource.
  */
 @Service
 public class UserService {
-    private final UserRepository repo;
-    private final RoleRepository roles;
-    private final PasswordEncoder encoder;
-
-    public UserService(UserRepository repo, RoleRepository roles, PasswordEncoder encoder) {
-        this.repo = repo;
-        this.roles = roles;
-        this.encoder = encoder;
-    }
+    @Autowired
+    private UserRepository repo;
+    @Autowired
+    private RoleRepository roles;
+    @Autowired
+    private PasswordEncoder encoder;
 
     // Read All: return all users
     public List<User> findAll() {
         return repo.findAll();
+    }
+
+    public Optional<User> findByEmail(String email) {
+        return repo.findByEmailIgnoreCase(email);
     }
 
     // Read All filtered: nameContains and emailDomain

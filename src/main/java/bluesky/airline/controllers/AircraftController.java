@@ -15,11 +15,8 @@ import bluesky.airline.repositories.AircraftRepository;
 @RequestMapping("/aircrafts")
 @org.springframework.security.access.prepost.PreAuthorize("hasRole('ADMIN') or hasRole('TOUR_OPERATOR')")
 public class AircraftController {
-    private final AircraftRepository aircrafts;
-
-    public AircraftController(AircraftRepository aircrafts) {
-        this.aircrafts = aircrafts;
-    }
+    @org.springframework.beans.factory.annotation.Autowired
+    private AircraftRepository aircrafts;
 
     @GetMapping
     public Page<Aircraft> list(Pageable pageable) {

@@ -19,15 +19,12 @@ import bluesky.airline.dto.auth.NewUserRespDTO;
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
-    private final AuthService authService;
-    private final UserService userService;
-    private final UserRepository users;
-
-    public AuthController(AuthService authService, UserService userService, UserRepository users) {
-        this.authService = authService;
-        this.userService = userService;
-        this.users = users;
-    }
+    @org.springframework.beans.factory.annotation.Autowired
+    private AuthService authService;
+    @org.springframework.beans.factory.annotation.Autowired
+    private UserService userService;
+    @org.springframework.beans.factory.annotation.Autowired
+    private UserRepository users;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody @Validated AuthLoginRequest body, BindingResult validationResult) {

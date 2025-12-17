@@ -13,17 +13,12 @@ import bluesky.airline.repositories.WeatherDataRepository;
 @Service
 public class WeatherService {
     private final RestTemplate http = new RestTemplate();
-    private final WeatherDataRepository weatherRepo;
-    private final String apiKey;
-    private final String baseUrl;
-
-    public WeatherService(WeatherDataRepository weatherRepo,
-            @Value("${openweather.apiKey}") String apiKey,
-            @Value("${openweather.baseUrl:https://api.openweathermap.org/data/2.5/weather}") String baseUrl) {
-        this.weatherRepo = weatherRepo;
-        this.apiKey = apiKey;
-        this.baseUrl = baseUrl;
-    }
+    @org.springframework.beans.factory.annotation.Autowired
+    private WeatherDataRepository weatherRepo;
+    @Value("${openweather.apiKey}")
+    private String apiKey;
+    @Value("${openweather.baseUrl:https://api.openweathermap.org/data/2.5/weather}")
+    private String baseUrl;
 
     public WeatherData refreshForFlight(Flight flight, Airport departureAirport) {
         String q = departureAirport.getCity();

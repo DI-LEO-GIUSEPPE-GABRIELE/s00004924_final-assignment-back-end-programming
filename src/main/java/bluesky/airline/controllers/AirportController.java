@@ -14,11 +14,8 @@ import bluesky.airline.repositories.AirportRepository;
 @RequestMapping("/airports")
 @PreAuthorize("hasRole('ADMIN') or hasRole('TOUR_OPERATOR')")
 public class AirportController {
-    private final AirportRepository airports;
-
-    public AirportController(AirportRepository airports) {
-        this.airports = airports;
-    }
+    @org.springframework.beans.factory.annotation.Autowired
+    private AirportRepository airports;
 
     @GetMapping
     public Page<Airport> list(Pageable pageable) {

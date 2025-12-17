@@ -15,13 +15,10 @@ import io.jsonwebtoken.security.Keys;
 
 @Service
 public class JwtTools {
-    private final byte[] secret;
-    private final long expirationSeconds;
-
-    public JwtTools(@Value("${jwt.secret}") String secret, @Value("${jwt.expiration-seconds}") long expirationSeconds) {
-        this.secret = secret.getBytes(java.nio.charset.StandardCharsets.UTF_8);
-        this.expirationSeconds = expirationSeconds;
-    }
+    @Value("${jwt.secret}")
+    private String secret;
+    @Value("${jwt.expiration-seconds}")
+    private long expirationSeconds;
 
     public String generate(Authentication auth) {
         Instant now = Instant.now();
@@ -32,7 +29,7 @@ public class JwtTools {
                 .claim("roles", roles)
                 .issuedAt(Date.from(now))
                 .expiration(Date.from(exp))
-                .signWith(Keys.hmacShaKeyFor(secret))
+                .signWith(Keys.hmacShaKeyFor(secret.getBytes(java.nio.charset.StandardCharsets.UTF_8)))
                 .compact();
     }
 
@@ -43,13 +40,13 @@ public class JwtTools {
                 .subject(user.getId().toString())
                 .issuedAt(Date.from(now))
                 .expiration(Date.from(exp))
-                .signWith(Keys.hmacShaKeyFor(secret))
+                .signWith(Keys.hmacShaKeyFor(secret.getBytes(java.nio.charset.StandardCharsets.UTF_8)))
                 .compact();
     }
 
     public boolean validate(String token) {
         try {
-            Jwts.parser().verifyWith(Keys.hmacShaKeyFor(secret)).build().parseSignedClaims(token);
+            Jwts.parser().verifyWith(Keys.hmacShaKeyFor(secret.getBytes(java.nio.charset.StandardCharsets.UTF_8))).build().parseSignedClaims(token);
             return true;
         } catch (Exception e) {
             return false;
@@ -57,12 +54,12 @@ public class JwtTools {
     }
 
     public String extractUsername(String token) {
-        return Jwts.parser().verifyWith(Keys.hmacShaKeyFor(secret)).build()
+        return Jwts.parser().verifyWith(Keys.hmacShaKeyFor(secret.getBytes(java.nio.charset.StandardCharsets.UTF_8))).build()
                 .parseSignedClaims(token).getPayload().getSubject();
     }
 
     public List<SimpleGrantedAuthority> extractAuthorities(String token) {
-        String roles = (String) Jwts.parser().verifyWith(Keys.hmacShaKeyFor(secret)).build()
+        String roles = (String) Jwts.parser().verifyWith(Keys.hmacShaKeyFor(secret.getBytes(java.nio.charset.StandardCharsets.UTF_8))).build()
                 .parseSignedClaims(token).getPayload().get("roles");
         if (roles == null || roles.isBlank()) return java.util.List.of();
         return java.util.Arrays.stream(roles.split(","))

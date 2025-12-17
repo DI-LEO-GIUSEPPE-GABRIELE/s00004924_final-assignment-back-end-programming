@@ -1,5 +1,6 @@
 package bluesky.airline.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import bluesky.airline.dto.auth.AuthLoginRequest;
@@ -9,15 +10,12 @@ import bluesky.airline.security.JwtTools;
 
 @Service
 public class AuthService {
-    private final UserRepository users;
-    private final JwtTools jwtTools;
-    private final PasswordEncoder encoder;
-
-    public AuthService(UserRepository users, JwtTools jwtTools, PasswordEncoder encoder) {
-        this.users = users;
-        this.jwtTools = jwtTools;
-        this.encoder = encoder;
-    }
+    @Autowired
+    private UserRepository users;
+    @Autowired
+    private JwtTools jwtTools;
+    @Autowired
+    private PasswordEncoder encoder;
 
     public String checkCredentialsAndGenerateToken(AuthLoginRequest body) {
         User u = users.findByEmailIgnoreCase(body.getEmail())
