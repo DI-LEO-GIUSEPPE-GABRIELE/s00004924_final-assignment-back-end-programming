@@ -86,10 +86,14 @@ public class UserService {
     // Demo method removed (details with profile and orders)
 
     // Create: create a user with auto-generated ID
-    public User create(String name, String email, java.util.UUID roleId) {
+    public User create(String name, String surname, String username, String email, String avatarUrl,
+            java.util.UUID roleId) {
         // Preliminary validations
         validateCreate(name, email);
         User u = new User(null, name, email);
+        u.setSurname(surname);
+        u.setUsername(username);
+        u.setAvatarUrl(avatarUrl);
         if (roleId != null) {
             Role r = roles.findById(roleId).orElse(null);
             if (r == null || !isAllowedRole(r))
@@ -101,9 +105,13 @@ public class UserService {
         return repo.save(u);
     }
 
-    public User register(String name, String email, String password, Integer roleCode) {
+    public User register(String name, String surname, String username, String email, String avatarUrl, String password,
+            Integer roleCode) {
         validateCreate(name, email);
         User u = new User(null, name, email);
+        u.setSurname(surname);
+        u.setUsername(username);
+        u.setAvatarUrl(avatarUrl);
         u.setPassword(encoder.encode(password));
         if (roleCode != null) {
             String roleName = mapRoleCode(roleCode);
@@ -129,12 +137,16 @@ public class UserService {
     }
 
     // Update: update user fields if exists
-    public Optional<User> update(UUID id, String name, String email, java.util.UUID roleId) {
+    public Optional<User> update(UUID id, String name, String surname, String username, String email, String avatarUrl,
+            java.util.UUID roleId) {
         return repo.findById(id).map(existing -> {
             // Preliminary validations
             validateUpdate(id, name, email);
             existing.setName(name);
+            existing.setSurname(surname);
+            existing.setUsername(username);
             existing.setEmail(email);
+            existing.setAvatarUrl(avatarUrl);
             if (roleId != null) {
                 Role r = roles.findById(roleId).orElse(null);
                 if (r == null || !isAllowedRole(r))

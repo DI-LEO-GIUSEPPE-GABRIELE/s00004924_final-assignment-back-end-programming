@@ -2,12 +2,14 @@ package bluesky.airline.entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import jakarta.persistence.Column;
 import java.util.UUID;
 
 // Role entity used in Many-to-Many with User
 @Entity
 @Table(name = "roles")
 public class Role extends BaseUuidEntity {
+    @Column(name = "role_name", nullable = false, unique = true)
     private String name;
 
     public UUID getId() {

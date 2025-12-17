@@ -43,7 +43,8 @@ public class AuthController {
         boolean exists = userService.findByEmail(body.getEmail()).isPresent();
         if (exists)
             return ResponseEntity.status(409).body(java.util.Map.of("error", "email exists"));
-        User u = userService.register(body.getName(), body.getEmail(), body.getPassword(), body.getRoleCode());
+        User u = userService.register(body.getName(), body.getSurname(), body.getUsername(), body.getEmail(),
+                body.getAvatarUrl(), body.getPassword(), body.getRoleCode());
         return ResponseEntity.created(java.net.URI.create("/users/" + u.getId()))
                 .body(new NewUserRespDTO(u.getId()));
     }

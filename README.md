@@ -26,6 +26,83 @@ This project adheres to specific architectural guidelines and patterns:
     -   **RBAC**: Role-Based Access Control (`ADMIN`, `FLIGHT_MANAGER`, `TOUR_OPERATOR`).
     -   **Data Protection**: Sensitive fields (like passwords) are strictly hidden using `@JsonIgnore` and never returned in API responses.
 
+## 📊 Data Model (ERD)
+
+The following diagram represents the current database structure derived from the entity classes:
+
+```mermaid
+erDiagram
+    USER ||--o{ USER_ROLES : "has roles"
+    ROLE ||--o{ USER_ROLES : "assigned to"
+    USER ||--|| TOUR_OPERATOR : "is associated with"
+    TOUR_OPERATOR ||--o{ RESERVATION : "makes"
+    FLIGHT ||--o{ RESERVATION : "has"
+    FLIGHT ||--|| WEATHER_DATA : "has current"
+    FLIGHT }|--|| AIRPORT : "departs from"
+    FLIGHT }|--|| AIRPORT : "arrives at"
+    FLIGHT }|--|| AIRCRAFT : "uses"
+    AIRCRAFT <|-- PASSENGER_AIRCRAFT : "inherits"
+    AIRCRAFT <|-- CARGO_AIRCRAFT : "inherits"
+
+    USER {
+        UUID id
+        string name
+        string surname
+        string username
+        string email
+        string password
+        string avatar_url
+    }
+    ROLE {
+        UUID id
+        string role_name
+    }
+    TOUR_OPERATOR {
+        UUID id
+        string company_name
+        string vat_number
+    }
+    FLIGHT {
+        UUID id
+        string flight_code
+        datetime departure_date
+        datetime arrival_date
+        decimal base_price
+        enum status
+    }
+    RESERVATION {
+        UUID id
+        datetime reservation_date
+        enum status
+        decimal total_price
+    }
+    AIRPORT {
+        UUID id
+        string code
+        string name
+        string city
+        string country
+    }
+    AIRCRAFT {
+        UUID id
+        string brand
+        string model
+        string type
+    }
+    PASSENGER_AIRCRAFT {
+        int total_seats
+    }
+    CARGO_AIRCRAFT {
+        int max_load_capacity
+    }
+    WEATHER_DATA {
+        UUID id
+        double temperature
+        string description
+        datetime retrieved_at
+    }
+```
+
 ## 🛠️ Tech Stack
 
 -   **Language**: Java 21

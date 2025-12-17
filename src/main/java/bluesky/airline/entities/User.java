@@ -20,6 +20,15 @@ public class User extends BaseUuidEntity {
     @Column(nullable = false, length = 50) // Non-null field with max length 50
     private String name;
 
+    @Column(length = 50)
+    private String surname;
+
+    @Column(length = 50, unique = true)
+    private String username;
+
+    @Column
+    private String avatarUrl;
+
     @Column(nullable = false, unique = true, length = 255) // Non-null, unique, max length 255
     private String email;
 
@@ -62,6 +71,30 @@ public class User extends BaseUuidEntity {
         this.name = name;
     }
 
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -87,4 +120,5 @@ public class User extends BaseUuidEntity {
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
+
 }
