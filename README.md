@@ -1,176 +1,135 @@
-# BlueSky Airline – Backend
+# BlueSky Airline – Backend System
 
-Spring Boot backend for managing users and flights, with JWT authentication, JPA persistence on PostgreSQL, and REST/GraphQL endpoints.
+This is the backend for the **BlueSky Airline** management system. It provides a robust RESTful API (and GraphQL endpoint) for managing users, flights, reservations, and aircraft. The system is built with **Spring Boot 3** and follows strict architectural patterns.
 
-## Tech Stack
+## 📋 Project Overview
 
-- Java `21`
-- Spring Boot `3.5.7` (Web, Data JPA, Security, Actuator, GraphQL)
-- Database: PostgreSQL (driver included)
-- Build: Maven (`spring-boot-maven-plugin`)
+The application handles the core operations of an airline, including:
+-   **User Management**: Registration, authentication (JWT), and role-based access control.
+-   **Flight Management**: Scheduling, updating, and tracking flights.
+-   **Reservations**: Managing booking statuses.
+-   **Fleet & Airports**: Managing aircraft and airport data.
+-   **External Integrations**: Real-time weather data (OpenWeatherMap) and currency conversion (ExchangeRate-API).
 
-## Requirements
+## 🏗️ Architecture & Techniques
 
-- Java 21 (JDK)
-- Maven 3.9+
-- PostgreSQL running (port 5432) with a database `bluesky_airline`
+This project adheres to specific architectural guidelines and patterns:
 
-## Configuration
+-   **Layered Architecture**:
+    -   **Controllers**: Handle HTTP requests and map DTOs. They **never** access repositories directly.
+    -   **Services**: Encapsulate business logic and transaction management. All controllers inject services.
+    -   **Repositories**: Handle data persistence using Spring Data JPA.
+-   **Dependency Injection**: Uses **Field Injection** (`@Autowired`) on private fields, consistent throughout the codebase.
+-   **DTO Pattern**: Data Transfer Objects are used for API requests and responses to decouple the internal domain model from the external API.
+-   **Security**:
+    -   **JWT Authentication**: Stateless authentication using JSON Web Tokens.
+    -   **RBAC**: Role-Based Access Control (`ADMIN`, `FLIGHT_MANAGER`, `TOUR_OPERATOR`).
+    -   **Data Protection**: Sensitive fields (like passwords) are strictly hidden using `@JsonIgnore` and never returned in API responses.
 
-Main properties are in `src/main/resources/application.properties`:
+## 🛠️ Tech Stack
 
-- Server: `server.port=3001`
-- Datasource (PostgreSQL):
-  - `spring.datasource.url=jdbc:postgresql://127.0.0.1:5432/bluesky_airline`
-  - `spring.datasource.username=postgres`
-  - `spring.datasource.password=postgres`
-  - `spring.jpa.hibernate.ddl-auto=update`
-- Security/JWT (development):
-  - `jwt.secret=change-me-in-env`
-  - `jwt.expiration-seconds=3600`
-- External services:
-  - OpenWeather: `openweather.apiKey`, `openweather.baseUrl`
-  - ExchangeRate: `exchangerate.apiKey`, `exchangerate.baseUrl`
-- Bootstrap admin (optional):
-  - `bootstrap.admin.email`, `bootstrap.admin.password`
+-   **Language**: Java 21
+-   **Framework**: Spring Boot 3.5.7
+-   **Database**: PostgreSQL
+-   **Persistence**: Spring Data JPA / Hibernate
+-   **Security**: Spring Security + JJWT
+-   **API**: REST & GraphQL
+-   **Build Tool**: Maven
 
-You can override any property via environment variables (Spring Boot notation):
+## 👥 Roles & Permissions
 
-- Examples: `SPRING_DATASOURCE_URL`, `SPRING_DATASOURCE_USERNAME`, `SPRING_DATASOURCE_PASSWORD`, `JWT_SECRET`, `JWT_EXPIRATION_SECONDS`, `OPENWEATHER_APIKEY`, `EXCHANGERATE_APIKEY`, `BOOTSTRAP_ADMIN_EMAIL`, `BOOTSTRAP_ADMIN_PASSWORD`.
+| Role | Description | Key Permissions |
+| :--- | :--- | :--- |
+| **ADMIN** | System Administrator | Full access to all resources (Users, Flights, Fleet, etc.). |
+| **FLIGHT_MANAGER** | Flight Operations Manager | Can create, update, and delete flights. Can manage weather data. |
+| **TOUR_OPERATOR** | External Operator | Can view flights and manage reservations. |
 
-### Database
+## 🚀 Getting Started
 
-Create the database (macOS/Linux):
+### Prerequisites
+-   Java 21 JDK
+-   Maven 3.9+
+-   PostgreSQL (running on port 5432)
 
+### 1. Database Setup
+Create a PostgreSQL database named `bluesky_airline`.
 ```bash
-psql -U postgres -h 127.0.0.1 -c "CREATE DATABASE bluesky_airline;"
+psql -U postgres -h localhost -c "CREATE DATABASE bluesky_airline;"
 ```
 
-## Run the Project
+### 2. Configuration
+The application is configured via `src/main/resources/application.properties`.
+Key settings:
+-   `server.port`: 3001
+-   `spring.datasource.*`: DB connection details.
+-   `jwt.secret`: Secret key for token signing.
+-   `openweather.apiKey`: API key for weather data.
+-   `exchangerate.apiKey`: API key for currency conversion.
 
-- Development (hot reload via DevTools):
-
+### 3. Build & Run
 ```bash
+# Clean and compile
+mvn clean compile
+
+# Run the application
 mvn spring-boot:run
 ```
+The server will start at `http://localhost:3001`.
 
-- Build and run from JAR:
+## 🧪 How to Test (Step-by-Step)
 
-```bash
-mvn -DskipTests package
-java -jar target/bluesky-airline-0.0.1-SNAPSHOT.jar
-```
+Follow this flow to test the main functionalities using Postman or cURL.
 
-- Application listens on `http://localhost:3001/`
+### Phase 1: Authentication
+1.  **Register a User** (e.g., as an ADMIN):
+    -   `POST /auth/register`
+    -   Body: `{"name": "Admin User", "email": "admin@bluesky.com", "password": "password123", "roleCode": 0}`
+    -   *Note: roleCode 0=ADMIN, 1=FLIGHT_MANAGER, 2=TOUR_OPERATOR*
+2.  **Login**:
+    -   `POST /auth/login`
+    -   Body: `{"email": "admin@bluesky.com", "password": "password123"}`
+    -   **Copy the Token** returned in the response (`{"token": "eyJhbG..."}`).
 
-## Authentication & Authorization
+### Phase 2: Core Operations (Requires Token)
+*Add `Authorization: Bearer <YOUR_TOKEN>` header to all subsequent requests.*
 
-- Public endpoints: `/auth/**`
-- All other endpoints require a JWT Bearer token in `Authorization: Bearer <token>`
-- Roles: `ADMIN`, `TOUR_OPERATOR`, `FLIGHT_MANAGER`
-- Bootstrap admin: set `bootstrap.admin.email` and `bootstrap.admin.password` to create an admin user on first start
+3.  **Create a Flight** (Admin/Manager only):
+    -   `POST /flights`
+    -   Body: JSON representing a flight (ensure related Airport/Aircraft IDs exist or use existing ones).
+4.  **List Flights**:
+    -   `GET /flights`
+    -   Check if your new flight appears.
+5.  **Refresh Weather**:
+    -   `POST /flights/{id}/weather/refresh`
+    -   Fetches live weather for the flight's departure airport.
+6.  **Convert Price**:
+    -   `GET /flights/{id}/price/convert?target=USD`
+    -   Converts the flight price from EUR to USD.
 
-### Auth Flow
+### Phase 3: User Management
+7.  **List Users**:
+    -   `GET /users`
+    -   View all registered users.
+8.  **Get User Details**:
+    -   `GET /users/{id}`
+    -   Verify the `password` field is **not** present in the response (Security check).
 
-- Register:
+## 📡 API Endpoints Summary
 
-```bash
-curl -X POST http://localhost:3001/auth/register \
-  -H 'Content-Type: application/json' \
-  -d '{"name":"Alice","email":"alice@example.com","password":"pass"}'
-```
+### Auth
+-   `POST /auth/register` - Register new user
+-   `POST /auth/login` - Login and get JWT
 
-- Login (returns JWT):
+### Resources
+-   `GET /users` - List users
+-   `GET /flights` - List flights
+-   `GET /airports` - List airports
+-   `GET /aircrafts` - List aircraft
+-   `GET /reservations` - List reservations
+-   `GET /roles` - List roles
+-   `GET /operators` - List tour operators
 
-```bash
-curl -X POST http://localhost:3001/auth/login \
-  -H 'Content-Type: application/json' \
-  -d '{"email":"alice@example.com","password":"pass"}'
-```
+### GraphQL
+-   `POST /graphql` - Query flights via GraphQL
 
-## REST APIs
-
-### Users
-
-- `GET /users` — single endpoint with pagination/sorting and filters `mode`, `nameContains`, `emailDomain`
-
-```bash
-curl 'http://localhost:3001/users?mode=derived&nameContains=al&emailDomain=example.com&size=10&sort=name,asc' \
-  -H 'Authorization: Bearer <token>'
-```
-
-- `GET /users/{id}` — user detail
-- `POST /users` — create user (optional `roleId`: UUID of role)
-
-```bash
-curl -X POST http://localhost:3001/users \
-  -H 'Authorization: Bearer <token>' -H 'Content-Type: application/json' \
-  -d '{"name":"Bob","email":"bob@example.com","roleId":"<ROLE_UUID>"}'
-```
-
-- `PUT /users/{id}` — update user (optional `roleId`: UUID of role)
-- `DELETE /users/{id}` — delete user
-
-### Flights
-
-- `GET /flights` — single endpoint with pagination/sorting and filters `status`, `code`, `from`, `to` (ISO date-time)
-- `GET /flights/{id}` — flight detail
-- `POST /flights` — create flight (roles: `ADMIN` or `FLIGHT_MANAGER`)
-- `PUT /flights/{id}` — update flight (roles: `ADMIN` or `FLIGHT_MANAGER`)
-- `DELETE /flights/{id}` — delete flight (roles: `ADMIN` or `FLIGHT_MANAGER`)
-- `POST /flights/{id}/weather/refresh` — refresh weather for flight
-- `GET /flights/{id}/price/convert?target=USD&base=EUR` — price conversion
-
-```bash
-curl 'http://localhost:3001/flights/{id}/price/convert?target=USD&base=EUR' \
-  -H 'Authorization: Bearer <token>'
-```
-
-## GraphQL
-
-Endpoint: `POST /graphql`
-
-- Example query (cURL):
-
-```bash
-curl -X POST http://localhost:3001/graphql \
-  -H 'Content-Type: application/json' \
-  -d '{"query":"{ flights(page:0, size:5){ id code } }"}'
-```
-
-Available queries:
-
-- `flights(page, size)` — paginated flight list
-- `flight(id)` — flight detail
-- `convertPrice(flightId, base, target)` — price conversion via ExchangeRate API
-
-## Error Handling
-
-Centralized in `ApiExceptionHandler`:
-
-- `VALIDATION_ERROR` — 400 with `message` and `field`
-- `BAD_JSON` — 400 on invalid JSON body
-
-<!-- Actuator endpoints removed (not required by assignment) -->
-
-## Code Structure
-
-- Entrypoint: `bluesky.airline.Application`
-- Main layers:
-  - REST Controllers: `bluesky.airline.controllers.*`
-  - GraphQL: `bluesky.airline.graphql.*`
-  - Services: `bluesky.airline.services.*`
-  - Repositories: `bluesky.airline.repositories.*`
-  - Entities: `bluesky.airline.entities.*`
-  - Security: `bluesky.airline.security.*`
-  - Exceptions: `bluesky.airline.exceptions.*`
-
-## Security Notes
-
-- Do not keep `jwt.secret` and API keys in `application.properties` in production; use environment variables or a secrets manager.
-- Verify roles and permissions before exposing mutating endpoints in public environments.
-
-## Troubleshooting
-
-- Database connection error: check `SPRING_DATASOURCE_*` and that the DB is reachable.
-- 401/403 on protected endpoints: verify JWT in `Authorization` and user roles.
+*For a complete list of payloads and examples, import the `BlueSky_Airline.postman_collection.json` file into Postman.*
