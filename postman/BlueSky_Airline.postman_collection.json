@@ -1,489 +1,967 @@
 {
-	"info": {
-		"_postman_id": "b6a8e5f1-2c4d-4e6f-9a1b-3c5d7e9f0a2b",
-		"name": "BlueSky Airline",
-		"description": "Postman collection for BlueSky Airline backend API.",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-	},
-	"item": [
-		{
-			"name": "Auth",
-			"item": [
-				{
-					"name": "Register",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"name\": \"Admin User\",\n    \"email\": \"admin@bluesky.com\",\n    \"password\": \"password123\",\n    \"roleCode\": 0\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{baseUrl}}/auth/register",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"auth",
-								"register"
-							]
-						},
-						"description": "Register a new user. roleCode: 0=ADMIN, 1=FLIGHT_MANAGER, 2=TOUR_OPERATOR"
-					},
-					"response": []
-				},
-				{
-					"name": "Login",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"var jsonData = pm.response.json();",
-									"pm.environment.set(\"token\", jsonData.token);"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"email\": \"admin@bluesky.com\",\n    \"password\": \"password123\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{baseUrl}}/auth/login",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"auth",
-								"login"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Users",
-			"item": [
-				{
-					"name": "List Users",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/users",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"users"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get User",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/users/:id",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"users",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": ""
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Create User",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"name\": \"John Doe\",\n    \"email\": \"john@example.com\",\n    \"roleId\": \"<UUID>\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{baseUrl}}/users",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"users"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Update User",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"name\": \"John Updated\",\n    \"email\": \"john@example.com\",\n    \"roleId\": \"<UUID>\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{baseUrl}}/users/:id",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"users",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": ""
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Delete User",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/users/:id",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"users",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": ""
-								}
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Flights",
-			"item": [
-				{
-					"name": "List Flights",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/flights",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"flights"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Create Flight",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"code\": \"BS123\",\n    \"departureTime\": \"2023-12-25T10:00:00Z\",\n    \"arrivalTime\": \"2023-12-25T14:00:00Z\",\n    \"basePrice\": 150.00,\n    \"status\": \"SCHEDULED\",\n    \"departureAirport\": {\n        \"id\": \"<UUID>\"\n    },\n    \"arrivalAirport\": {\n        \"id\": \"<UUID>\"\n    },\n    \"aircraft\": {\n        \"id\": \"<UUID>\"\n    }\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{baseUrl}}/flights",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"flights"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Flight",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/flights/:id",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"flights",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": ""
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Refresh Weather",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/flights/:id/weather/refresh",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"flights",
-								":id",
-								"weather",
-								"refresh"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": ""
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Convert Price",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/flights/:id/price/convert?target=USD&base=EUR",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"flights",
-								":id",
-								"price",
-								"convert"
-							],
-							"query": [
-								{
-									"key": "target",
-									"value": "USD"
-								},
-								{
-									"key": "base",
-									"value": "EUR"
-								}
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": ""
-								}
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Reference Data",
-			"item": [
-				{
-					"name": "List Airports",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/airports",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"airports"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "List Aircrafts",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/aircrafts",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"aircrafts"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "List Roles",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/roles",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"roles"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "List Tour Operators",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/operators",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"operators"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "GraphQL",
-			"item": [
-				{
-					"name": "Query Flights",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "query {\n    flights(page: 0, size: 10) {\n        id\n        code\n        status\n        basePrice\n    }\n}",
-								"variables": ""
-							}
-						},
-						"url": {
-							"raw": "{{baseUrl}}/graphql",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"graphql"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		}
-	],
-	"auth": {
-		"type": "bearer",
-		"bearer": [
-			{
-				"key": "token",
-				"value": "{{token}}",
-				"type": "string"
-			}
-		]
-	},
-	"event": [
-		{
-			"listen": "prerequest",
-			"script": {
-				"type": "text/javascript",
-				"exec": [
-					""
-				]
-			}
-		},
-		{
-			"listen": "test",
-			"script": {
-				"type": "text/javascript",
-				"exec": [
-					""
-				]
-			}
-		}
-	],
-	"variable": [
-		{
-			"key": "baseUrl",
-			"value": "http://localhost:3001",
-			"type": "string"
-		},
-		{
-			"key": "token",
-			"value": "",
-			"type": "string"
-		}
-	]
+  "info": {
+    "_postman_id": "b6a8e5f1-2c4d-4e6f-9a1b-3c5d7e9f0a2b",
+    "name": "BlueSky Airline",
+    "description": "Postman collection for BlueSky Airline backend API.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Admin User\",\n    \"surname\": \"Admin Surname\",\n    \"username\": \"adminuser\",\n    \"email\": \"admin@bluesky.com\",\n    \"password\": \"password123\",\n    \"avatarUrl\": \"http://example.com/avatar.png\",\n    \"roleCode\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "register"]
+            },
+            "description": "Register a new user. roleCode: 0=ADMIN, 1=FLIGHT_MANAGER, 2=TOUR_OPERATOR"
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "pm.environment.set(\"token\", jsonData.token);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"admin@bluesky.com\",\n    \"password\": \"password123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "List Users",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/users",
+              "host": ["{{baseUrl}}"],
+              "path": ["users"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Search Users",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/users?mode=derived&nameContains=John&emailDomain=example.com",
+              "host": ["{{baseUrl}}"],
+              "path": ["users"],
+              "query": [
+                {
+                  "key": "mode",
+                  "value": "derived",
+                  "description": "derived, jpql, native"
+                },
+                {
+                  "key": "nameContains",
+                  "value": "John"
+                },
+                {
+                  "key": "emailDomain",
+                  "value": "example.com"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get User",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/users/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["users", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create User",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"John Doe\",\n    \"surname\": \"Doe\",\n    \"username\": \"johndoe\",\n    \"email\": \"john@example.com\",\n    \"avatarUrl\": \"http://example.com/avatar.png\",\n    \"roleId\": \"<UUID>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users",
+              "host": ["{{baseUrl}}"],
+              "path": ["users"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update User",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"John Updated\",\n    \"surname\": \"Updated\",\n    \"username\": \"johnupdated\",\n    \"email\": \"john@example.com\",\n    \"avatarUrl\": \"http://example.com/avatar_updated.png\",\n    \"roleId\": \"<UUID>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["users", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete User",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/users/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["users", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Flights",
+      "item": [
+        {
+          "name": "List Flights",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/flights",
+              "host": ["{{baseUrl}}"],
+              "path": ["flights"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Search Flights",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/flights?code=BS123&status=SCHEDULED",
+              "host": ["{{baseUrl}}"],
+              "path": ["flights"],
+              "query": [
+                {
+                  "key": "code",
+                  "value": "BS123"
+                },
+                {
+                  "key": "from",
+                  "value": "2023-01-01T00:00:00Z",
+                  "disabled": true
+                },
+                {
+                  "key": "to",
+                  "value": "2023-12-31T23:59:59Z",
+                  "disabled": true
+                },
+                {
+                  "key": "status",
+                  "value": "SCHEDULED"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Flight",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"code\": \"BS123\",\n    \"departureTime\": \"2023-12-25T10:00:00Z\",\n    \"arrivalTime\": \"2023-12-25T14:00:00Z\",\n    \"basePrice\": 150.00,\n    \"status\": \"SCHEDULED\",\n    \"departureAirport\": {\n        \"id\": \"<UUID>\"\n    },\n    \"arrivalAirport\": {\n        \"id\": \"<UUID>\"\n    },\n    \"aircraft\": {\n        \"id\": \"<UUID>\"\n    }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/flights",
+              "host": ["{{baseUrl}}"],
+              "path": ["flights"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Flight",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/flights/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["flights", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Flight",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"code\": \"BS123-UPD\",\n    \"departureTime\": \"2023-12-26T10:00:00Z\",\n    \"arrivalTime\": \"2023-12-26T14:00:00Z\",\n    \"basePrice\": 160.00,\n    \"status\": \"DELAYED\",\n    \"departureAirport\": {\n        \"id\": \"<UUID>\"\n    },\n    \"arrivalAirport\": {\n        \"id\": \"<UUID>\"\n    },\n    \"aircraft\": {\n        \"id\": \"<UUID>\"\n    }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/flights/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["flights", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Flight",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/flights/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["flights", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Refresh Weather",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/flights/:id/weather/refresh",
+              "host": ["{{baseUrl}}"],
+              "path": ["flights", ":id", "weather", "refresh"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Convert Price",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/flights/:id/price/convert?target=USD&base=EUR",
+              "host": ["{{baseUrl}}"],
+              "path": ["flights", ":id", "price", "convert"],
+              "query": [
+                {
+                  "key": "target",
+                  "value": "USD"
+                },
+                {
+                  "key": "base",
+                  "value": "EUR"
+                }
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Reservations",
+      "item": [
+        {
+          "name": "List Reservations",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reservations?status=PENDING",
+              "host": ["{{baseUrl}}"],
+              "path": ["reservations"],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "PENDING",
+                  "description": "Optional: PENDING, CONFIRMED, CANCELLED"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Reservation",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reservations/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["reservations", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Reservation",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"passengerName\": \"John Doe\",\n    \"passengerEmail\": \"john.doe@example.com\",\n    \"numberOfSeats\": 2\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/reservations?flightId=<UUID>&operatorId=<UUID>",
+              "host": ["{{baseUrl}}"],
+              "path": ["reservations"],
+              "query": [
+                {
+                  "key": "flightId",
+                  "value": "<UUID>"
+                },
+                {
+                  "key": "operatorId",
+                  "value": "<UUID>"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Reservation Status",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reservations/:id/status?status=CONFIRMED",
+              "host": ["{{baseUrl}}"],
+              "path": ["reservations", ":id", "status"],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "CONFIRMED"
+                }
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Reservation",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reservations/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["reservations", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Reference Data",
+      "item": [
+        {
+          "name": "Airports",
+          "item": [
+            {
+              "name": "List Airports",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/airports",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["airports"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get Airport",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/airports/:id",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["airports", ":id"],
+                  "variable": [
+                    {
+                      "key": "id",
+                      "value": ""
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Create Airport",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"code\": \"JFK\",\n    \"name\": \"John F. Kennedy International Airport\",\n    \"city\": \"New York\",\n    \"country\": \"USA\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/airports",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["airports"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Update Airport",
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"code\": \"JFK\",\n    \"name\": \"John F. Kennedy International Airport (Updated)\",\n    \"city\": \"New York\",\n    \"country\": \"USA\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/airports/:id",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["airports", ":id"],
+                  "variable": [
+                    {
+                      "key": "id",
+                      "value": ""
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Delete Airport",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/airports/:id",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["airports", ":id"],
+                  "variable": [
+                    {
+                      "key": "id",
+                      "value": ""
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Aircrafts",
+          "item": [
+            {
+              "name": "List Aircrafts",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/aircrafts",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["aircrafts"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get Aircraft",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/aircrafts/:id",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["aircrafts", ":id"],
+                  "variable": [
+                    {
+                      "key": "id",
+                      "value": ""
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Create Passenger Aircraft",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"model\": \"Boeing 737\",\n    \"manufacturer\": \"Boeing\",\n    \"maxDistanceKm\": 5000,\n    \"seatCapacity\": 180\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/aircrafts/passenger",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["aircrafts", "passenger"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Create Cargo Aircraft",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"model\": \"Boeing 747 Freighter\",\n    \"manufacturer\": \"Boeing\",\n    \"maxDistanceKm\": 8000,\n    \"cargoCapacityKg\": 120000\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/aircrafts/cargo",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["aircrafts", "cargo"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Update Passenger Aircraft",
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"model\": \"Boeing 737 Updated\",\n    \"manufacturer\": \"Boeing\",\n    \"maxDistanceKm\": 5500,\n    \"seatCapacity\": 190\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/aircrafts/passenger/:id",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["aircrafts", "passenger", ":id"],
+                  "variable": [
+                    {
+                      "key": "id",
+                      "value": ""
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Update Cargo Aircraft",
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"model\": \"Boeing 747 Freighter Updated\",\n    \"manufacturer\": \"Boeing\",\n    \"maxDistanceKm\": 8500,\n    \"cargoCapacityKg\": 125000\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/aircrafts/cargo/:id",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["aircrafts", "cargo", ":id"],
+                  "variable": [
+                    {
+                      "key": "id",
+                      "value": ""
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Delete Aircraft",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/aircrafts/:id",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["aircrafts", ":id"],
+                  "variable": [
+                    {
+                      "key": "id",
+                      "value": ""
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Roles",
+          "item": [
+            {
+              "name": "List Roles",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/roles",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["roles"]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Tour Operators",
+          "item": [
+            {
+              "name": "List Tour Operators",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/operators",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["operators"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get Tour Operator",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/operators/:id",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["operators", ":id"],
+                  "variable": [
+                    {
+                      "key": "id",
+                      "value": ""
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Create Tour Operator",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"name\": \"Sunny Travels\",\n    \"email\": \"contact@sunnytravels.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/operators",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["operators"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Update Tour Operator",
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"name\": \"Sunny Travels Ltd.\",\n    \"email\": \"info@sunnytravels.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/operators/:id",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["operators", ":id"],
+                  "variable": [
+                    {
+                      "key": "id",
+                      "value": ""
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Delete Tour Operator",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/operators/:id",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["operators", ":id"],
+                  "variable": [
+                    {
+                      "key": "id",
+                      "value": ""
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "GraphQL",
+      "item": [
+        {
+          "name": "Query Flights",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "query {\n    flights(page: 0, size: 10) {\n        id\n        code\n        status\n        basePrice\n    }\n}",
+                "variables": ""
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/graphql",
+              "host": ["{{baseUrl}}"],
+              "path": ["graphql"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3001",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    }
+  ]
 }

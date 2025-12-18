@@ -24,4 +24,12 @@ public class TourOperatorService {
     public TourOperator save(TourOperator operator) {
         return operators.save(operator);
     }
+
+    public void delete(UUID id) {
+        operators.deleteById(id);
+    }
+
+    public boolean existsById(UUID id) {
+        return operators.existsById(id);
+    }
 }

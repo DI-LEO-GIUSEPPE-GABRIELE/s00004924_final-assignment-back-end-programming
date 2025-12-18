@@ -64,4 +64,13 @@ public class ReservationController {
         r.setStatus(status);
         return ResponseEntity.ok(reservations.save(r));
     }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable UUID id) {
+        if (!reservations.existsById(id))
+            return ResponseEntity.notFound().build();
+        reservations.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }

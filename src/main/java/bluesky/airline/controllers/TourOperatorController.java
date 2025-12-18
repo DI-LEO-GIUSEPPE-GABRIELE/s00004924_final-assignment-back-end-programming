@@ -43,4 +43,13 @@ public class TourOperatorController {
         body.setId(found.getId());
         return ResponseEntity.ok(operators.save(body));
     }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable UUID id) {
+        if (!operators.existsById(id))
+            return ResponseEntity.notFound().build();
+        operators.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }

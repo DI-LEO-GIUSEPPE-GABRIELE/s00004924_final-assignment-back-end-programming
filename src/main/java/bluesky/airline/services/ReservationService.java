@@ -29,4 +29,12 @@ public class ReservationService {
     public Reservation save(Reservation reservation) {
         return reservations.save(reservation);
     }
+
+    public void delete(UUID id) {
+        reservations.deleteById(id);
+    }
+
+    public boolean existsById(UUID id) {
+        return reservations.existsById(id);
+    }
 }

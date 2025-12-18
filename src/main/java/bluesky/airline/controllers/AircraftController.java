@@ -41,6 +41,24 @@ public class AircraftController {
         return ResponseEntity.created(java.net.URI.create("/aircrafts/" + a.getId())).body(a);
     }
 
+    @PutMapping("/passenger/{id}")
+    public ResponseEntity<PassengerAircraft> updatePassenger(@PathVariable UUID id, @RequestBody PassengerAircraft body) {
+        Aircraft found = service.findById(id);
+        if (found == null || !(found instanceof PassengerAircraft))
+            return ResponseEntity.notFound().build();
+        body.setId(found.getId());
+        return ResponseEntity.ok((PassengerAircraft) service.save(body));
+    }
+
+    @PutMapping("/cargo/{id}")
+    public ResponseEntity<CargoAircraft> updateCargo(@PathVariable UUID id, @RequestBody CargoAircraft body) {
+        Aircraft found = service.findById(id);
+        if (found == null || !(found instanceof CargoAircraft))
+            return ResponseEntity.notFound().build();
+        body.setId(found.getId());
+        return ResponseEntity.ok((CargoAircraft) service.save(body));
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable UUID id) {
         if (!service.existsById(id))
