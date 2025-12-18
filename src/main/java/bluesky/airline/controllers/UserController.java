@@ -45,27 +45,28 @@ public class UserController {
     public ResponseEntity<User> get(@PathVariable UUID id) {
         return service.findById(id)
                 .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+                .orElseThrow(() -> new bluesky.airline.exceptions.NotFoundException("User not found: " + id));
     }
 
     // Create user (payload CreateUserRequest)
     @PostMapping
-    public ResponseEntity<User> create(@RequestBody CreateUserRequest body) {
+    public ResponseEntity<User> create(@RequestBody @jakarta.validation.Valid CreateUserRequest body) {
         User u = service.create(body.getName(), body.getSurname(), body.getUsername(), body.getEmail(), body.getAvatarUrl(), body.getRoleId());
         return ResponseEntity.created(java.net.URI.create("/users/" + u.getId())).body(u);
     }
 
     // Update user (payload UpdateUserRequest)
     @PutMapping("/{id}")
-    public ResponseEntity<User> update(@PathVariable UUID id, @RequestBody UpdateUserRequest body) {
+    public ResponseEntity<User> update(@PathVariable UUID id, @RequestBody @jakarta.validation.Valid UpdateUserRequest body) {
         return service.update(id, body.getName(), body.getSurname(), body.getUsername(), body.getEmail(), body.getAvatarUrl(), body.getRoleId())
                 .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+                .orElseThrow(() -> new bluesky.airline.exceptions.NotFoundException("User not found: " + id));
     }
 
     // Delete user (no payload)
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable UUID id) {
-        return service.delete(id) ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
+        if (!service.delete(id)) throw new bluesky.airline.exceptions.NotFoundException("User not found: " + id);
+        return ResponseEntity.noContent().build();
     }
 }

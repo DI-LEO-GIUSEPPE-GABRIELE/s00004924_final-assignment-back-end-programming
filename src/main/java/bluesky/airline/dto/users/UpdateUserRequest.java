@@ -1,14 +1,26 @@
 package bluesky.airline.dto.users;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Size;
+
 /**
  * DTO for user update.
  */
 public class UpdateUserRequest {
+    @Size(min = 2, max = 50, message = "Name must be between 2 and 50 characters")
     private String name;
+    
+    @Size(max = 50, message = "Surname too long")
     private String surname;
+    
+    @Size(max = 50, message = "Username too long")
     private String username;
+    
+    @Email(message = "Invalid email format")
     private String email;
+    
     private String avatarUrl;
+    
     private java.util.UUID roleId;
 
     public String getName() {

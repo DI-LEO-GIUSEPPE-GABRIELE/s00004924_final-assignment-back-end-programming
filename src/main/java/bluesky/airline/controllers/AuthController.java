@@ -24,25 +24,16 @@ public class AuthController {
     private UserService userService;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody @Validated AuthLoginRequest body, BindingResult validationResult) {
-        if (validationResult.hasErrors()) {
-            throw new bluesky.airline.exceptions.ValidationException(
-                    validationResult.getFieldErrors().stream().map(fe -> fe.getDefaultMessage()).toList());
-        }
+    public ResponseEntity<?> login(@RequestBody @Validated AuthLoginRequest body) {
         String token = authService.checkCredentialsAndGenerateToken(body);
         return ResponseEntity.ok(new LoginRespDTO(token));
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody @Validated AuthRegisterRequest body,
-            BindingResult validationResult) {
-        if (validationResult.hasErrors()) {
-            throw new bluesky.airline.exceptions.ValidationException(
-                    validationResult.getFieldErrors().stream().map(fe -> fe.getDefaultMessage()).toList());
-        }
+    public ResponseEntity<?> register(@RequestBody @Validated AuthRegisterRequest body) {
         boolean exists = userService.findByEmail(body.getEmail()).isPresent();
         if (exists)
-            return ResponseEntity.status(409).body(java.util.Map.of("error", "email exists"));
+            throw new bluesky.airline.exceptions.ValidationException(java.util.List.of("email: Email exists"));
         User u = userService.register(body.getName(), body.getSurname(), body.getUsername(), body.getEmail(),
                 body.getAvatarUrl(), body.getPassword(), body.getRoleCode());
         return ResponseEntity.created(java.net.URI.create("/users/" + u.getId()))

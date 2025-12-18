@@ -1,5 +1,6 @@
 package bluesky.airline.dto.aircraft;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -13,8 +14,10 @@ public class AircraftReqDTO {
     @NotBlank(message = "Type is required (PASSENGER/CARGO)")
     private String type;
     
+    @Min(value = 0, message = "Total seats must be positive")
     private Integer totalSeats;
     
+    @Min(value = 0, message = "Max load capacity must be positive")
     private Integer maxLoadCapacity;
 
     public String getBrand() {

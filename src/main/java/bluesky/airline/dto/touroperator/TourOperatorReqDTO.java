@@ -1,6 +1,7 @@
 package bluesky.airline.dto.touroperator;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import java.util.UUID;
 
 public class TourOperatorReqDTO {
@@ -10,6 +11,7 @@ public class TourOperatorReqDTO {
     @NotBlank(message = "VAT number is required")
     private String vatNumber;
     
+    @NotNull(message = "User ID is required")
     private UUID userId;
 
     public String getCompanyName() {

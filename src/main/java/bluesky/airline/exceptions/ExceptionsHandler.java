@@ -12,7 +12,16 @@ import java.time.LocalDateTime;
 @RestControllerAdvice
 public class ExceptionsHandler {
 
-	@ExceptionHandler(ValidationException.class)
+	@ExceptionHandler(org.springframework.web.bind.MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorWithListDTO handleValidationErrors(org.springframework.web.bind.MethodArgumentNotValidException ex) {
+        java.util.List<String> errors = ex.getBindingResult().getFieldErrors().stream()
+                .map(error -> error.getField() + ": " + error.getDefaultMessage())
+                .toList();
+        return new ErrorWithListDTO("Validation errors", LocalDateTime.now(), errors);
+    }
+
+    @ExceptionHandler(ValidationException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST) // 400
 	public ErrorWithListDTO handleBadRequest(ValidationException ex) {
 		return new ErrorWithListDTO(ex.getMessage(), LocalDateTime.now(), ex.getErrorsList());
