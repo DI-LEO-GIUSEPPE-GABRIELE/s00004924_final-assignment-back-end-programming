@@ -2,6 +2,7 @@ package bluesky.airline.exceptions;
 
 import java.util.List;
 
+// Exception for validation errors
 public class ValidationException extends RuntimeException {
     private List<String> errorsList;
 

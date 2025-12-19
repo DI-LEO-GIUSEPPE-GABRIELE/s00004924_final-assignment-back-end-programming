@@ -11,6 +11,7 @@ import bluesky.airline.entities.Flight;
 import bluesky.airline.services.FlightService;
 import bluesky.airline.services.ExchangeRateService;
 
+// Controller for GraphQL flights queries
 @Controller
 public class FlightGraphqlController {
     @Autowired
@@ -31,7 +32,8 @@ public class FlightGraphqlController {
     @QueryMapping
     public BigDecimal convertPrice(@Argument UUID flightId, @Argument String base, @Argument String target) {
         Flight f = flightService.findById(flightId);
-        if (f == null) return null;
+        if (f == null)
+            return null;
         return rates.convert(f.getBasePrice(), base == null ? "EUR" : base, target);
     }
 }
