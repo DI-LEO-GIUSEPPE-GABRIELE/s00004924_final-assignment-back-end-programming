@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.Column;
 
+// Entity for Airports
 @Entity
 @Table(name = "airports")
 public class Airport extends BaseUuidEntity {

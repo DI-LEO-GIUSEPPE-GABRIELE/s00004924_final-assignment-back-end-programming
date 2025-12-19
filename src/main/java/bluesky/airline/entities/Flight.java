@@ -13,6 +13,7 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import bluesky.airline.entities.enums.FlightStatus;
 
+// Entity for Flights
 @Entity
 @Table(name = "flights")
 public class Flight extends BaseUuidEntity {
@@ -32,18 +33,22 @@ public class Flight extends BaseUuidEntity {
     @Column(name = "status", nullable = false, length = 50)
     private FlightStatus status;
 
+    // Many-to-One: each flight has one departure airport
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "departure_airport_id")
     private Airport departureAirport;
 
+    // Many-to-One: each flight has one arrival airport
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "arrival_airport_id")
     private Airport arrivalAirport;
 
+    // Many-to-One: each flight has one aircraft
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "aircraft_id")
     private Aircraft aircraft;
 
+    // One-to-One: each flight has one weather data
     @OneToOne(mappedBy = "flight", fetch = FetchType.LAZY)
     private WeatherData weatherData;
 

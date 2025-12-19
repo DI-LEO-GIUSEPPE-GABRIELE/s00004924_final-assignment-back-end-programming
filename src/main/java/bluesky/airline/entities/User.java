@@ -12,12 +12,12 @@ import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.UUID;
 
-// JPA entity persisted on database (PostgreSQL)
+// Entity for Users
 @Entity
 @Table(name = "users")
 public class User extends BaseUuidEntity {
 
-    @Column(nullable = false, length = 50) // Non-null field with max length 50
+    @Column(nullable = false, length = 50)
     private String name;
 
     @Column(length = 50)
@@ -29,18 +29,15 @@ public class User extends BaseUuidEntity {
     @Column
     private String avatarUrl;
 
-    @Column(nullable = false, unique = true, length = 255) // Non-null, unique, max length 255
+    @Column(nullable = false, unique = true, length = 255)
     private String email;
 
     @Column(nullable = true, length = 255)
     @JsonIgnore
     private String password;
 
-    // Removed demo relationships (Profile, Order)
-
     // Many-to-Many: a user can have multiple roles and a role can belong to
     // multiple users
-    // Owner: User defines the join table user_roles
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id", columnDefinition = "uuid"), inverseJoinColumns = @JoinColumn(name = "role_id", columnDefinition = "uuid"))
     @JsonIgnore
@@ -110,8 +107,6 @@ public class User extends BaseUuidEntity {
     public void setPassword(String password) {
         this.password = password;
     }
-
-    // Getters/Setters for relationships
 
     public Set<Role> getRoles() {
         return roles;

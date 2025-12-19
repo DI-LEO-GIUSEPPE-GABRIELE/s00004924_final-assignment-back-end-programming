@@ -21,6 +21,27 @@ public class AirportService {
         return airports.findById(id).orElse(null);
     }
 
+    public Airport create(bluesky.airline.dto.airport.AirportReqDTO body) {
+        Airport a = new Airport();
+        a.setCode(body.getCode());
+        a.setName(body.getName());
+        a.setCity(body.getCity());
+        a.setCountry(body.getCountry());
+        return airports.save(a);
+    }
+
+    public Airport update(UUID id, bluesky.airline.dto.airport.AirportReqDTO body) {
+        Airport found = findById(id);
+        if (found == null) {
+            throw new bluesky.airline.exceptions.NotFoundException("Airport not found: " + id);
+        }
+        found.setCode(body.getCode());
+        found.setName(body.getName());
+        found.setCity(body.getCity());
+        found.setCountry(body.getCountry());
+        return airports.save(found);
+    }
+
     public Airport save(Airport airport) {
         return airports.save(airport);
     }

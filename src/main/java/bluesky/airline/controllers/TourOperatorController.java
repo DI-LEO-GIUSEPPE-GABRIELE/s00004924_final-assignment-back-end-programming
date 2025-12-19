@@ -9,7 +9,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import bluesky.airline.entities.TourOperator;
 import bluesky.airline.services.TourOperatorService;
-import bluesky.airline.services.UserService;
 import bluesky.airline.dto.touroperator.TourOperatorReqDTO;
 import jakarta.validation.Valid;
 
@@ -21,8 +20,6 @@ import jakarta.validation.Valid;
 public class TourOperatorController {
     @Autowired
     private TourOperatorService operators;
-    @Autowired
-    private UserService users;
 
     // List tour operators endpoint
     // Endpoint: GET /operators
@@ -45,9 +42,7 @@ public class TourOperatorController {
     // Endpoint: POST /operators
     @PostMapping
     public ResponseEntity<TourOperator> create(@RequestBody @Valid TourOperatorReqDTO body) {
-        TourOperator op = new TourOperator();
-        updateOperatorFromDTO(op, body);
-        op = operators.save(op);
+        TourOperator op = operators.create(body);
         return ResponseEntity.created(java.net.URI.create("/operators/" + op.getId())).body(op);
     }
 
@@ -55,11 +50,7 @@ public class TourOperatorController {
     // Endpoint: PUT /operators/{id}
     @PutMapping("/{id}")
     public ResponseEntity<TourOperator> update(@PathVariable UUID id, @RequestBody @Valid TourOperatorReqDTO body) {
-        TourOperator found = operators.findById(id);
-        if (found == null)
-            throw new bluesky.airline.exceptions.NotFoundException("Tour Operator not found: " + id);
-        updateOperatorFromDTO(found, body);
-        return ResponseEntity.ok(operators.save(found));
+        return ResponseEntity.ok(operators.update(id, body));
     }
 
     // Delete tour operator endpoint
@@ -70,16 +61,5 @@ public class TourOperatorController {
             throw new bluesky.airline.exceptions.NotFoundException("Tour Operator not found: " + id);
         operators.delete(id);
         return ResponseEntity.noContent().build();
-    }
-
-    private void updateOperatorFromDTO(TourOperator op, TourOperatorReqDTO body) {
-        op.setCompanyName(body.getCompanyName());
-        op.setVatNumber(body.getVatNumber());
-        if (body.getUserId() != null) {
-            bluesky.airline.entities.User u = users.findById(body.getUserId())
-                    .orElseThrow(() -> new bluesky.airline.exceptions.NotFoundException(
-                            "User not found: " + body.getUserId()));
-            op.setUser(u);
-        }
     }
 }

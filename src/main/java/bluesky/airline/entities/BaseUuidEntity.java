@@ -7,7 +7,7 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.type.SqlTypes;
 
-// Abstract base class for UUID IDs: shared by all concrete entities
+// Entity for Base UUID IDs
 @MappedSuperclass
 public abstract class BaseUuidEntity {
     @Id

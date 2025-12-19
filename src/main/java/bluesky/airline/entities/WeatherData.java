@@ -8,9 +8,11 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
+// Entity for Weather Data
 @Entity
 @Table(name = "weather_data")
 public class WeatherData extends BaseUuidEntity {
+    // One-to-One: each flight has one weather data
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "flight_id")
     private Flight flight;

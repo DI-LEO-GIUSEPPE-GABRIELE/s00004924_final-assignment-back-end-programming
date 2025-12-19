@@ -7,6 +7,7 @@ import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 
+// Entity for Aircrafts
 @Entity
 @Table(name = "aircrafts")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)

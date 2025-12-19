@@ -7,6 +7,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
+// Entity for Tour Operators
 @Entity
 @Table(name = "tour_operators")
 public class TourOperator extends BaseUuidEntity {
@@ -16,6 +17,7 @@ public class TourOperator extends BaseUuidEntity {
     @Column(name = "vat_number", nullable = false, length = 50)
     private String vatNumber;
 
+    // One-to-One: each tour operator has one user
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;

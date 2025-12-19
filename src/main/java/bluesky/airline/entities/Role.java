@@ -5,7 +5,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Column;
 import java.util.UUID;
 
-// Role entity used in Many-to-Many with User
+// Entity for Roles
 @Entity
 @Table(name = "roles")
 public class Role extends BaseUuidEntity {

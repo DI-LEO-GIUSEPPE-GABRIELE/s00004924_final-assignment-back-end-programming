@@ -4,6 +4,7 @@ import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Column;
 
+// Entity for Passenger Aircrafts
 @Entity
 @DiscriminatorValue("PASSENGER")
 public class PassengerAircraft extends Aircraft {

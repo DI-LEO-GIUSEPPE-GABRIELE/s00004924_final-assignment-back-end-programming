@@ -1,15 +1,12 @@
 package bluesky.airline.controllers;
 
-import java.time.Instant;
 import java.util.UUID;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import bluesky.airline.entities.Flight;
 import bluesky.airline.entities.Reservation;
-import bluesky.airline.entities.TourOperator;
 import bluesky.airline.entities.enums.ReservationStatus;
 import bluesky.airline.dto.reservation.ReservationReqDTO;
 import jakarta.validation.Valid;
@@ -22,10 +19,6 @@ import jakarta.validation.Valid;
 public class ReservationController {
     @org.springframework.beans.factory.annotation.Autowired
     private bluesky.airline.services.ReservationService reservations;
-    @org.springframework.beans.factory.annotation.Autowired
-    private bluesky.airline.services.FlightService flights;
-    @org.springframework.beans.factory.annotation.Autowired
-    private bluesky.airline.services.TourOperatorService operators;
 
     // List reservations endpoint
     // Endpoint: GET /reservations
@@ -50,15 +43,7 @@ public class ReservationController {
     // Endpoint: POST /reservations
     @PostMapping
     public ResponseEntity<Reservation> create(@RequestBody @Valid ReservationReqDTO body) {
-        Reservation r = new Reservation();
-        updateReservationFromDTO(r, body);
-
-        if (r.getReservationDate() == null)
-            r.setReservationDate(Instant.now());
-        if (r.getStatus() == null)
-            r.setStatus(ReservationStatus.PENDING);
-
-        r = reservations.save(r);
+        Reservation r = reservations.create(body);
         return ResponseEntity.created(java.net.URI.create("/reservations/" + r.getId())).body(r);
     }
 
@@ -84,22 +69,5 @@ public class ReservationController {
             throw new bluesky.airline.exceptions.NotFoundException("Reservation not found: " + id);
         reservations.delete(id);
         return ResponseEntity.noContent().build();
-    }
-
-    private void updateReservationFromDTO(Reservation r, ReservationReqDTO body) {
-        Flight f = flights.findById(body.getFlightId());
-        if (f == null)
-            throw new bluesky.airline.exceptions.NotFoundException("Flight not found: " + body.getFlightId());
-        r.setFlight(f);
-
-        TourOperator op = operators.findById(body.getTourOperatorId());
-        if (op == null)
-            throw new bluesky.airline.exceptions.NotFoundException(
-                    "Tour Operator not found: " + body.getTourOperatorId());
-        r.setTourOperator(op);
-
-        r.setTotalPrice(body.getTotalPrice());
-        if (body.getStatus() != null)
-            r.setStatus(body.getStatus());
     }
 }

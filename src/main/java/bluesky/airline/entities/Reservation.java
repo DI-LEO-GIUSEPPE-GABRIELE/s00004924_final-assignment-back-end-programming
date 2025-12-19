@@ -12,6 +12,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import bluesky.airline.entities.enums.ReservationStatus;
 
+// Entity for Reservations
 @Entity
 @Table(name = "reservations")
 public class Reservation extends BaseUuidEntity {
@@ -25,10 +26,12 @@ public class Reservation extends BaseUuidEntity {
     @Column(name = "total_price", nullable = false)
     private BigDecimal totalPrice;
 
+    // Many-to-One: each reservation has one tour operator
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tour_operator_id")
     private TourOperator tourOperator;
 
+    // Many-to-One: each reservation has one flight
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "flight_id")
     private Flight flight;

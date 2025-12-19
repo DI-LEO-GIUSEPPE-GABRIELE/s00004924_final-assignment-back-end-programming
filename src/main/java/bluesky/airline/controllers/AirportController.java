@@ -43,9 +43,7 @@ public class AirportController {
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<Airport> create(@RequestBody @Valid AirportReqDTO body) {
-        Airport a = new Airport();
-        updateAirportFromDTO(a, body);
-        a = service.save(a);
+        Airport a = service.create(body);
         return ResponseEntity.created(java.net.URI.create("/airports/" + a.getId())).body(a);
     }
 
@@ -54,11 +52,7 @@ public class AirportController {
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<Airport> update(@PathVariable UUID id, @RequestBody @Valid AirportReqDTO body) {
-        Airport found = service.findById(id);
-        if (found == null)
-            throw new bluesky.airline.exceptions.NotFoundException("Airport not found: " + id);
-        updateAirportFromDTO(found, body);
-        return ResponseEntity.ok(service.save(found));
+        return ResponseEntity.ok(service.update(id, body));
     }
 
     // Delete a specific airport by ID, only accessible by ADMIN role
@@ -70,12 +64,5 @@ public class AirportController {
             throw new bluesky.airline.exceptions.NotFoundException("Airport not found: " + id);
         service.delete(id);
         return ResponseEntity.noContent().build();
-    }
-
-    private void updateAirportFromDTO(Airport a, AirportReqDTO body) {
-        a.setCode(body.getCode());
-        a.setName(body.getName());
-        a.setCity(body.getCity());
-        a.setCountry(body.getCountry());
     }
 }
