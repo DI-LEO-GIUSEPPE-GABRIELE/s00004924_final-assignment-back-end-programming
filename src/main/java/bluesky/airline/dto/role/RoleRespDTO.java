@@ -2,6 +2,7 @@ package bluesky.airline.dto.role;
 
 import java.util.UUID;
 
+// DTO for Role responses
 public class RoleRespDTO {
     private UUID id;
     private String name;

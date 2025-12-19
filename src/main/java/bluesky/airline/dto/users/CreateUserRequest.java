@@ -5,9 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-/**
- * DTO for user creation.
- */
+// DTO for User requests (create)
 public class CreateUserRequest {
     @NotBlank(message = "Name is required")
     private String name;

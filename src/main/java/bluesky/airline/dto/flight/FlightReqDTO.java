@@ -7,28 +7,29 @@ import java.math.BigDecimal;
 import java.util.UUID;
 import bluesky.airline.entities.enums.FlightStatus;
 
+// DTO for Flight requests (create/update)
 public class FlightReqDTO {
     @NotBlank(message = "Flight code is required")
     private String flightCode;
-    
+
     @NotNull(message = "Departure date is required")
     private Instant departureDate;
-    
+
     @NotNull(message = "Arrival date is required")
     private Instant arrivalDate;
-    
+
     @NotNull(message = "Base price is required")
     private BigDecimal basePrice;
-    
+
     @NotNull(message = "Status is required")
     private FlightStatus status;
-    
+
     @NotNull(message = "Departure airport ID is required")
     private UUID departureAirportId;
-    
+
     @NotNull(message = "Arrival airport ID is required")
     private UUID arrivalAirportId;
-    
+
     @NotNull(message = "Aircraft ID is required")
     private UUID aircraftId;
 

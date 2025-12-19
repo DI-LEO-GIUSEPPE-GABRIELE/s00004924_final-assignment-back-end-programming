@@ -5,16 +5,17 @@ import java.util.UUID;
 import java.math.BigDecimal;
 import bluesky.airline.entities.enums.ReservationStatus;
 
+// DTO for Reservation requests (create/update)
 public class ReservationReqDTO {
     @NotNull(message = "Flight ID is required")
     private UUID flightId;
-    
+
     @NotNull(message = "Tour Operator ID is required")
     private UUID tourOperatorId;
-    
+
     @NotNull(message = "Total price is required")
     private BigDecimal totalPrice;
-    
+
     private ReservationStatus status;
 
     public UUID getFlightId() {

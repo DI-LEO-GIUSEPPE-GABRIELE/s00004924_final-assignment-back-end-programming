@@ -2,6 +2,7 @@ package bluesky.airline.dto.aircraft;
 
 import java.util.UUID;
 
+// DTO for Aircraft responses
 public class AircraftRespDTO {
     private UUID id;
     private String brand;

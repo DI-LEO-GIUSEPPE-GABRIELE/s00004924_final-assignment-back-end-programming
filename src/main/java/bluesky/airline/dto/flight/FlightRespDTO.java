@@ -7,6 +7,7 @@ import bluesky.airline.entities.enums.FlightStatus;
 import bluesky.airline.dto.airport.AirportRespDTO;
 import bluesky.airline.dto.aircraft.AircraftRespDTO;
 
+// DTO for Flight responses
 public class FlightRespDTO {
     private UUID id;
     private String flightCode;

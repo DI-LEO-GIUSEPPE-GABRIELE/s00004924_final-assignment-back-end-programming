@@ -7,6 +7,7 @@ import bluesky.airline.entities.enums.ReservationStatus;
 import bluesky.airline.dto.flight.FlightRespDTO;
 import bluesky.airline.dto.touroperator.TourOperatorRespDTO;
 
+// DTO for Reservation responses
 public class ReservationRespDTO {
     private UUID id;
     private Instant reservationDate;

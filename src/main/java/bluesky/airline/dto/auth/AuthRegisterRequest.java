@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Max;
 
+// DTO for Authentication register requests
 public class AuthRegisterRequest {
     @NotBlank(message = "name: Name is required")
     @Size(min = 2, max = 50, message = "name: Name length must be 2..50")

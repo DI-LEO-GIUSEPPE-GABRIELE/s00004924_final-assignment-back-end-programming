@@ -2,6 +2,7 @@ package bluesky.airline.dto.touroperator;
 
 import java.util.UUID;
 
+// DTO for Tour Operator responses
 public class TourOperatorRespDTO {
     private UUID id;
     private String companyName;

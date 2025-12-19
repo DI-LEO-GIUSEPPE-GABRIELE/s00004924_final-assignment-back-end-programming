@@ -2,6 +2,7 @@ package bluesky.airline.dto.airport;
 
 import java.util.UUID;
 
+// DTO for Airport responses
 public class AirportRespDTO {
     private UUID id;
     private String code;

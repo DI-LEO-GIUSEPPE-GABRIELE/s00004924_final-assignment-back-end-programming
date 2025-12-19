@@ -3,17 +3,18 @@ package bluesky.airline.dto.airport;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
+// DTO for Airport requests (create/update)
 public class AirportReqDTO {
     @NotBlank(message = "Code is required")
     @Size(max = 10, message = "Code must be max 10 characters")
     private String code;
-    
+
     @NotBlank(message = "Name is required")
     private String name;
-    
+
     @NotBlank(message = "City is required")
     private String city;
-    
+
     @NotBlank(message = "Country is required")
     private String country;
 

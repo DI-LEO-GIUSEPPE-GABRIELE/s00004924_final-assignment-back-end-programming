@@ -2,6 +2,7 @@ package bluesky.airline.dto.role;
 
 import jakarta.validation.constraints.NotBlank;
 
+// DTO for Role requests (create/update)
 public class RoleReqDTO {
     @NotBlank(message = "Role name is required")
     private String name;

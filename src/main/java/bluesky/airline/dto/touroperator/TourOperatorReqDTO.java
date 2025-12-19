@@ -4,13 +4,14 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.util.UUID;
 
+// DTO for Tour Operator requests (create/update)
 public class TourOperatorReqDTO {
     @NotBlank(message = "Company name is required")
     private String companyName;
-    
+
     @NotBlank(message = "VAT number is required")
     private String vatNumber;
-    
+
     @NotNull(message = "User ID is required")
     private UUID userId;
 
