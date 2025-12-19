@@ -11,7 +11,7 @@ public class ValidationException extends RuntimeException {
     }
 
     public ValidationException(List<String> errorsList) {
-        super("Errori nel payload");
+        super("Validation errors in the payload");
         this.errorsList = errorsList;
     }
 

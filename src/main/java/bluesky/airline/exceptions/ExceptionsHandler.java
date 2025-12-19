@@ -2,6 +2,7 @@ package bluesky.airline.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authorization.AuthorizationDeniedException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -41,7 +42,7 @@ public class ExceptionsHandler {
 	@ExceptionHandler(AuthorizationDeniedException.class)
 	@ResponseStatus(HttpStatus.FORBIDDEN) // 403
 	public ErrorDTO handleForbidden(AuthorizationDeniedException ex) {
-		return new ErrorDTO("Non hai i permessi per accedere alla risorsa", LocalDateTime.now());
+		return new ErrorDTO("You do not have permission to access this resource", LocalDateTime.now());
 	}
 
 	@ExceptionHandler(NotFoundException.class)
@@ -54,6 +55,6 @@ public class ExceptionsHandler {
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR) // 500
 	public ErrorDTO handleGenericError(Exception ex) {
 		logger.error("Internal Server Error", ex);
-		return new ErrorDTO("C'è stato un errore lato server, lo risolveremo presto", LocalDateTime.now());
+		return new ErrorDTO("Internal Server Error", LocalDateTime.now());
 	}
 }
