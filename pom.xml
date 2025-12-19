@@ -6,7 +6,7 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.5.7</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath/>
 	</parent>
     <groupId>bluesky</groupId>
     <artifactId>bluesky-airline</artifactId>
@@ -30,28 +30,26 @@
 		<java.version>21</java.version>
 	</properties>
 		<dependencies>
-		<!-- Spring Boot Starter - Usato per il core di Spring Boot -->
+		<!-- Spring Boot Starter -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
 		</dependency>
-		<!-- Spring Boot Starter Web - Usato per creare API RESTful -->
+		<!-- Spring Boot Starter Web -->
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-starter-web</artifactId>
 			</dependency>
-			<!-- Data JPA - Usata per la persistenza dei dati -->
+			<!-- Data JPA -->
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-starter-data-jpa</artifactId>
 			</dependency>
-
 			<!-- Spring Security -->
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-starter-security</artifactId>
 			</dependency>
-			<!-- JJWT: API + runtime impl/jackson -->
 			<dependency>
 				<groupId>io.jsonwebtoken</groupId>
 				<artifactId>jjwt-api</artifactId>
@@ -69,20 +67,19 @@
 				<version>0.12.5</version>
 				<scope>runtime</scope>
 			</dependency>
-
-		<!-- PostgreSQL Driver - Usato per connettersi al database PostgreSQL -->
+		<!-- PostgreSQL Driver -->
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<version>42.7.3</version>
 		</dependency>
-			<!-- Spring Boot DevTools - Usato per migliorare il sviluppo locale -->
+			<!-- Spring Boot DevTools -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
 			<optional>true</optional>
 		</dependency>
-		<!-- Spring Boot Starter Test - Usato per scrivere test -->
+		<!-- Spring Boot Starter Test -->
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-starter-test</artifactId>
@@ -93,7 +90,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-starter-graphql</artifactId>
 			</dependency>
-			<!-- Bean Validation (Jakarta) -->
+			<!-- Bean Validation -->
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-starter-validation</artifactId>
