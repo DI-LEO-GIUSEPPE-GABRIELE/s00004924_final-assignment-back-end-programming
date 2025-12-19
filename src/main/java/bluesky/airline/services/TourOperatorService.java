@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import bluesky.airline.entities.TourOperator;
 import bluesky.airline.repositories.TourOperatorRepository;
 
+// Service for TourOperator entities
 @Service
 public class TourOperatorService {
     @Autowired

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import bluesky.airline.entities.Airport;
 import bluesky.airline.repositories.AirportRepository;
 
+// Service for Airport entities
 @Service
 public class AirportService {
     @Autowired

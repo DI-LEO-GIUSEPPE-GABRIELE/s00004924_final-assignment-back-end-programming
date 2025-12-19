@@ -8,11 +8,11 @@ import org.springframework.stereotype.Service;
 import bluesky.airline.entities.Reservation;
 import bluesky.airline.entities.enums.ReservationStatus;
 import bluesky.airline.repositories.ReservationRepository;
-
 import bluesky.airline.entities.Flight;
 import bluesky.airline.entities.TourOperator;
 import java.time.Instant;
 
+// Service for Reservation entities
 @Service
 public class ReservationService {
     @Autowired
@@ -29,15 +29,15 @@ public class ReservationService {
     public Reservation create(bluesky.airline.dto.reservation.ReservationReqDTO body) {
         Reservation r = new Reservation();
         updateReservationFromDTO(r, body);
-        
+
         if (r.getReservationDate() == null)
             r.setReservationDate(Instant.now());
         if (r.getStatus() == null)
             r.setStatus(ReservationStatus.PENDING);
-            
+
         return reservations.save(r);
     }
-    
+
     private void updateReservationFromDTO(Reservation r, bluesky.airline.dto.reservation.ReservationReqDTO body) {
         Flight f = flights.findById(body.getFlightId());
         if (f == null)

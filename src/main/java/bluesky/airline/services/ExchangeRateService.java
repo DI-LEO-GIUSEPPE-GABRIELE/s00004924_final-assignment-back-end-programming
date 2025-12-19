@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+// Service for currency exchange rates
 @Service
 public class ExchangeRateService {
     private final RestTemplate http = new RestTemplate();

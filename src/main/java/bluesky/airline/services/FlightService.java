@@ -9,10 +9,10 @@ import org.springframework.stereotype.Service;
 import bluesky.airline.entities.Flight;
 import bluesky.airline.entities.enums.FlightStatus;
 import bluesky.airline.repositories.FlightRepository;
-
 import bluesky.airline.entities.Airport;
 import bluesky.airline.entities.Aircraft;
 
+// Service for Flight entities
 @Service
 public class FlightService {
     @Autowired

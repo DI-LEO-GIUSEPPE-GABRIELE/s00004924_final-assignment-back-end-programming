@@ -8,6 +8,7 @@ import bluesky.airline.entities.User;
 import bluesky.airline.repositories.UserRepository;
 import bluesky.airline.security.JwtTools;
 
+// Service for authentication
 @Service
 public class AuthService {
     @Autowired

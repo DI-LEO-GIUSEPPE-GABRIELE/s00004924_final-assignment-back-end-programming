@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import bluesky.airline.entities.Role;
 import bluesky.airline.repositories.RoleRepository;
 
+// Service for Role entities
 @Service
 public class RoleService {
     @Autowired

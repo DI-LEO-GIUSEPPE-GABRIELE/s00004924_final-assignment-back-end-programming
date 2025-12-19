@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import bluesky.airline.entities.Aircraft;
 import bluesky.airline.repositories.AircraftRepository;
 
+// Service for Aircraft entities
 @Service
 public class AircraftService {
     @Autowired
@@ -46,7 +47,8 @@ public class AircraftService {
             throw new bluesky.airline.exceptions.NotFoundException("Aircraft not found: " + id);
         }
 
-        if (found instanceof bluesky.airline.entities.PassengerAircraft && !"PASSENGER".equalsIgnoreCase(body.getType())) {
+        if (found instanceof bluesky.airline.entities.PassengerAircraft
+                && !"PASSENGER".equalsIgnoreCase(body.getType())) {
             throw new bluesky.airline.exceptions.ValidationException(
                     java.util.List.of("type: Cannot change aircraft type from PASSENGER"));
         }
@@ -55,16 +57,17 @@ public class AircraftService {
                     java.util.List.of("type: Cannot change aircraft type from CARGO"));
         }
 
-        // Update fields
-        if ("PASSENGER".equalsIgnoreCase(body.getType()) && found instanceof bluesky.airline.entities.PassengerAircraft p) {
+        if ("PASSENGER".equalsIgnoreCase(body.getType())
+                && found instanceof bluesky.airline.entities.PassengerAircraft p) {
             p.setTotalSeats(body.getTotalSeats());
-        } else if ("CARGO".equalsIgnoreCase(body.getType()) && found instanceof bluesky.airline.entities.CargoAircraft c) {
+        } else if ("CARGO".equalsIgnoreCase(body.getType())
+                && found instanceof bluesky.airline.entities.CargoAircraft c) {
             c.setMaxLoadCapacity(body.getMaxLoadCapacity());
         }
-        
+
         found.setBrand(body.getBrand());
         found.setModel(body.getModel());
-        
+
         return aircrafts.save(found);
     }
 

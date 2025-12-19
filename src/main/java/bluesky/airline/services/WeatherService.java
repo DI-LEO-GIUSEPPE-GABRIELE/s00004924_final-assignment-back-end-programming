@@ -10,6 +10,7 @@ import bluesky.airline.entities.Flight;
 import bluesky.airline.entities.WeatherData;
 import bluesky.airline.repositories.WeatherDataRepository;
 
+// Service for WeatherData entities
 @Service
 public class WeatherService {
     private final RestTemplate http = new RestTemplate();
