@@ -8,10 +8,14 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import bluesky.airline.dto.errors.ErrorWithListDTO;
 import bluesky.airline.dto.errors.ErrorDTO;
 import java.time.LocalDateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 // Handler for exceptions
 @RestControllerAdvice
 public class ExceptionsHandler {
+
+	private static final Logger logger = LoggerFactory.getLogger(ExceptionsHandler.class);
 
 	@ExceptionHandler(org.springframework.web.bind.MethodArgumentNotValidException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -49,7 +53,7 @@ public class ExceptionsHandler {
 	@ExceptionHandler(Exception.class)
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR) // 500
 	public ErrorDTO handleGenericError(Exception ex) {
-		ex.printStackTrace();
+		logger.error("Internal Server Error", ex);
 		return new ErrorDTO("C'è stato un errore lato server, lo risolveremo presto", LocalDateTime.now());
 	}
 }

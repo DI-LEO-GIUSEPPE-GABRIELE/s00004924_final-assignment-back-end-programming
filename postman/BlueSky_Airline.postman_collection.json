@@ -863,6 +863,130 @@
       ]
     },
     {
+      "name": "Roles",
+      "item": [
+        {
+          "name": "List Roles",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/roles",
+              "host": ["{{baseUrl}}"],
+              "path": ["roles"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Tour Operators",
+      "item": [
+        {
+          "name": "List Tour Operators",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/operators",
+              "host": ["{{baseUrl}}"],
+              "path": ["operators"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Tour Operator",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/operators/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["operators", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Tour Operator",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"companyName\": \"Best Tours\",\n    \"vatNumber\": \"IT12345678901\",\n    \"userId\": \"<UUID>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/operators",
+              "host": ["{{baseUrl}}"],
+              "path": ["operators"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Tour Operator",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"companyName\": \"Best Tours Updated\",\n    \"vatNumber\": \"IT12345678901\",\n    \"userId\": \"<UUID>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/operators/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["operators", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Tour Operator",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/operators/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["operators", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
       "name": "GraphQL",
       "item": [
         {
