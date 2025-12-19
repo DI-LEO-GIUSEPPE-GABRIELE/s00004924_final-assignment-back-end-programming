@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import bluesky.airline.entities.Flight;
 import bluesky.airline.entities.enums.FlightStatus;
 
+// Repository for Flight entities
 @Repository
 public interface FlightRepository extends JpaRepository<Flight, UUID> {
     Page<Flight> findByStatus(FlightStatus status, Pageable pageable);

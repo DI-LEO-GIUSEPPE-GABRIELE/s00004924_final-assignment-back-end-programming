@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import bluesky.airline.entities.Reservation;
 import bluesky.airline.entities.enums.ReservationStatus;
 
+// Repository for Reservation entities
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, UUID> {
     Page<Reservation> findByStatus(ReservationStatus status, Pageable pageable);
