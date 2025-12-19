@@ -15,6 +15,7 @@ import bluesky.airline.repositories.UserRepository;
 import bluesky.airline.entities.User;
 import java.util.UUID;
 
+// Filter for JWT authentication
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
     @org.springframework.beans.factory.annotation.Autowired
