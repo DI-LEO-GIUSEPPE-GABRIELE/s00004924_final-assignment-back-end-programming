@@ -438,7 +438,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"passengerName\": \"John Doe\",\n    \"passengerEmail\": \"john.doe@example.com\",\n    \"numberOfSeats\": 2\n}",
+              "raw": "{\n    \"flightId\": \"<UUID>\",\n    \"tourOperatorId\": \"<UUID>\",\n    \"totalPrice\": 100.00,\n    \"status\": \"PENDING\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -446,19 +446,9 @@
               }
             },
             "url": {
-              "raw": "{{baseUrl}}/reservations?flightId=<UUID>&operatorId=<UUID>",
+              "raw": "{{baseUrl}}/reservations",
               "host": ["{{baseUrl}}"],
-              "path": ["reservations"],
-              "query": [
-                {
-                  "key": "flightId",
-                  "value": "<UUID>"
-                },
-                {
-                  "key": "operatorId",
-                  "value": "<UUID>"
-                }
-              ]
+              "path": ["reservations"]
             }
           },
           "response": []
@@ -660,7 +650,7 @@
                 "header": [],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n    \"model\": \"Boeing 737\",\n    \"manufacturer\": \"Boeing\",\n    \"maxDistanceKm\": 5000,\n    \"seatCapacity\": 180\n}",
+                  "raw": "{\n    \"brand\": \"Boeing\",\n    \"model\": \"737\",\n    \"type\": \"PASSENGER\",\n    \"totalSeats\": 180\n}",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -668,9 +658,9 @@
                   }
                 },
                 "url": {
-                  "raw": "{{baseUrl}}/aircrafts/passenger",
+                  "raw": "{{baseUrl}}/aircrafts",
                   "host": ["{{baseUrl}}"],
-                  "path": ["aircrafts", "passenger"]
+                  "path": ["aircrafts"]
                 }
               },
               "response": []
@@ -682,7 +672,7 @@
                 "header": [],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n    \"model\": \"Boeing 747 Freighter\",\n    \"manufacturer\": \"Boeing\",\n    \"maxDistanceKm\": 8000,\n    \"cargoCapacityKg\": 120000\n}",
+                  "raw": "{\n    \"brand\": \"Boeing\",\n    \"model\": \"747 Freighter\",\n    \"type\": \"CARGO\",\n    \"maxLoadCapacity\": 120000\n}",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -690,21 +680,21 @@
                   }
                 },
                 "url": {
-                  "raw": "{{baseUrl}}/aircrafts/cargo",
+                  "raw": "{{baseUrl}}/aircrafts",
                   "host": ["{{baseUrl}}"],
-                  "path": ["aircrafts", "cargo"]
+                  "path": ["aircrafts"]
                 }
               },
               "response": []
             },
             {
-              "name": "Update Passenger Aircraft",
+              "name": "Update Aircraft",
               "request": {
                 "method": "PUT",
                 "header": [],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n    \"model\": \"Boeing 737 Updated\",\n    \"manufacturer\": \"Boeing\",\n    \"maxDistanceKm\": 5500,\n    \"seatCapacity\": 190\n}",
+                  "raw": "{\n    \"brand\": \"Boeing\",\n    \"model\": \"737 Max\",\n    \"type\": \"PASSENGER\",\n    \"totalSeats\": 190\n}",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -712,37 +702,9 @@
                   }
                 },
                 "url": {
-                  "raw": "{{baseUrl}}/aircrafts/passenger/:id",
+                  "raw": "{{baseUrl}}/aircrafts/:id",
                   "host": ["{{baseUrl}}"],
-                  "path": ["aircrafts", "passenger", ":id"],
-                  "variable": [
-                    {
-                      "key": "id",
-                      "value": ""
-                    }
-                  ]
-                }
-              },
-              "response": []
-            },
-            {
-              "name": "Update Cargo Aircraft",
-              "request": {
-                "method": "PUT",
-                "header": [],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n    \"model\": \"Boeing 747 Freighter Updated\",\n    \"manufacturer\": \"Boeing\",\n    \"maxDistanceKm\": 8500,\n    \"cargoCapacityKg\": 125000\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                },
-                "url": {
-                  "raw": "{{baseUrl}}/aircrafts/cargo/:id",
-                  "host": ["{{baseUrl}}"],
-                  "path": ["aircrafts", "cargo", ":id"],
+                  "path": ["aircrafts", ":id"],
                   "variable": [
                     {
                       "key": "id",
@@ -834,7 +796,7 @@
                 "header": [],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n    \"name\": \"Sunny Travels\",\n    \"email\": \"contact@sunnytravels.com\"\n}",
+                  "raw": "{\n    \"companyName\": \"Sunny Travels\",\n    \"vatNumber\": \"IT12345678901\",\n    \"userId\": \"<UUID>\"\n}",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -856,7 +818,7 @@
                 "header": [],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n    \"name\": \"Sunny Travels Ltd.\",\n    \"email\": \"info@sunnytravels.com\"\n}",
+                  "raw": "{\n    \"companyName\": \"Sunny Travels Ltd.\",\n    \"vatNumber\": \"IT12345678901\",\n    \"userId\": \"<UUID>\"\n}",
                   "options": {
                     "raw": {
                       "language": "json"
