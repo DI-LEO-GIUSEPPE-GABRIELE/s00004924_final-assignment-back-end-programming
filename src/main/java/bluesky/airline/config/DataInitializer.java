@@ -12,6 +12,8 @@ import bluesky.airline.repositories.RoleRepository;
 import bluesky.airline.repositories.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import bluesky.airline.entities.enums.RoleType;
+
 @Component
 public class DataInitializer {
     @org.springframework.beans.factory.annotation.Autowired
@@ -25,28 +27,31 @@ public class DataInitializer {
     @Value("${bootstrap.admin.password:}")
     private String adminPassword;
 
+    // Initialize roles and admin user on application startup
     @EventListener(ApplicationReadyEvent.class)
     @Transactional
     public void init() {
-        ensureRole("ADMIN");
-        ensureRole("TOUR_OPERATOR");
-        ensureRole("FLIGHT_MANAGER");
+        for (RoleType roleType : RoleType.values()) {
+            ensureRole(roleType);
+        }
 
+        // Create admin user if email and password are provided
         if (adminEmail != null && !adminEmail.isBlank() && adminPassword != null && !adminPassword.isBlank()) {
             users.findByEmailIgnoreCase(adminEmail).orElseGet(() -> {
                 User admin = new User(null, "Admin", adminEmail);
                 admin.setPassword(encoder.encode(adminPassword));
-                Role adminRole = roles.findByNameIgnoreCase("ADMIN").orElseThrow();
+                Role adminRole = roles.findByNameIgnoreCase(RoleType.ADMIN.name()).orElseThrow();
                 admin.setRoles(new java.util.HashSet<>(Set.of(adminRole)));
                 return users.save(admin);
             });
         }
     }
 
-    private void ensureRole(String name) {
-        roles.findByNameIgnoreCase(name).orElseGet(() -> {
+    // Ensure a role exists, creating it if not
+    private void ensureRole(RoleType roleType) {
+        roles.findByNameIgnoreCase(roleType.name()).orElseGet(() -> {
             Role r = new Role();
-            r.setName(name);
+            r.setName(roleType.name());
             return roles.save(r);
         });
     }

@@ -3,6 +3,8 @@ package bluesky.airline.controllers;
 import org.springframework.web.bind.annotation.*;
 import bluesky.airline.entities.Role;
 
+// Controller for roles
+// Endpoint: /roles
 @RestController
 @RequestMapping("/roles")
 public class RoleController {

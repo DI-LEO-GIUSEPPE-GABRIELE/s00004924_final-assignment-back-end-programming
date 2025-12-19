@@ -13,19 +13,26 @@ import bluesky.airline.services.UserService;
 import bluesky.airline.dto.touroperator.TourOperatorReqDTO;
 import jakarta.validation.Valid;
 
+// Controller for tour operators, only accessible by ADMIN role
+// Endpoint: /operators
 @RestController
 @RequestMapping("/operators")
+@PreAuthorize("hasRole('ADMIN')")
 public class TourOperatorController {
     @Autowired
     private TourOperatorService operators;
     @Autowired
     private UserService users;
 
+    // List tour operators endpoint
+    // Endpoint: GET /operators
     @GetMapping
     public Page<TourOperator> list(Pageable pageable) {
         return operators.findAll(pageable);
     }
 
+    // Get tour operator by ID endpoint
+    // Endpoint: GET /operators/{id}
     @GetMapping("/{id}")
     public ResponseEntity<TourOperator> get(@PathVariable UUID id) {
         TourOperator op = operators.findById(id);
@@ -34,7 +41,8 @@ public class TourOperatorController {
         return ResponseEntity.ok(op);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    // Create tour operator endpoint
+    // Endpoint: POST /operators
     @PostMapping
     public ResponseEntity<TourOperator> create(@RequestBody @Valid TourOperatorReqDTO body) {
         TourOperator op = new TourOperator();
@@ -43,7 +51,8 @@ public class TourOperatorController {
         return ResponseEntity.created(java.net.URI.create("/operators/" + op.getId())).body(op);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    // Update tour operator endpoint
+    // Endpoint: PUT /operators/{id}
     @PutMapping("/{id}")
     public ResponseEntity<TourOperator> update(@PathVariable UUID id, @RequestBody @Valid TourOperatorReqDTO body) {
         TourOperator found = operators.findById(id);
@@ -53,7 +62,8 @@ public class TourOperatorController {
         return ResponseEntity.ok(operators.save(found));
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    // Delete tour operator endpoint
+    // Endpoint: DELETE /operators/{id}
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable UUID id) {
         if (!operators.existsById(id))

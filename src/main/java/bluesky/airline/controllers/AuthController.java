@@ -1,7 +1,6 @@
 package bluesky.airline.controllers;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,6 +14,8 @@ import bluesky.airline.dto.auth.AuthRegisterRequest;
 import bluesky.airline.dto.auth.LoginRespDTO;
 import bluesky.airline.dto.auth.NewUserRespDTO;
 
+// Controller for authentication and user management, accessible by all roles
+// Endpoint: /auth
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -23,12 +24,16 @@ public class AuthController {
     @org.springframework.beans.factory.annotation.Autowired
     private UserService userService;
 
+    // Login endpoint
+    // Endpoint: POST /auth/login
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody @Validated AuthLoginRequest body) {
         String token = authService.checkCredentialsAndGenerateToken(body);
         return ResponseEntity.ok(new LoginRespDTO(token));
     }
 
+    // Register endpoint
+    // Endpoint: POST /auth/register
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody @Validated AuthRegisterRequest body) {
         boolean exists = userService.findByEmail(body.getEmail()).isPresent();

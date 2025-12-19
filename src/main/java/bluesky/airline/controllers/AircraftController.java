@@ -14,6 +14,8 @@ import bluesky.airline.services.AircraftService;
 import bluesky.airline.dto.aircraft.AircraftReqDTO;
 import jakarta.validation.Valid;
 
+// Controller for aircraft management, only accessible by ADMIN and TOUR_OPERATOR roles
+// Endpoint: /aircrafts
 @RestController
 @RequestMapping("/aircrafts")
 @PreAuthorize("hasRole('ADMIN') or hasRole('TOUR_OPERATOR')")
@@ -21,11 +23,15 @@ public class AircraftController {
     @Autowired
     private AircraftService service;
 
+    // List all aircrafts with pagination
+    // Endpoint: GET /aircrafts
     @GetMapping
     public Page<Aircraft> list(Pageable pageable) {
         return service.findAll(pageable);
     }
 
+    // Get details of a specific aircraft by ID
+    // Endpoint: GET /aircrafts/{id}
     @GetMapping("/{id}")
     public ResponseEntity<Aircraft> get(@PathVariable UUID id) {
         Aircraft a = service.findById(id);
@@ -34,6 +40,8 @@ public class AircraftController {
         return ResponseEntity.ok(a);
     }
 
+    // Create a new aircraft
+    // Endpoint: POST /aircrafts
     @PostMapping
     public ResponseEntity<Aircraft> create(@RequestBody @Valid AircraftReqDTO body) {
         Aircraft a = createAircraftFromDTO(body);
@@ -41,6 +49,8 @@ public class AircraftController {
         return ResponseEntity.created(java.net.URI.create("/aircrafts/" + a.getId())).body(a);
     }
 
+    // Update details of a specific aircraft by ID
+    // Endpoint: PUT /aircrafts/{id}
     @PutMapping("/{id}")
     public ResponseEntity<Aircraft> update(@PathVariable UUID id, @RequestBody @Valid AircraftReqDTO body) {
         Aircraft found = service.findById(id);
@@ -60,6 +70,8 @@ public class AircraftController {
         return ResponseEntity.ok(service.save(found));
     }
 
+    // Delete a specific aircraft by ID
+    // Endpoint: DELETE /aircrafts/{id}
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable UUID id) {
         if (!service.existsById(id))

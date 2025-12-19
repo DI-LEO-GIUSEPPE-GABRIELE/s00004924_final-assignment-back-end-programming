@@ -12,6 +12,8 @@ import bluesky.airline.services.AirportService;
 import bluesky.airline.dto.airport.AirportReqDTO;
 import jakarta.validation.Valid;
 
+// Controller for airport management, only accessible by ADMIN and TOUR_OPERATOR roles
+// Endpoint: /airports
 @RestController
 @RequestMapping("/airports")
 @PreAuthorize("hasRole('ADMIN') or hasRole('TOUR_OPERATOR')")
@@ -19,11 +21,15 @@ public class AirportController {
     @Autowired
     private AirportService service;
 
+    // List all airports with pagination
+    // Endpoint: GET /airports
     @GetMapping
     public Page<Airport> list(Pageable pageable) {
         return service.findAll(pageable);
     }
 
+    // Get details of a specific airport by ID
+    // Endpoint: GET /airports/{id}
     @GetMapping("/{id}")
     public ResponseEntity<Airport> get(@PathVariable UUID id) {
         Airport a = service.findById(id);
@@ -32,6 +38,8 @@ public class AirportController {
         return ResponseEntity.ok(a);
     }
 
+    // Create a new airport, only accessible by ADMIN role
+    // Endpoint: POST /airports
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<Airport> create(@RequestBody @Valid AirportReqDTO body) {
@@ -41,6 +49,8 @@ public class AirportController {
         return ResponseEntity.created(java.net.URI.create("/airports/" + a.getId())).body(a);
     }
 
+    // Update details of a specific airport by ID, only accessible by ADMIN role
+    // Endpoint: PUT /airports/{id}
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<Airport> update(@PathVariable UUID id, @RequestBody @Valid AirportReqDTO body) {
@@ -51,6 +61,8 @@ public class AirportController {
         return ResponseEntity.ok(service.save(found));
     }
 
+    // Delete a specific airport by ID, only accessible by ADMIN role
+    // Endpoint: DELETE /airports/{id}
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable UUID id) {
@@ -59,7 +71,7 @@ public class AirportController {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
-    
+
     private void updateAirportFromDTO(Airport a, AirportReqDTO body) {
         a.setCode(body.getCode());
         a.setName(body.getName());
