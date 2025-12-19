@@ -39,7 +39,7 @@ public class User extends BaseUuidEntity {
     // Many-to-Many: a user can have multiple roles and a role can belong to
     // multiple users
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id", columnDefinition = "uuid"), inverseJoinColumns = @JoinColumn(name = "role_id", columnDefinition = "uuid"))
+    @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id", columnDefinition = "uuid"), inverseJoinColumns = @JoinColumn(name = "role_id", columnDefinition = "uuid"))
     @JsonIgnore
     private Set<Role> roles = new HashSet<>();
 
