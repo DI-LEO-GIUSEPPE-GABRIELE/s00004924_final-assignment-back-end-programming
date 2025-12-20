@@ -20,9 +20,9 @@ public class AuthService {
 
     public String checkCredentialsAndGenerateToken(AuthLoginRequest body) {
         User u = users.findByEmailIgnoreCase(body.getEmail())
-                .orElseThrow(() -> new bluesky.airline.exceptions.UnauthorizedException("Credenziali errate"));
+                .orElseThrow(() -> new bluesky.airline.exceptions.UnauthorizedException("Invalid email or password"));
         if (!encoder.matches(body.getPassword(), u.getPassword()))
-            throw new bluesky.airline.exceptions.UnauthorizedException("Credenziali errate");
+            throw new bluesky.airline.exceptions.UnauthorizedException("Invalid email or password");
         return jwtTools.generateForUser(u);
     }
 }
