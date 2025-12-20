@@ -558,16 +558,9 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/compartments?flightId=<UUID>",
+              "raw": "{{baseUrl}}/compartments",
               "host": ["{{baseUrl}}"],
-              "path": ["compartments"],
-              "query": [
-                {
-                  "key": "flightId",
-                  "value": "<UUID>",
-                  "description": "Optional: Filter by Flight ID"
-                }
-              ]
+              "path": ["compartments"]
             }
           },
           "response": []
@@ -611,7 +604,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"compartmentCode\": \"ECONOMY\",\n    \"flightId\": \"<UUID>\"\n}",
+              "raw": "{\n    \"compartmentCode\": \"ECONOMY\",\n    \"description\": \"Economy Class\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -633,7 +626,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"compartmentCode\": \"BUSINESS\",\n    \"flightId\": \"<UUID>\"\n}",
+              "raw": "{\n    \"compartmentCode\": \"BUSINESS\",\n    \"description\": \"Business Class\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
