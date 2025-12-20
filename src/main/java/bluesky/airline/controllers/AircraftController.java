@@ -62,4 +62,12 @@ public class AircraftController {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    // Get all aircraft types
+    // Endpoint: GET /aircrafts/types
+    @GetMapping("/types")
+    @PreAuthorize("permitAll()")
+    public ResponseEntity<java.util.List<String>> getTypes() {
+        return ResponseEntity.ok(java.util.List.of("PASSENGER", "CARGO"));
+    }
 }

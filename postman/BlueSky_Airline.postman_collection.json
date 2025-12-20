@@ -23,6 +23,19 @@
           "response": []
         },
         {
+          "name": "Get Aircraft Types",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/aircrafts/types",
+              "host": ["{{baseUrl}}"],
+              "path": ["aircrafts", "types"]
+            }
+          },
+          "response": []
+        },
+        {
           "name": "Get Aircraft",
           "request": {
             "method": "GET",
@@ -299,6 +312,19 @@
             }
           },
           "response": []
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/auth/logout",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "logout"]
+            }
+          },
+          "response": []
         }
       ]
     },
@@ -334,6 +360,19 @@
                   "value": "SCHEDULED"
                 }
               ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Flight Statuses",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/flights/statuses",
+              "host": ["{{baseUrl}}"],
+              "path": ["flights", "statuses"]
             }
           },
           "response": []

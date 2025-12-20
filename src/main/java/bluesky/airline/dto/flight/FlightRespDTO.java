@@ -14,6 +14,7 @@ public class FlightRespDTO {
     private Instant departureDate;
     private Instant arrivalDate;
     private BigDecimal basePrice;
+    private String priceCode;
     private FlightStatus status;
     private AirportRespDTO departureAirport;
     private AirportRespDTO arrivalAirport;
@@ -57,6 +58,14 @@ public class FlightRespDTO {
 
     public void setBasePrice(BigDecimal basePrice) {
         this.basePrice = basePrice;
+    }
+
+    public String getPriceCode() {
+        return priceCode;
+    }
+
+    public void setPriceCode(String priceCode) {
+        this.priceCode = priceCode;
     }
 
     public FlightStatus getStatus() {

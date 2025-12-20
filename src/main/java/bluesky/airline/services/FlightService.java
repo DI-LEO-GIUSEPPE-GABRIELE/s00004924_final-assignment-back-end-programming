@@ -46,6 +46,7 @@ public class FlightService {
         f.setDepartureDate(body.getDepartureDate());
         f.setArrivalDate(body.getArrivalDate());
         f.setBasePrice(body.getBasePrice());
+        f.setPriceCode(body.getPriceCode());
         f.setStatus(body.getStatus());
 
         Airport dep = airportService.findById(body.getDepartureAirportId());

@@ -134,6 +134,14 @@ public class FlightController {
                 .ok(Map.of("base", base, "target", target, "amount", f.getBasePrice(), "converted", converted));
     }
 
+    // Get all flight statuses
+    // Endpoint: GET /flights/statuses
+    @GetMapping("/statuses")
+    @PreAuthorize("permitAll()")
+    public ResponseEntity<FlightStatus[]> getStatuses() {
+        return ResponseEntity.ok(FlightStatus.values());
+    }
+
     private FlightRespDTO toDTO(Flight f) {
         FlightRespDTO dto = new FlightRespDTO();
         dto.setId(f.getId());
@@ -141,6 +149,7 @@ public class FlightController {
         dto.setDepartureDate(f.getDepartureDate());
         dto.setArrivalDate(f.getArrivalDate());
         dto.setBasePrice(f.getBasePrice());
+        dto.setPriceCode(f.getPriceCode());
         dto.setStatus(f.getStatus());
         if (f.getDepartureAirport() != null) {
             dto.setDepartureAirport(toDTO(f.getDepartureAirport()));

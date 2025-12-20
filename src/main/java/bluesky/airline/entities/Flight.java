@@ -29,6 +29,9 @@ public class Flight extends BaseUuidEntity {
     @Column(name = "base_price", nullable = false)
     private BigDecimal basePrice;
 
+    @Column(name = "price_code")
+    private String priceCode;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false, length = 50)
     private FlightStatus status;
@@ -82,6 +85,14 @@ public class Flight extends BaseUuidEntity {
 
     public void setBasePrice(BigDecimal basePrice) {
         this.basePrice = basePrice;
+    }
+
+    public String getPriceCode() {
+        return priceCode;
+    }
+
+    public void setPriceCode(String priceCode) {
+        this.priceCode = priceCode;
     }
 
     public FlightStatus getStatus() {

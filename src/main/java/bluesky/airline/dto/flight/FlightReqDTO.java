@@ -21,6 +21,8 @@ public class FlightReqDTO {
     @NotNull(message = "Base price is required")
     private BigDecimal basePrice;
 
+    private String priceCode;
+
     @NotNull(message = "Status is required")
     private FlightStatus status;
 
@@ -63,6 +65,14 @@ public class FlightReqDTO {
 
     public void setBasePrice(BigDecimal basePrice) {
         this.basePrice = basePrice;
+    }
+
+    public String getPriceCode() {
+        return priceCode;
+    }
+
+    public void setPriceCode(String priceCode) {
+        this.priceCode = priceCode;
     }
 
     public FlightStatus getStatus() {
