@@ -1,6 +1,7 @@
 package bluesky.airline.entities;
 
 import java.time.Instant;
+import java.math.BigDecimal;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -11,7 +12,6 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import bluesky.airline.entities.enums.FlightStatus;
-import bluesky.airline.entities.enums.PriceCode;
 
 // Entity for Flights
 @Entity
@@ -26,9 +26,8 @@ public class Flight extends BaseUuidEntity {
     @Column(name = "arrival_date", nullable = false)
     private Instant arrivalDate;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "price_code")
-    private PriceCode priceCode;
+    @Column(name = "base_price", nullable = false)
+    private BigDecimal basePrice;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false, length = 50)
@@ -77,12 +76,12 @@ public class Flight extends BaseUuidEntity {
         this.arrivalDate = arrivalDate;
     }
 
-    public PriceCode getPriceCode() {
-        return priceCode;
+    public BigDecimal getBasePrice() {
+        return basePrice;
     }
 
-    public void setPriceCode(PriceCode priceCode) {
-        this.priceCode = priceCode;
+    public void setBasePrice(BigDecimal basePrice) {
+        this.basePrice = basePrice;
     }
 
     public FlightStatus getStatus() {

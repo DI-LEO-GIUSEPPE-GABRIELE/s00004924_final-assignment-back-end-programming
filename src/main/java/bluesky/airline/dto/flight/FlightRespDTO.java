@@ -1,9 +1,9 @@
 package bluesky.airline.dto.flight;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.UUID;
 import bluesky.airline.entities.enums.FlightStatus;
-import bluesky.airline.entities.enums.PriceCode;
 import bluesky.airline.dto.airport.AirportRespDTO;
 import bluesky.airline.dto.aircraft.AircraftRespDTO;
 
@@ -13,7 +13,7 @@ public class FlightRespDTO {
     private String flightCode;
     private Instant departureDate;
     private Instant arrivalDate;
-    private PriceCode priceCode;
+    private BigDecimal basePrice;
     private FlightStatus status;
     private AirportRespDTO departureAirport;
     private AirportRespDTO arrivalAirport;
@@ -51,12 +51,12 @@ public class FlightRespDTO {
         this.arrivalDate = arrivalDate;
     }
 
-    public PriceCode getPriceCode() {
-        return priceCode;
+    public BigDecimal getBasePrice() {
+        return basePrice;
     }
 
-    public void setPriceCode(PriceCode priceCode) {
-        this.priceCode = priceCode;
+    public void setBasePrice(BigDecimal basePrice) {
+        this.basePrice = basePrice;
     }
 
     public FlightStatus getStatus() {

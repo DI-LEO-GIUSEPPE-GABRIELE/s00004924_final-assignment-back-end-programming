@@ -16,6 +16,6 @@ type Flight {
   flightCode: String!
   departureDate: String!
   arrivalDate: String!
-  priceCode: String
+  basePrice: Float
   status: String!
 }

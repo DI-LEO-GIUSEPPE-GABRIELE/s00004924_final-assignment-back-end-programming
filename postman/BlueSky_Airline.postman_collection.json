@@ -346,12 +346,12 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/flights?code=BS123&status=SCHEDULED",
+              "raw": "{{baseUrl}}/flights?flightCode=BS123&status=SCHEDULED",
               "host": ["{{baseUrl}}"],
               "path": ["flights"],
               "query": [
                 {
-                  "key": "code",
+                  "key": "flightCode",
                   "value": "BS123"
                 },
                 {
@@ -441,7 +441,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"flightCode\": \"BS123\",\n    \"departureDate\": \"2023-12-25T10:00:00Z\",\n    \"arrivalDate\": \"2023-12-25T14:00:00Z\",\n    \"priceCode\": \"ECONOMY\",\n    \"status\": \"SCHEDULED\",\n    \"departureAirportId\": \"<UUID>\",\n    \"arrivalAirportId\": \"<UUID>\",\n    \"aircraftId\": \"<UUID>\"\n}",
+              "raw": "{\n    \"flightCode\": \"BS123\",\n    \"departureDate\": \"2023-12-25T10:00:00Z\",\n    \"arrivalDate\": \"2023-12-25T14:00:00Z\",\n    \"basePrice\": 150.00,\n    \"status\": \"SCHEDULED\",\n    \"departureAirportId\": \"<UUID>\",\n    \"arrivalAirportId\": \"<UUID>\",\n    \"aircraftId\": \"<UUID>\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -482,7 +482,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"flightCode\": \"BS123-UPD\",\n    \"departureDate\": \"2023-12-26T10:00:00Z\",\n    \"arrivalDate\": \"2023-12-26T14:00:00Z\",\n    \"priceCode\": \"BUSINESS\",\n    \"status\": \"DELAYED\",\n    \"departureAirportId\": \"<UUID>\",\n    \"arrivalAirportId\": \"<UUID>\",\n    \"aircraftId\": \"<UUID>\"\n}",
+              "raw": "{\n    \"flightCode\": \"BS123-UPD\",\n    \"departureDate\": \"2023-12-26T10:00:00Z\",\n    \"arrivalDate\": \"2023-12-26T14:00:00Z\",\n    \"basePrice\": 200.00,\n    \"status\": \"DELAYED\",\n    \"departureAirportId\": \"<UUID>\",\n    \"arrivalAirportId\": \"<UUID>\",\n    \"aircraftId\": \"<UUID>\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -535,7 +535,7 @@
             "body": {
               "mode": "graphql",
               "graphql": {
-                "query": "query {\n    flights(page: 0, size: 10) {\n        id\n        code\n        status\n        priceCode\n    }\n}",
+                "query": "query {\n    flights(page: 0, size: 10) {\n        id\n        code\n        status\n        basePrice\n    }\n}",
                 "variables": ""
               }
             },
@@ -550,17 +550,17 @@
       ]
     },
     {
-      "name": "Prices",
+      "name": "Compartments",
       "item": [
         {
-          "name": "List Prices",
+          "name": "List Compartments",
           "request": {
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/prices?flightId=<UUID>",
+              "raw": "{{baseUrl}}/compartments?flightId=<UUID>",
               "host": ["{{baseUrl}}"],
-              "path": ["prices"],
+              "path": ["compartments"],
               "query": [
                 {
                   "key": "flightId",
@@ -573,14 +573,27 @@
           "response": []
         },
         {
-          "name": "Get Price",
+          "name": "Get Compartment Codes",
           "request": {
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/prices/:id",
+              "raw": "{{baseUrl}}/compartments/codes",
               "host": ["{{baseUrl}}"],
-              "path": ["prices", ":id"],
+              "path": ["compartments", "codes"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Compartment",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/compartments/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["compartments", ":id"],
               "variable": [
                 {
                   "key": "id",
@@ -592,13 +605,13 @@
           "response": []
         },
         {
-          "name": "Create Price",
+          "name": "Create Compartment",
           "request": {
             "method": "POST",
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"priceCode\": \"ECONOMY\",\n    \"basePrice\": 100.00,\n    \"flightId\": \"<UUID>\"\n}",
+              "raw": "{\n    \"compartmentCode\": \"ECONOMY\",\n    \"flightId\": \"<UUID>\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -606,21 +619,21 @@
               }
             },
             "url": {
-              "raw": "{{baseUrl}}/prices",
+              "raw": "{{baseUrl}}/compartments",
               "host": ["{{baseUrl}}"],
-              "path": ["prices"]
+              "path": ["compartments"]
             }
           },
           "response": []
         },
         {
-          "name": "Update Price",
+          "name": "Update Compartment",
           "request": {
             "method": "PUT",
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"priceCode\": \"ECONOMY\",\n    \"basePrice\": 120.00,\n    \"flightId\": \"<UUID>\"\n}",
+              "raw": "{\n    \"compartmentCode\": \"BUSINESS\",\n    \"flightId\": \"<UUID>\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -628,9 +641,9 @@
               }
             },
             "url": {
-              "raw": "{{baseUrl}}/prices/:id",
+              "raw": "{{baseUrl}}/compartments/:id",
               "host": ["{{baseUrl}}"],
-              "path": ["prices", ":id"],
+              "path": ["compartments", ":id"],
               "variable": [
                 {
                   "key": "id",
@@ -642,14 +655,14 @@
           "response": []
         },
         {
-          "name": "Delete Price",
+          "name": "Delete Compartment",
           "request": {
             "method": "DELETE",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/prices/:id",
+              "raw": "{{baseUrl}}/compartments/:id",
               "host": ["{{baseUrl}}"],
-              "path": ["prices", ":id"],
+              "path": ["compartments", ":id"],
               "variable": [
                 {
                   "key": "id",

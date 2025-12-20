@@ -1,8 +1,6 @@
 package bluesky.airline.controllers;
 
-import java.math.BigDecimal;
 import java.time.Instant;
-import java.util.Map;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,7 +15,6 @@ import bluesky.airline.entities.WeatherData;
 import bluesky.airline.entities.enums.FlightStatus;
 import bluesky.airline.services.AirportService;
 import bluesky.airline.services.FlightService;
-import bluesky.airline.services.ExchangeRateService;
 import bluesky.airline.services.WeatherService;
 import bluesky.airline.dto.flight.FlightReqDTO;
 import bluesky.airline.dto.flight.FlightRespDTO;
@@ -41,8 +38,6 @@ public class FlightController {
     private AirportService airportService;
     @Autowired
     private WeatherService weatherService;
-    @Autowired
-    private ExchangeRateService rateService;
 
     // List flights endpoint
     // Endpoint: GET /flights
@@ -136,7 +131,7 @@ public class FlightController {
         dto.setFlightCode(f.getFlightCode());
         dto.setDepartureDate(f.getDepartureDate());
         dto.setArrivalDate(f.getArrivalDate());
-        dto.setPriceCode(f.getPriceCode());
+        dto.setBasePrice(f.getBasePrice());
         dto.setStatus(f.getStatus());
         if (f.getDepartureAirport() != null) {
             dto.setDepartureAirport(toDTO(f.getDepartureAirport()));

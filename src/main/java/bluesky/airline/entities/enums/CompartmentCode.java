@@ -1,6 +1,6 @@
 package bluesky.airline.entities.enums;
 
-public enum PriceCode {
+public enum CompartmentCode {
     ECONOMY,
     PREMIUM,
     FIRST_CLASS,
