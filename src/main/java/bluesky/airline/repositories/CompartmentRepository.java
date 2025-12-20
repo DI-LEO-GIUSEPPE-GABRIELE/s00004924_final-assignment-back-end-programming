@@ -8,4 +8,6 @@ import org.springframework.data.domain.Pageable;
 
 public interface CompartmentRepository extends JpaRepository<Compartment, UUID> {
     Page<Compartment> findByFlightId(UUID flightId, Pageable pageable);
+
+    void deleteByFlightId(UUID flightId);
 }

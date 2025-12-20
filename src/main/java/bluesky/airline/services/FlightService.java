@@ -11,12 +11,18 @@ import bluesky.airline.entities.enums.FlightStatus;
 import bluesky.airline.repositories.FlightRepository;
 import bluesky.airline.entities.Airport;
 import bluesky.airline.entities.Aircraft;
+import bluesky.airline.repositories.CompartmentRepository;
+import bluesky.airline.entities.Compartment;
+import bluesky.airline.entities.enums.CompartmentCode;
+import org.springframework.transaction.annotation.Transactional;
 
 // Service for Flight entities
 @Service
 public class FlightService {
     @Autowired
     private FlightRepository flights;
+    @Autowired
+    private CompartmentRepository compartments;
     @Autowired
     private AirportService airportService;
     @Autowired
@@ -26,26 +32,49 @@ public class FlightService {
         return flights.findAll(pageable);
     }
 
+    @Transactional
     public Flight create(bluesky.airline.dto.flight.FlightReqDTO body) {
         Flight f = new Flight();
         updateFlightFromDTO(f, body);
-        return flights.save(f);
+        f = flights.save(f);
+
+        if (body.getCompartmentCodes() != null) {
+            for (CompartmentCode code : body.getCompartmentCodes()) {
+                Compartment c = new Compartment();
+                c.setCompartmentCode(code);
+                c.setFlight(f);
+                compartments.save(c);
+            }
+        }
+        return f;
     }
 
+    @Transactional
     public Flight update(UUID id, bluesky.airline.dto.flight.FlightReqDTO body) {
         Flight f = findById(id);
         if (f == null) {
             throw new bluesky.airline.exceptions.NotFoundException("Flight not found: " + id);
         }
         updateFlightFromDTO(f, body);
-        return flights.save(f);
+        Flight saved = flights.save(f);
+
+        if (body.getCompartmentCodes() != null) {
+            compartments.deleteByFlightId(id);
+            for (CompartmentCode code : body.getCompartmentCodes()) {
+                Compartment c = new Compartment();
+                c.setCompartmentCode(code);
+                c.setFlight(saved);
+                compartments.save(c);
+            }
+        }
+        return saved;
     }
 
     private void updateFlightFromDTO(Flight f, bluesky.airline.dto.flight.FlightReqDTO body) {
         f.setFlightCode(body.getFlightCode());
         f.setDepartureDate(body.getDepartureDate());
         f.setArrivalDate(body.getArrivalDate());
-        f.setPriceCode(body.getPriceCode());
+        f.setBasePrice(body.getBasePrice());
         f.setStatus(body.getStatus());
 
         Airport dep = airportService.findById(body.getDepartureAirportId());
