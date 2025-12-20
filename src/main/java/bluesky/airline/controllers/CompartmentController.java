@@ -7,12 +7,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
 import bluesky.airline.entities.Compartment;
 import bluesky.airline.services.CompartmentService;
 import bluesky.airline.dto.compartment.CompartmentReqDTO;
 import bluesky.airline.dto.compartment.CompartmentRespDTO;
-import bluesky.airline.entities.enums.CompartmentCode;
 import bluesky.airline.exceptions.NotFoundException;
 
 // Controller for Compartments
@@ -22,20 +20,12 @@ public class CompartmentController {
     @Autowired
     private CompartmentService compartments;
 
-    // List all compartments with pagination, optional filter by flightId
+    // List all compartments with pagination
     // Endpoint: GET /compartments
     @GetMapping
     @PreAuthorize("permitAll()")
-    public Page<CompartmentRespDTO> list(
-            @RequestParam(required = false) UUID flightId,
-            Pageable pageable) {
-        Page<Compartment> page;
-        if (flightId != null) {
-            page = compartments.findByFlightId(flightId, pageable);
-        } else {
-            page = compartments.findAll(pageable);
-        }
-        return page.map(this::toDTO);
+    public ResponseEntity<Page<CompartmentRespDTO>> list(Pageable pageable) {
+        return ResponseEntity.ok(compartments.findAll(pageable).map(this::toDTO));
     }
 
     // Get details of a specific compartment by ID
@@ -54,8 +44,8 @@ public class CompartmentController {
     @GetMapping("/codes")
     @PreAuthorize("permitAll()")
     public ResponseEntity<java.util.List<bluesky.airline.dto.common.EnumRespDTO>> getCodes() {
-        return ResponseEntity.ok(java.util.Arrays.stream(CompartmentCode.values())
-                .map(c -> new bluesky.airline.dto.common.EnumRespDTO(c.name(), c.name()))
+        return ResponseEntity.ok(compartments.findAll().stream()
+                .map(c -> new bluesky.airline.dto.common.EnumRespDTO(c.getCompartmentCode(), c.getDescription()))
                 .toList());
     }
 
@@ -93,9 +83,7 @@ public class CompartmentController {
         CompartmentRespDTO dto = new CompartmentRespDTO();
         dto.setId(c.getId());
         dto.setCompartmentCode(c.getCompartmentCode());
-        if (c.getFlight() != null) {
-            dto.setFlightId(c.getFlight().getId());
-        }
+        dto.setDescription(c.getDescription());
         return dto;
     }
 }

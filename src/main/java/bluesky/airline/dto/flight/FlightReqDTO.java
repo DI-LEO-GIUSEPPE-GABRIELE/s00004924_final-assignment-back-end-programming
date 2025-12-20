@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.UUID;
 import bluesky.airline.entities.enums.FlightStatus;
-import bluesky.airline.entities.enums.CompartmentCode;
+
 import java.util.List;
 
 // DTO for Flight requests (create/update)
@@ -35,7 +35,7 @@ public class FlightReqDTO {
     @NotNull(message = "Aircraft ID is required")
     private UUID aircraftId;
 
-    private List<CompartmentCode> compartmentCodes;
+    private List<String> compartmentCodes;
 
     public String getFlightCode() {
         return flightCode;
@@ -101,11 +101,11 @@ public class FlightReqDTO {
         this.aircraftId = aircraftId;
     }
 
-    public List<CompartmentCode> getCompartmentCodes() {
+    public List<String> getCompartmentCodes() {
         return compartmentCodes;
     }
 
-    public void setCompartmentCodes(List<CompartmentCode> compartmentCodes) {
+    public void setCompartmentCodes(List<String> compartmentCodes) {
         this.compartmentCodes = compartmentCodes;
     }
 }

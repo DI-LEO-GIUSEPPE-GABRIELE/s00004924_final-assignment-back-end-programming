@@ -10,8 +10,10 @@ import bluesky.airline.entities.Role;
 import bluesky.airline.entities.User;
 import bluesky.airline.repositories.RoleRepository;
 import bluesky.airline.repositories.UserRepository;
+import bluesky.airline.repositories.CompartmentRepository;
+import bluesky.airline.entities.Compartment;
+import bluesky.airline.entities.enums.CompartmentCode;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
 import bluesky.airline.entities.enums.RoleType;
 
 @Component
@@ -20,6 +22,8 @@ public class DataInitializer {
     private RoleRepository roles;
     @org.springframework.beans.factory.annotation.Autowired
     private UserRepository users;
+    @org.springframework.beans.factory.annotation.Autowired
+    private CompartmentRepository compartments;
     @org.springframework.beans.factory.annotation.Autowired
     private PasswordEncoder encoder;
     @Value("${bootstrap.admin.email:}")
@@ -33,6 +37,10 @@ public class DataInitializer {
     public void init() {
         for (RoleType roleType : RoleType.values()) {
             ensureRole(roleType);
+        }
+
+        for (CompartmentCode code : CompartmentCode.values()) {
+            ensureCompartment(code);
         }
 
         // Create admin user if email and password are provided
@@ -55,5 +63,14 @@ public class DataInitializer {
         }
         r.setRoleCode(roleType.getCode());
         roles.save(r);
+    }
+
+    private void ensureCompartment(CompartmentCode code) {
+        compartments.findByCompartmentCode(code.name()).orElseGet(() -> {
+            Compartment c = new Compartment();
+            c.setCompartmentCode(code.name());
+            c.setDescription(code.name().toLowerCase().replace("_", " "));
+            return compartments.save(c);
+        });
     }
 }

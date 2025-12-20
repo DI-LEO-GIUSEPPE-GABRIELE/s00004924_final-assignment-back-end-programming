@@ -13,9 +13,13 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import bluesky.airline.entities.enums.FlightStatus;
 
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.OneToMany;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Set;
+import java.util.HashSet;
 
 // Entity for Flights
 @Entity
@@ -56,9 +60,10 @@ public class Flight extends BaseUuidEntity {
     @OneToOne(mappedBy = "flight", fetch = FetchType.LAZY)
     private WeatherData weatherData;
 
-    // One-to-Many: each flight has many compartments
-    @OneToMany(mappedBy = "flight", fetch = FetchType.LAZY)
-    private List<Compartment> compartments = new ArrayList<>();
+    // Many-to-Many: each flight has many compartments
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "flights_compartments", joinColumns = @JoinColumn(name = "flight_id"), inverseJoinColumns = @JoinColumn(name = "compartment_id"))
+    private Set<Compartment> compartments = new HashSet<>();
 
     public String getFlightCode() {
         return flightCode;
@@ -132,11 +137,11 @@ public class Flight extends BaseUuidEntity {
         this.weatherData = weatherData;
     }
 
-    public List<Compartment> getCompartments() {
+    public Set<Compartment> getCompartments() {
         return compartments;
     }
 
-    public void setCompartments(List<Compartment> compartments) {
+    public void setCompartments(Set<Compartment> compartments) {
         this.compartments = compartments;
     }
 }

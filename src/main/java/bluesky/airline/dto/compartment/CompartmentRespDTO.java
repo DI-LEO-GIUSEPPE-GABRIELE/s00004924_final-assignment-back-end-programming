@@ -1,13 +1,12 @@
 package bluesky.airline.dto.compartment;
 
 import java.util.UUID;
-import bluesky.airline.entities.enums.CompartmentCode;
 
 // DTO for Compartment responses
 public class CompartmentRespDTO {
     private UUID id;
-    private CompartmentCode compartmentCode;
-    private UUID flightId;
+    private String compartmentCode;
+    private String description;
 
     public UUID getId() {
         return id;
@@ -17,19 +16,19 @@ public class CompartmentRespDTO {
         this.id = id;
     }
 
-    public CompartmentCode getCompartmentCode() {
+    public String getCompartmentCode() {
         return compartmentCode;
     }
 
-    public void setCompartmentCode(CompartmentCode compartmentCode) {
+    public void setCompartmentCode(String compartmentCode) {
         this.compartmentCode = compartmentCode;
     }
 
-    public UUID getFlightId() {
-        return flightId;
+    public String getDescription() {
+        return description;
     }
 
-    public void setFlightId(UUID flightId) {
-        this.flightId = flightId;
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

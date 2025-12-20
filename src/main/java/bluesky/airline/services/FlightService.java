@@ -13,7 +13,6 @@ import bluesky.airline.entities.Airport;
 import bluesky.airline.entities.Aircraft;
 import bluesky.airline.repositories.CompartmentRepository;
 import bluesky.airline.entities.Compartment;
-import bluesky.airline.entities.enums.CompartmentCode;
 import org.springframework.transaction.annotation.Transactional;
 
 // Service for Flight entities
@@ -38,13 +37,29 @@ public class FlightService {
         updateFlightFromDTO(f, body);
         f = flights.save(f);
 
-        if (body.getCompartmentCodes() != null) {
-            for (CompartmentCode code : body.getCompartmentCodes()) {
-                Compartment c = new Compartment();
-                c.setCompartmentCode(code);
-                c.setFlight(f);
-                compartments.save(c);
+        if (body.getCompartmentCodes() != null && !body.getCompartmentCodes().isEmpty()) {
+            java.util.Set<String> uniqueCodes = new java.util.HashSet<>(body.getCompartmentCodes());
+            java.util.Set<Compartment> validCompartments = new java.util.HashSet<>();
+            java.util.List<String> invalidCodes = new java.util.ArrayList<>();
+
+            for (String code : uniqueCodes) {
+                java.util.Optional<Compartment> c = compartments.findByCompartmentCode(code);
+                if (c.isPresent()) {
+                    validCompartments.add(c.get());
+                } else {
+                    invalidCodes.add(code);
+                }
             }
+
+            if (!invalidCodes.isEmpty()) {
+                String available = compartments.findAll().stream()
+                        .map(Compartment::getCompartmentCode)
+                        .collect(java.util.stream.Collectors.joining(", "));
+                throw new bluesky.airline.exceptions.ValidationException(
+                        java.util.List.of("Invalid compartment codes: " + invalidCodes + ". Available: " + available));
+            }
+            f.setCompartments(validCompartments);
+            f = flights.save(f);
         }
         return f;
     }
@@ -59,13 +74,28 @@ public class FlightService {
         Flight saved = flights.save(f);
 
         if (body.getCompartmentCodes() != null) {
-            compartments.deleteByFlightId(id);
-            for (CompartmentCode code : body.getCompartmentCodes()) {
-                Compartment c = new Compartment();
-                c.setCompartmentCode(code);
-                c.setFlight(saved);
-                compartments.save(c);
+            java.util.Set<String> uniqueCodes = new java.util.HashSet<>(body.getCompartmentCodes());
+            java.util.Set<Compartment> validCompartments = new java.util.HashSet<>();
+            java.util.List<String> invalidCodes = new java.util.ArrayList<>();
+
+            for (String code : uniqueCodes) {
+                java.util.Optional<Compartment> c = compartments.findByCompartmentCode(code);
+                if (c.isPresent()) {
+                    validCompartments.add(c.get());
+                } else {
+                    invalidCodes.add(code);
+                }
             }
+
+            if (!invalidCodes.isEmpty()) {
+                String available = compartments.findAll().stream()
+                        .map(Compartment::getCompartmentCode)
+                        .collect(java.util.stream.Collectors.joining(", "));
+                throw new bluesky.airline.exceptions.ValidationException(
+                        java.util.List.of("Invalid compartment codes: " + invalidCodes + ". Available: " + available));
+            }
+            f.setCompartments(validCompartments);
+            saved = flights.save(f);
         }
         return saved;
     }

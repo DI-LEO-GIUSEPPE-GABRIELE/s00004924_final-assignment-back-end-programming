@@ -144,7 +144,7 @@ public class FlightController {
         }
         if (f.getCompartments() != null) {
             dto.setCompartmentCodes(f.getCompartments().stream()
-                    .map(bluesky.airline.entities.Compartment::getCompartmentCode)
+                    .map(c -> c.getCompartmentCode())
                     .toList());
         }
         return dto;

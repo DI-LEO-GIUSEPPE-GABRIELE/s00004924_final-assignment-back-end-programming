@@ -6,7 +6,6 @@ import java.util.UUID;
 import bluesky.airline.entities.enums.FlightStatus;
 import bluesky.airline.dto.airport.AirportRespDTO;
 import bluesky.airline.dto.aircraft.AircraftRespDTO;
-import bluesky.airline.entities.enums.CompartmentCode;
 import java.util.List;
 
 // DTO for Flight responses
@@ -20,7 +19,7 @@ public class FlightRespDTO {
     private AirportRespDTO departureAirport;
     private AirportRespDTO arrivalAirport;
     private AircraftRespDTO aircraft;
-    private List<CompartmentCode> compartmentCodes;
+    private List<String> compartmentCodes;
 
     public UUID getId() {
         return id;
@@ -94,11 +93,11 @@ public class FlightRespDTO {
         this.aircraft = aircraft;
     }
 
-    public List<CompartmentCode> getCompartmentCodes() {
+    public List<String> getCompartmentCodes() {
         return compartmentCodes;
     }
 
-    public void setCompartmentCodes(List<CompartmentCode> compartmentCodes) {
+    public void setCompartmentCodes(List<String> compartmentCodes) {
         this.compartmentCodes = compartmentCodes;
     }
 }
