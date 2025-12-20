@@ -34,7 +34,7 @@ public interface UserRepository extends JpaRepository<User, UUID> {
       Optional<User> findWithRolesById(UUID id);
 
       @Query("select u from User u where " +
-             "(:name is null or lower(u.name) like lower(concat('%', :name, '%'))) and " +
+             "(:name is null or lower(u.name) like lower(concat('%', concat(:name, '%')))) and " +
              "(:domain is null or lower(u.email) like lower(concat('%', :domain)))")
       Page<User> searchUsersJpql(@Param("name") String name, @Param("domain") String domain, Pageable pageable);
 

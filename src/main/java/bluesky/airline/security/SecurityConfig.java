@@ -25,6 +25,10 @@ import java.util.List;
 public class SecurityConfig {
     @org.springframework.beans.factory.annotation.Autowired
     private JwtAuthFilter jwtAuthFilter;
+    @org.springframework.beans.factory.annotation.Autowired
+    private CustomAuthenticationEntryPoint authEntryPoint;
+    @org.springframework.beans.factory.annotation.Autowired
+    private CustomAccessDeniedHandler accessDeniedHandler;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -32,6 +36,9 @@ public class SecurityConfig {
                 .formLogin(form -> form.disable())
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .csrf(csrf -> csrf.disable())
+                .exceptionHandling(ex -> ex
+                        .authenticationEntryPoint(authEntryPoint)
+                        .accessDeniedHandler(accessDeniedHandler))
                 .authorizeHttpRequests(req -> req
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/roles").permitAll()

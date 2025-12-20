@@ -393,7 +393,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"code\": \"BS123\",\n    \"departureTime\": \"2023-12-25T10:00:00Z\",\n    \"arrivalTime\": \"2023-12-25T14:00:00Z\",\n    \"basePrice\": 150.00,\n    \"status\": \"SCHEDULED\",\n    \"departureAirport\": {\n        \"id\": \"<UUID>\"\n    },\n    \"arrivalAirport\": {\n        \"id\": \"<UUID>\"\n    },\n    \"aircraft\": {\n        \"id\": \"<UUID>\"\n    }\n}",
+              "raw": "{\n    \"flightCode\": \"BS123\",\n    \"departureDate\": \"2023-12-25T10:00:00Z\",\n    \"arrivalDate\": \"2023-12-25T14:00:00Z\",\n    \"basePrice\": 150.00,\n    \"status\": \"SCHEDULED\",\n    \"departureAirportId\": \"<UUID>\",\n    \"arrivalAirportId\": \"<UUID>\",\n    \"aircraftId\": \"<UUID>\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -434,7 +434,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"code\": \"BS123-UPD\",\n    \"departureTime\": \"2023-12-26T10:00:00Z\",\n    \"arrivalTime\": \"2023-12-26T14:00:00Z\",\n    \"basePrice\": 160.00,\n    \"status\": \"DELAYED\",\n    \"departureAirport\": {\n        \"id\": \"<UUID>\"\n    },\n    \"arrivalAirport\": {\n        \"id\": \"<UUID>\"\n    },\n    \"aircraft\": {\n        \"id\": \"<UUID>\"\n    }\n}",
+              "raw": "{\n    \"flightCode\": \"BS123-UPD\",\n    \"departureDate\": \"2023-12-26T10:00:00Z\",\n    \"arrivalDate\": \"2023-12-26T14:00:00Z\",\n    \"basePrice\": 160.00,\n    \"status\": \"DELAYED\",\n    \"departureAirportId\": \"<UUID>\",\n    \"arrivalAirportId\": \"<UUID>\",\n    \"aircraftId\": \"<UUID>\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
