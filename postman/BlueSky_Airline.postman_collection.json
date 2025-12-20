@@ -760,20 +760,7 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/users",
-              "host": ["{{baseUrl}}"],
-              "path": ["users"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Search Users",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/users?mode=derived&nameContains=John&emailDomain=example.com",
+              "raw": "{{baseUrl}}/users?mode=derived&nameContains=Admin&emailDomain=bluesky.com",
               "host": ["{{baseUrl}}"],
               "path": ["users"],
               "query": [
@@ -784,11 +771,11 @@
                 },
                 {
                   "key": "nameContains",
-                  "value": "John"
+                  "value": "Admin"
                 },
                 {
                   "key": "emailDomain",
-                  "value": "example.com"
+                  "value": "bluesky.com"
                 }
               ]
             }
