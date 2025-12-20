@@ -808,7 +808,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"name\": \"John Doe\",\n    \"surname\": \"Doe\",\n    \"username\": \"johndoe\",\n    \"email\": \"john@example.com\",\n    \"avatarUrl\": \"http://example.com/avatar.png\",\n    \"roleId\": \"<UUID>\"\n}",
+              "raw": "{\n    \"name\": \"John Doe\",\n    \"surname\": \"Doe\",\n    \"username\": \"johndoe\",\n    \"email\": \"john@example.com\",\n    \"avatarUrl\": \"http://example.com/avatar.png\",\n    \"roleCode\": 0\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -830,7 +830,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"name\": \"John Updated\",\n    \"surname\": \"Updated\",\n    \"username\": \"johnupdated\",\n    \"email\": \"john@example.com\",\n    \"avatarUrl\": \"http://example.com/avatar_updated.png\",\n    \"roleId\": \"<UUID>\"\n}",
+              "raw": "{\n    \"name\": \"John Updated\",\n    \"surname\": \"Updated\",\n    \"username\": \"johnupdated\",\n    \"email\": \"john@example.com\",\n    \"avatarUrl\": \"http://example.com/avatar_updated.png\",\n    \"roleCode\": 0\n}",
               "options": {
                 "raw": {
                   "language": "json"

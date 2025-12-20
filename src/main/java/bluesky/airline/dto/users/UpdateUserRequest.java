@@ -19,7 +19,7 @@ public class UpdateUserRequest {
 
     private String avatarUrl;
 
-    private java.util.UUID roleId;
+    private Integer roleCode;
 
     public String getName() {
         return name;
@@ -61,11 +61,11 @@ public class UpdateUserRequest {
         this.avatarUrl = avatarUrl;
     }
 
-    public java.util.UUID getRoleId() {
-        return roleId;
+    public Integer getRoleCode() {
+        return roleCode;
     }
 
-    public void setRoleId(java.util.UUID roleId) {
-        this.roleId = roleId;
+    public void setRoleCode(Integer roleCode) {
+        this.roleCode = roleCode;
     }
 }

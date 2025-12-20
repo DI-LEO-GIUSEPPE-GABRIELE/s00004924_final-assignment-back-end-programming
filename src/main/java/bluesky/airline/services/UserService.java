@@ -71,20 +71,21 @@ public class UserService {
     }
 
     public User create(String name, String surname, String username, String email, String avatarUrl,
-            java.util.UUID roleId) {
+            Integer roleCode) {
         validateCreate(name, email);
         User u = new User(null, name, email);
         u.setSurname(surname);
         u.setUsername(username);
         u.setAvatarUrl(avatarUrl);
-        if (roleId != null) {
-            Role r = roles.findById(roleId).orElse(null);
+        if (roleCode != null) {
+            String roleName = mapRoleCode(roleCode);
+            Role r = roleName == null ? null : roles.findByNameIgnoreCase(roleName).orElse(null);
             if (r == null || !isAllowedRole(r))
-                throw new bluesky.airline.exceptions.ValidationException(java.util.List.of("roleId: Invalid role"));
+                throw new bluesky.airline.exceptions.ValidationException(java.util.List.of("roleCode: Invalid role"));
             java.util.Set<Role> rs = new java.util.HashSet<>();
             rs.add(r);
             u.setRoles(rs);
-            u.setRoleCode(r.getRoleCode());
+            u.setRoleCode(roleCode);
         }
         return repo.save(u);
     }
@@ -122,7 +123,7 @@ public class UserService {
     }
 
     public Optional<User> update(UUID id, String name, String surname, String username, String email, String avatarUrl,
-            java.util.UUID roleId) {
+            Integer roleCode) {
         return repo.findById(id).map(existing -> {
             validateUpdate(id, name, email);
             existing.setName(name);
@@ -130,14 +131,16 @@ public class UserService {
             existing.setUsername(username);
             existing.setEmail(email);
             existing.setAvatarUrl(avatarUrl);
-            if (roleId != null) {
-                Role r = roles.findById(roleId).orElse(null);
+            if (roleCode != null) {
+                String roleName = mapRoleCode(roleCode);
+                Role r = roleName == null ? null : roles.findByNameIgnoreCase(roleName).orElse(null);
                 if (r == null || !isAllowedRole(r))
-                    throw new bluesky.airline.exceptions.ValidationException(java.util.List.of("roleId: Invalid role"));
+                    throw new bluesky.airline.exceptions.ValidationException(
+                            java.util.List.of("roleCode: Invalid role"));
                 java.util.Set<Role> rs = new java.util.HashSet<>();
                 rs.add(r);
                 existing.setRoles(rs);
-                existing.setRoleCode(r.getRoleCode());
+                existing.setRoleCode(roleCode);
             }
             return repo.save(existing);
         });

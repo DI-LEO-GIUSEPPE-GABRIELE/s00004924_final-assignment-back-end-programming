@@ -55,7 +55,7 @@ public class UserController {
     @PostMapping
     public ResponseEntity<User> create(@RequestBody @jakarta.validation.Valid CreateUserRequest body) {
         User u = service.create(body.getName(), body.getSurname(), body.getUsername(), body.getEmail(),
-                body.getAvatarUrl(), body.getRoleId());
+                body.getAvatarUrl(), body.getRoleCode());
         return ResponseEntity.created(java.net.URI.create("/users/" + u.getId())).body(u);
     }
 
@@ -66,7 +66,7 @@ public class UserController {
             @RequestBody @jakarta.validation.Valid UpdateUserRequest body) {
         return service
                 .update(id, body.getName(), body.getSurname(), body.getUsername(), body.getEmail(), body.getAvatarUrl(),
-                        body.getRoleId())
+                        body.getRoleCode())
                 .map(ResponseEntity::ok)
                 .orElseThrow(() -> new bluesky.airline.exceptions.NotFoundException("User not found: " + id));
     }

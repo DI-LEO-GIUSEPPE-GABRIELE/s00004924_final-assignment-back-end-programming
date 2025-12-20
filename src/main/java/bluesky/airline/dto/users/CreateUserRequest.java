@@ -22,8 +22,8 @@ public class CreateUserRequest {
 
     private String avatarUrl;
 
-    @NotNull(message = "Role ID is required")
-    private java.util.UUID roleId;
+    @NotNull(message = "Role Code is required")
+    private Integer roleCode;
 
     public String getName() {
         return name;
@@ -65,11 +65,11 @@ public class CreateUserRequest {
         this.avatarUrl = avatarUrl;
     }
 
-    public java.util.UUID getRoleId() {
-        return roleId;
+    public Integer getRoleCode() {
+        return roleCode;
     }
 
-    public void setRoleId(java.util.UUID roleId) {
-        this.roleId = roleId;
+    public void setRoleCode(Integer roleCode) {
+        this.roleCode = roleCode;
     }
 }
