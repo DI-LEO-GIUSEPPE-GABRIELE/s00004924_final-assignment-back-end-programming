@@ -26,9 +26,6 @@ public class Flight extends BaseUuidEntity {
     @Column(name = "arrival_date", nullable = false)
     private Instant arrivalDate;
 
-    @Column(name = "base_price", nullable = false)
-    private BigDecimal basePrice;
-
     @Column(name = "price_code")
     private String priceCode;
 
@@ -77,14 +74,6 @@ public class Flight extends BaseUuidEntity {
 
     public void setArrivalDate(Instant arrivalDate) {
         this.arrivalDate = arrivalDate;
-    }
-
-    public BigDecimal getBasePrice() {
-        return basePrice;
-    }
-
-    public void setBasePrice(BigDecimal basePrice) {
-        this.basePrice = basePrice;
     }
 
     public String getPriceCode() {

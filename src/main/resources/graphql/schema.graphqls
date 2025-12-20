@@ -1,7 +1,6 @@
 type Query {
   flights(page: Int!, size: Int!): FlightPage!
   flight(id: ID!): Flight
-  convertPrice(flightId: ID!, base: String, target: String!): Float
 }
 
 type FlightPage {
@@ -17,6 +16,6 @@ type Flight {
   flightCode: String!
   departureDate: String!
   arrivalDate: String!
-  basePrice: Float!
+  priceCode: String
   status: String!
 }

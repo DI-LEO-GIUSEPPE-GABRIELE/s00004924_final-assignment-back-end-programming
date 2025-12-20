@@ -28,12 +28,4 @@ public class FlightGraphqlController {
     public Flight flight(@Argument UUID id) {
         return flightService.findById(id);
     }
-
-    @QueryMapping
-    public BigDecimal convertPrice(@Argument UUID flightId, @Argument String base, @Argument String target) {
-        Flight f = flightService.findById(flightId);
-        if (f == null)
-            return null;
-        return rates.convert(f.getBasePrice(), base == null ? "EUR" : base, target);
-    }
 }

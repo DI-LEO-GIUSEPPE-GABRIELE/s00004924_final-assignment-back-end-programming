@@ -45,7 +45,6 @@ public class FlightService {
         f.setFlightCode(body.getFlightCode());
         f.setDepartureDate(body.getDepartureDate());
         f.setArrivalDate(body.getArrivalDate());
-        f.setBasePrice(body.getBasePrice());
         f.setPriceCode(body.getPriceCode());
         f.setStatus(body.getStatus());
 

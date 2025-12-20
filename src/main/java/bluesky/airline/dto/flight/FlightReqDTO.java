@@ -3,7 +3,6 @@ package bluesky.airline.dto.flight;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.NotBlank;
 import java.time.Instant;
-import java.math.BigDecimal;
 import java.util.UUID;
 import bluesky.airline.entities.enums.FlightStatus;
 
@@ -17,9 +16,6 @@ public class FlightReqDTO {
 
     @NotNull(message = "Arrival date is required")
     private Instant arrivalDate;
-
-    @NotNull(message = "Base price is required")
-    private BigDecimal basePrice;
 
     private String priceCode;
 
@@ -57,14 +53,6 @@ public class FlightReqDTO {
 
     public void setArrivalDate(Instant arrivalDate) {
         this.arrivalDate = arrivalDate;
-    }
-
-    public BigDecimal getBasePrice() {
-        return basePrice;
-    }
-
-    public void setBasePrice(BigDecimal basePrice) {
-        this.basePrice = basePrice;
     }
 
     public String getPriceCode() {

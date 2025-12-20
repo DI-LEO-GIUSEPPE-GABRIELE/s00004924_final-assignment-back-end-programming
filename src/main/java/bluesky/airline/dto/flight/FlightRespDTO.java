@@ -52,14 +52,6 @@ public class FlightRespDTO {
         this.arrivalDate = arrivalDate;
     }
 
-    public BigDecimal getBasePrice() {
-        return basePrice;
-    }
-
-    public void setBasePrice(BigDecimal basePrice) {
-        this.basePrice = basePrice;
-    }
-
     public String getPriceCode() {
         return priceCode;
     }

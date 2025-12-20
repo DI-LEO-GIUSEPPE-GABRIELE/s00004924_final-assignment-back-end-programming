@@ -120,20 +120,6 @@ public class FlightController {
         return ResponseEntity.ok(toDTO(wd));
     }
 
-    // Convert flight price endpoint
-    // Endpoint: GET /flights/{id}/price/convert
-    @GetMapping("/{id}/price/convert")
-    public ResponseEntity<?> convertPrice(@PathVariable UUID id,
-            @RequestParam String target,
-            @RequestParam(defaultValue = "EUR") String base) {
-        Flight f = flights.findById(id);
-        if (f == null)
-            throw new bluesky.airline.exceptions.NotFoundException("Flight not found: " + id);
-        BigDecimal converted = rateService.convert(f.getBasePrice(), base, target);
-        return ResponseEntity
-                .ok(Map.of("base", base, "target", target, "amount", f.getBasePrice(), "converted", converted));
-    }
-
     // Get all flight statuses
     // Endpoint: GET /flights/statuses
     @GetMapping("/statuses")
@@ -148,7 +134,6 @@ public class FlightController {
         dto.setFlightCode(f.getFlightCode());
         dto.setDepartureDate(f.getDepartureDate());
         dto.setArrivalDate(f.getArrivalDate());
-        dto.setBasePrice(f.getBasePrice());
         dto.setPriceCode(f.getPriceCode());
         dto.setStatus(f.getStatus());
         if (f.getDepartureAirport() != null) {
