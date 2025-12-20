@@ -12,7 +12,7 @@ public class Role extends BaseUuidEntity {
     @Column(name = "role_name", nullable = false, unique = true)
     private String name;
 
-    @Column(name = "role_code", nullable = false)
+    @Column(name = "role_code")
     private Integer roleCode;
 
     public UUID getId() {
