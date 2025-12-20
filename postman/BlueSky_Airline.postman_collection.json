@@ -589,7 +589,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"flightId\": \"<UUID>\",\n    \"userId\": \"<UUID>\",\n    \"totalPrice\": 100.00,\n    \"status\": \"PENDING\"\n}",
+              "raw": "{\n    \"flightIds\": [\"<UUID>\"],\n    \"userId\": \"<UUID>\",\n    \"status\": \"PENDING\"\n}",
               "options": {
                 "raw": {
                   "language": "json"

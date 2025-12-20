@@ -40,10 +40,14 @@ public class ReservationService {
     }
 
     private void updateReservationFromDTO(Reservation r, bluesky.airline.dto.reservation.ReservationReqDTO body) {
-        Flight f = flights.findById(body.getFlightId());
-        if (f == null)
-            throw new bluesky.airline.exceptions.NotFoundException("Flight not found: " + body.getFlightId());
-        r.setFlight(f);
+        java.util.List<Flight> flightList = new java.util.ArrayList<>();
+        for (UUID flightId : body.getFlightIds()) {
+            Flight f = flights.findById(flightId);
+            if (f == null)
+                throw new bluesky.airline.exceptions.NotFoundException("Flight not found: " + flightId);
+            flightList.add(f);
+        }
+        r.setFlights(flightList);
 
         User u = users.findById(body.getUserId()).orElse(null);
         if (u == null)
@@ -56,7 +60,6 @@ public class ReservationService {
         }
         r.setUser(u);
 
-        r.setTotalPrice(body.getTotalPrice());
         if (body.getStatus() != null)
             r.setStatus(body.getStatus());
     }

@@ -23,18 +23,15 @@ public class Reservation extends BaseUuidEntity {
     @Column(name = "status", nullable = false, length = 50)
     private ReservationStatus status;
 
-    @Column(name = "total_price", nullable = false)
-    private BigDecimal totalPrice;
-
     // Many-to-One: each reservation belongs to one user (Tour Operator role)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
-    // Many-to-One: each reservation has one flight
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "flight_id")
-    private Flight flight;
+    // Many-to-Many: each reservation can have multiple flights
+    @jakarta.persistence.ManyToMany(fetch = FetchType.LAZY)
+    @jakarta.persistence.JoinTable(name = "reservations_flights", joinColumns = @JoinColumn(name = "reservation_id"), inverseJoinColumns = @JoinColumn(name = "flight_id"))
+    private java.util.List<Flight> flights;
 
     public Instant getReservationDate() {
         return reservationDate;
@@ -52,14 +49,6 @@ public class Reservation extends BaseUuidEntity {
         this.status = status;
     }
 
-    public BigDecimal getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(BigDecimal totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
     public User getUser() {
         return user;
     }
@@ -68,11 +57,11 @@ public class Reservation extends BaseUuidEntity {
         this.user = user;
     }
 
-    public Flight getFlight() {
-        return flight;
+    public java.util.List<Flight> getFlights() {
+        return flights;
     }
 
-    public void setFlight(Flight flight) {
-        this.flight = flight;
+    public void setFlights(java.util.List<Flight> flights) {
+        this.flights = flights;
     }
 }
