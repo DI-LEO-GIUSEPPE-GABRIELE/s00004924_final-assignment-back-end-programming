@@ -10,8 +10,8 @@ public class ReservationReqDTO {
     @NotNull(message = "Flight ID is required")
     private UUID flightId;
 
-    @NotNull(message = "Tour Operator ID is required")
-    private UUID tourOperatorId;
+    @NotNull(message = "User ID (Tour Operator) is required")
+    private UUID userId;
 
     @NotNull(message = "Total price is required")
     private BigDecimal totalPrice;
@@ -26,12 +26,12 @@ public class ReservationReqDTO {
         this.flightId = flightId;
     }
 
-    public UUID getTourOperatorId() {
-        return tourOperatorId;
+    public UUID getUserId() {
+        return userId;
     }
 
-    public void setTourOperatorId(UUID tourOperatorId) {
-        this.tourOperatorId = tourOperatorId;
+    public void setUserId(UUID userId) {
+        this.userId = userId;
     }
 
     public BigDecimal getTotalPrice() {

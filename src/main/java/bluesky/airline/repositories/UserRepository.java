@@ -33,9 +33,9 @@ public interface UserRepository extends JpaRepository<User, UUID> {
       @EntityGraph(attributePaths = { "roles" })
       Optional<User> findWithRolesById(UUID id);
 
-      @Query("select u from User u \n" +
-                  "where (:name is null or lower(u.name) like lower(concat('%', :name, '%'))) \n" +
-                  "and (:domain is null or lower(u.email) like lower(concat('%@', :domain)))")
+      @Query("select u from User u where " +
+             "(:name is null or lower(u.name) like lower(concat('%', :name, '%'))) and " +
+             "(:domain is null or lower(u.email) like lower(concat('%', :domain)))")
       Page<User> searchUsersJpql(@Param("name") String name, @Param("domain") String domain, Pageable pageable);
 
       @Query(value = "select * from users u \n" +

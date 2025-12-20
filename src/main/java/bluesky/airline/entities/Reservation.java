@@ -26,10 +26,10 @@ public class Reservation extends BaseUuidEntity {
     @Column(name = "total_price", nullable = false)
     private BigDecimal totalPrice;
 
-    // Many-to-One: each reservation has one tour operator
+    // Many-to-One: each reservation belongs to one user (Tour Operator role)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "tour_operator_id")
-    private TourOperator tourOperator;
+    @JoinColumn(name = "user_id")
+    private User user;
 
     // Many-to-One: each reservation has one flight
     @ManyToOne(fetch = FetchType.LAZY)
@@ -60,12 +60,12 @@ public class Reservation extends BaseUuidEntity {
         this.totalPrice = totalPrice;
     }
 
-    public TourOperator getTourOperator() {
-        return tourOperator;
+    public User getUser() {
+        return user;
     }
 
-    public void setTourOperator(TourOperator tourOperator) {
-        this.tourOperator = tourOperator;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Flight getFlight() {
