@@ -27,7 +27,25 @@ public class ExceptionsHandler {
 		return new ErrorWithListDTO("Validation errors", LocalDateTime.now(), errors);
 	}
 
-	@ExceptionHandler(ValidationException.class)
+	@ExceptionHandler(org.springframework.http.converter.HttpMessageNotReadableException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorWithListDTO handleJsonErrors(org.springframework.http.converter.HttpMessageNotReadableException ex) {
+        if (ex.getCause() instanceof com.fasterxml.jackson.databind.exc.InvalidFormatException ifx) {
+            if (ifx.getTargetType() != null && ifx.getTargetType().isEnum()) {
+                String invalidValue = ifx.getValue().toString();
+                String enumName = ifx.getTargetType().getSimpleName();
+                String validValues = java.util.Arrays.stream(ifx.getTargetType().getEnumConstants())
+                        .map(Object::toString)
+                        .collect(java.util.stream.Collectors.joining(", "));
+                return new ErrorWithListDTO("Invalid value '" + invalidValue + "' for " + enumName + ". Allowed values: " + validValues,
+                        LocalDateTime.now(),
+                        java.util.List.of("Allowed values for " + enumName + ": " + validValues));
+            }
+        }
+        return new ErrorWithListDTO("Malformed JSON request", LocalDateTime.now(), java.util.List.of(ex.getMessage()));
+    }
+
+    @ExceptionHandler(ValidationException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST) // 400
 	public ErrorWithListDTO handleBadRequest(ValidationException ex) {
 		return new ErrorWithListDTO(ex.getMessage(), LocalDateTime.now(), ex.getErrorsList());

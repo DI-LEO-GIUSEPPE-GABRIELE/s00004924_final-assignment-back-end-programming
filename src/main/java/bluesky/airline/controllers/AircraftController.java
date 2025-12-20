@@ -67,7 +67,9 @@ public class AircraftController {
     // Endpoint: GET /aircrafts/types
     @GetMapping("/types")
     @PreAuthorize("permitAll()")
-    public ResponseEntity<java.util.List<String>> getTypes() {
-        return ResponseEntity.ok(java.util.List.of("PASSENGER", "CARGO"));
+    public ResponseEntity<java.util.List<bluesky.airline.dto.common.EnumRespDTO>> getTypes() {
+        return ResponseEntity.ok(java.util.List.of(
+                new bluesky.airline.dto.common.EnumRespDTO("PASSENGER", "PASSENGER"),
+                new bluesky.airline.dto.common.EnumRespDTO("CARGO", "CARGO")));
     }
 }

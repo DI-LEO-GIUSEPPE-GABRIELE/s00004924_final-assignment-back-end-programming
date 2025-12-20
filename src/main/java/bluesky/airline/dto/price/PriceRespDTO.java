@@ -2,10 +2,13 @@ package bluesky.airline.dto.price;
 
 import java.math.BigDecimal;
 import java.util.UUID;
+import bluesky.airline.entities.enums.PriceCode;
+
+// DTO for Price responses
 
 public class PriceRespDTO {
     private UUID id;
-    private String priceCode;
+    private PriceCode priceCode;
     private BigDecimal basePrice;
     private UUID flightId;
 
@@ -17,11 +20,11 @@ public class PriceRespDTO {
         this.id = id;
     }
 
-    public String getPriceCode() {
+    public PriceCode getPriceCode() {
         return priceCode;
     }
 
-    public void setPriceCode(String priceCode) {
+    public void setPriceCode(PriceCode priceCode) {
         this.priceCode = priceCode;
     }
 

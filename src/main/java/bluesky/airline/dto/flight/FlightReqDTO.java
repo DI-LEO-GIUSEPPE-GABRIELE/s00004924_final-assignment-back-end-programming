@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import java.time.Instant;
 import java.util.UUID;
 import bluesky.airline.entities.enums.FlightStatus;
+import bluesky.airline.entities.enums.PriceCode;
 
 // DTO for Flight requests (create/update)
 public class FlightReqDTO {
@@ -17,7 +18,7 @@ public class FlightReqDTO {
     @NotNull(message = "Arrival date is required")
     private Instant arrivalDate;
 
-    private String priceCode;
+    private PriceCode priceCode;
 
     @NotNull(message = "Status is required")
     private FlightStatus status;
@@ -55,11 +56,11 @@ public class FlightReqDTO {
         this.arrivalDate = arrivalDate;
     }
 
-    public String getPriceCode() {
+    public PriceCode getPriceCode() {
         return priceCode;
     }
 
-    public void setPriceCode(String priceCode) {
+    public void setPriceCode(PriceCode priceCode) {
         this.priceCode = priceCode;
     }
 

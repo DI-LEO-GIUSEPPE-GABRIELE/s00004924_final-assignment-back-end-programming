@@ -124,8 +124,10 @@ public class FlightController {
     // Endpoint: GET /flights/statuses
     @GetMapping("/statuses")
     @PreAuthorize("permitAll()")
-    public ResponseEntity<FlightStatus[]> getStatuses() {
-        return ResponseEntity.ok(FlightStatus.values());
+    public ResponseEntity<java.util.List<bluesky.airline.dto.common.EnumRespDTO>> getStatuses() {
+        return ResponseEntity.ok(java.util.Arrays.stream(FlightStatus.values())
+                .map(s -> new bluesky.airline.dto.common.EnumRespDTO(s.name(), s.name()))
+                .toList());
     }
 
     private FlightRespDTO toDTO(Flight f) {

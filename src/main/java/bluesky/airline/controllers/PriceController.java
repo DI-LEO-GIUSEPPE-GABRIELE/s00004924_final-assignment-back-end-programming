@@ -58,6 +58,14 @@ public class PriceController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/codes")
+    @PreAuthorize("permitAll()")
+    public ResponseEntity<java.util.List<bluesky.airline.dto.common.EnumRespDTO>> getCodes() {
+        return ResponseEntity.ok(java.util.Arrays.stream(bluesky.airline.entities.enums.PriceCode.values())
+                .map(s -> new bluesky.airline.dto.common.EnumRespDTO(s.name(), s.name()))
+                .toList());
+    }
+
     private PriceRespDTO toDTO(Price p) {
         PriceRespDTO dto = new PriceRespDTO();
         dto.setId(p.getId());

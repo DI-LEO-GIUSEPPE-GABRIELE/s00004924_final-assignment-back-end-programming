@@ -315,6 +315,15 @@
         },
         {
           "name": "Logout",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": ["pm.collectionVariables.set(\"token\", \"\");"],
+                "type": "text/javascript"
+              }
+            }
+          ],
           "request": {
             "method": "POST",
             "header": [],
@@ -432,7 +441,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"flightCode\": \"BS123\",\n    \"departureDate\": \"2023-12-25T10:00:00Z\",\n    \"arrivalDate\": \"2023-12-25T14:00:00Z\",\n    \"basePrice\": 150.00,\n    \"status\": \"SCHEDULED\",\n    \"departureAirportId\": \"<UUID>\",\n    \"arrivalAirportId\": \"<UUID>\",\n    \"aircraftId\": \"<UUID>\"\n}",
+              "raw": "{\n    \"flightCode\": \"BS123\",\n    \"departureDate\": \"2023-12-25T10:00:00Z\",\n    \"arrivalDate\": \"2023-12-25T14:00:00Z\",\n    \"priceCode\": \"ECONOMY\",\n    \"status\": \"SCHEDULED\",\n    \"departureAirportId\": \"<UUID>\",\n    \"arrivalAirportId\": \"<UUID>\",\n    \"aircraftId\": \"<UUID>\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
