@@ -40,7 +40,6 @@ public class DataInitializer {
             users.findByEmailIgnoreCase(adminEmail).orElseGet(() -> {
                 User admin = new User(null, "Admin", adminEmail);
                 admin.setPassword(encoder.encode(adminPassword));
-                admin.setRoleCode(RoleType.ADMIN.getCode());
                 Role adminRole = roles.findByNameIgnoreCase(RoleType.ADMIN.name()).orElseThrow();
                 admin.setRoles(new java.util.HashSet<>(Set.of(adminRole)));
                 return users.save(admin);

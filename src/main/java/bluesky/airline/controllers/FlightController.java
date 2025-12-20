@@ -142,6 +142,11 @@ public class FlightController {
         if (f.getAircraft() != null) {
             dto.setAircraft(toDTO(f.getAircraft()));
         }
+        if (f.getCompartments() != null) {
+            dto.setCompartmentCodes(f.getCompartments().stream()
+                    .map(bluesky.airline.entities.Compartment::getCompartmentCode)
+                    .toList());
+        }
         return dto;
     }
 

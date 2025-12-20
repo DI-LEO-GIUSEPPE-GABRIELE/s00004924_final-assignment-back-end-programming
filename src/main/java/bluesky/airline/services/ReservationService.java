@@ -49,12 +49,16 @@ public class ReservationService {
         }
         r.setFlights(flightList);
 
-        User u = users.findById(body.getUserId()).orElse(null);
+        User u = users.findWithRolesById(body.getUserId()).orElse(null);
         if (u == null)
             throw new bluesky.airline.exceptions.NotFoundException(
                     "User not found: " + body.getUserId());
-        // Verify user is a Tour Operator (roleCode = 2)
-        if (u.getRoleCode() == null || u.getRoleCode() != 2) {
+        // Verify user is a Tour Operator
+        boolean isTourOperator = u.getRoles().stream()
+                .anyMatch(role -> role.getName()
+                        .equalsIgnoreCase(bluesky.airline.entities.enums.RoleType.TOUR_OPERATOR.name()));
+
+        if (!isTourOperator) {
             throw new bluesky.airline.exceptions.ValidationException(
                     java.util.List.of("userId: User is not a Tour Operator"));
         }

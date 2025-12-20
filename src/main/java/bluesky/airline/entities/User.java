@@ -36,15 +36,20 @@ public class User extends BaseUuidEntity {
     @JsonIgnore
     private String password;
 
-    @Column(name = "role_code")
-    private Integer roleCode;
-
     // Many-to-Many: a user can have multiple roles and a role can belong to
     // multiple users
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id", columnDefinition = "uuid"), inverseJoinColumns = @JoinColumn(name = "role_id", columnDefinition = "uuid"))
     @JsonIgnore
     private Set<Role> roles = new HashSet<>();
+
+    @jakarta.persistence.Transient
+    public Integer getRoleCode() {
+        if (roles == null || roles.isEmpty()) {
+            return null;
+        }
+        return roles.iterator().next().getRoleCode();
+    }
 
     public User() {
     }
@@ -109,14 +114,6 @@ public class User extends BaseUuidEntity {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public Integer getRoleCode() {
-        return roleCode;
-    }
-
-    public void setRoleCode(Integer roleCode) {
-        this.roleCode = roleCode;
     }
 
     public Set<Role> getRoles() {

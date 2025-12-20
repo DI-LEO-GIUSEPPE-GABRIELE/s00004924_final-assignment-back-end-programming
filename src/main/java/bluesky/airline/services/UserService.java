@@ -85,7 +85,6 @@ public class UserService {
             java.util.Set<Role> rs = new java.util.HashSet<>();
             rs.add(r);
             u.setRoles(rs);
-            u.setRoleCode(roleCode);
         }
         return repo.save(u);
     }
@@ -106,7 +105,6 @@ public class UserService {
             java.util.Set<Role> rs = new java.util.HashSet<>();
             rs.add(r);
             u.setRoles(rs);
-            u.setRoleCode(roleCode);
         }
         return repo.save(u);
     }
@@ -140,7 +138,6 @@ public class UserService {
                 java.util.Set<Role> rs = new java.util.HashSet<>();
                 rs.add(r);
                 existing.setRoles(rs);
-                existing.setRoleCode(roleCode);
             }
             return repo.save(existing);
         });
