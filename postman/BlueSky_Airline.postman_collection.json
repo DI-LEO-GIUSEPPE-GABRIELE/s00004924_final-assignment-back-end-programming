@@ -630,6 +630,9 @@
         {
           "name": "List Roles",
           "request": {
+            "auth": {
+              "type": "noauth"
+            },
             "method": "GET",
             "header": [],
             "url": {

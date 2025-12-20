@@ -12,6 +12,9 @@ public class Role extends BaseUuidEntity {
     @Column(name = "role_name", nullable = false, unique = true)
     private String name;
 
+    @Column(name = "role_code", nullable = false)
+    private Integer roleCode;
+
     public UUID getId() {
         return super.getId();
     }
@@ -26,5 +29,13 @@ public class Role extends BaseUuidEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getRoleCode() {
+        return roleCode;
+    }
+
+    public void setRoleCode(Integer roleCode) {
+        this.roleCode = roleCode;
     }
 }

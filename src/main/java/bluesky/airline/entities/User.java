@@ -36,6 +36,9 @@ public class User extends BaseUuidEntity {
     @JsonIgnore
     private String password;
 
+    @Column(name = "role_code")
+    private Integer roleCode;
+
     // Many-to-Many: a user can have multiple roles and a role can belong to
     // multiple users
     @ManyToMany(fetch = FetchType.LAZY)
@@ -106,6 +109,14 @@ public class User extends BaseUuidEntity {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Integer getRoleCode() {
+        return roleCode;
+    }
+
+    public void setRoleCode(Integer roleCode) {
+        this.roleCode = roleCode;
     }
 
     public Set<Role> getRoles() {

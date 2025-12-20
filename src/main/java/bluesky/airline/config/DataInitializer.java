@@ -40,6 +40,7 @@ public class DataInitializer {
             users.findByEmailIgnoreCase(adminEmail).orElseGet(() -> {
                 User admin = new User(null, "Admin", adminEmail);
                 admin.setPassword(encoder.encode(adminPassword));
+                admin.setRoleCode(RoleType.ADMIN.getCode());
                 Role adminRole = roles.findByNameIgnoreCase(RoleType.ADMIN.name()).orElseThrow();
                 admin.setRoles(new java.util.HashSet<>(Set.of(adminRole)));
                 return users.save(admin);
@@ -49,10 +50,11 @@ public class DataInitializer {
 
     // Ensure a role exists, creating it if not
     private void ensureRole(RoleType roleType) {
-        roles.findByNameIgnoreCase(roleType.name()).orElseGet(() -> {
-            Role r = new Role();
+        Role r = roles.findByNameIgnoreCase(roleType.name()).orElse(new Role());
+        if (r.getId() == null) {
             r.setName(roleType.name());
-            return roles.save(r);
-        });
+        }
+        r.setRoleCode(roleType.getCode());
+        roles.save(r);
     }
 }
