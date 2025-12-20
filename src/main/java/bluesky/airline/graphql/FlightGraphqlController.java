@@ -1,6 +1,5 @@
 package bluesky.airline.graphql;
 
-import java.math.BigDecimal;
 import java.util.UUID;
 import org.springframework.data.domain.Page;
 import org.springframework.beans.factory.annotation.Autowired;

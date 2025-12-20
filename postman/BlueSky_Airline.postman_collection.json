@@ -516,6 +516,31 @@
       ]
     },
     {
+      "name": "GraphQL",
+      "item": [
+        {
+          "name": "Query Flights",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "query {\n    flights(page: 0, size: 10) {\n        id\n        code\n        status\n        priceCode\n    }\n}",
+                "variables": ""
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/graphql",
+              "host": ["{{baseUrl}}"],
+              "path": ["graphql"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
       "name": "Prices",
       "item": [
         {
@@ -622,31 +647,6 @@
                   "value": ""
                 }
               ]
-            }
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "GraphQL",
-      "item": [
-        {
-          "name": "Query Flights",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "graphql",
-              "graphql": {
-                "query": "query {\n    flights(page: 0, size: 10) {\n        id\n        code\n        status\n        priceCode\n    }\n}",
-                "variables": ""
-              }
-            },
-            "url": {
-              "raw": "{{baseUrl}}/graphql",
-              "host": ["{{baseUrl}}"],
-              "path": ["graphql"]
             }
           },
           "response": []
