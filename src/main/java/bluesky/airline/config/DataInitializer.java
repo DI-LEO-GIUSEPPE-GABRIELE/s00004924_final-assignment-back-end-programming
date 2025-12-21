@@ -1,37 +1,25 @@
 package bluesky.airline.config;
 
-import java.util.Set;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import bluesky.airline.entities.Role;
-import bluesky.airline.entities.User;
 import bluesky.airline.repositories.RoleRepository;
-import bluesky.airline.repositories.UserRepository;
 import bluesky.airline.repositories.CompartmentRepository;
 import bluesky.airline.entities.Compartment;
 import bluesky.airline.entities.enums.CompartmentCode;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import bluesky.airline.entities.enums.RoleType;
 
+// Component to initialize roles and compartments on application startup
 @Component
 public class DataInitializer {
     @org.springframework.beans.factory.annotation.Autowired
     private RoleRepository roles;
     @org.springframework.beans.factory.annotation.Autowired
-    private UserRepository users;
-    @org.springframework.beans.factory.annotation.Autowired
     private CompartmentRepository compartments;
-    @org.springframework.beans.factory.annotation.Autowired
-    private PasswordEncoder encoder;
-    @Value("${bootstrap.admin.email:}")
-    private String adminEmail;
-    @Value("${bootstrap.admin.password:}")
-    private String adminPassword;
 
-    // Initialize roles and admin user on application startup
+    // Initialize roles and compartments on application startup
     @EventListener(ApplicationReadyEvent.class)
     @Transactional
     public void init() {
@@ -42,20 +30,9 @@ public class DataInitializer {
         for (CompartmentCode code : CompartmentCode.values()) {
             ensureCompartment(code);
         }
-
-        // Create admin user if email and password are provided
-        if (adminEmail != null && !adminEmail.isBlank() && adminPassword != null && !adminPassword.isBlank()) {
-            users.findByEmailIgnoreCase(adminEmail).orElseGet(() -> {
-                User admin = new User(null, "Admin", adminEmail);
-                admin.setPassword(encoder.encode(adminPassword));
-                Role adminRole = roles.findByNameIgnoreCase(RoleType.ADMIN.name()).orElseThrow();
-                admin.setRoles(new java.util.HashSet<>(Set.of(adminRole)));
-                return users.save(admin);
-            });
-        }
     }
 
-    // Ensure a role exists, creating it if not
+    // Ensure a role exists and create it if not exists
     private void ensureRole(RoleType roleType) {
         Role r = roles.findByNameIgnoreCase(roleType.name()).orElse(new Role());
         if (r.getId() == null) {
@@ -65,6 +42,7 @@ public class DataInitializer {
         roles.save(r);
     }
 
+    // Ensure a compartment exists and create it if not exists
     private void ensureCompartment(CompartmentCode code) {
         compartments.findByCompartmentCode(code.name()).orElseGet(() -> {
             Compartment c = new Compartment();

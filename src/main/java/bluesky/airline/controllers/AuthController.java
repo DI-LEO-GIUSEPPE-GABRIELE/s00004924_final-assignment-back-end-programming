@@ -24,7 +24,7 @@ public class AuthController {
     @org.springframework.beans.factory.annotation.Autowired
     private UserService userService;
 
-    // Login endpoint
+    // Do login and return a JWT token
     // Endpoint: POST /auth/login
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody @Validated AuthLoginRequest body) {
@@ -32,7 +32,7 @@ public class AuthController {
         return ResponseEntity.ok(new LoginRespDTO(token));
     }
 
-    // Register endpoint
+    // Register a new user and return the created user's ID
     // Endpoint: POST /auth/register
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody @Validated AuthRegisterRequest body) {
