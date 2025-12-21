@@ -41,11 +41,15 @@ public class ReservationService {
 
     private void updateReservationFromDTO(Reservation r, bluesky.airline.dto.reservation.ReservationReqDTO body) {
         java.util.List<Flight> flightList = new java.util.ArrayList<>();
-        for (UUID flightId : body.getFlightIds()) {
-            Flight f = flights.findById(flightId);
-            if (f == null)
-                throw new bluesky.airline.exceptions.NotFoundException("Flight not found: " + flightId);
-            flightList.add(f);
+        if (body.getFlightIds() != null) {
+            for (UUID flightId : body.getFlightIds()) {
+                if (flightId == null)
+                    continue;
+                Flight f = flights.findById(flightId);
+                if (f == null)
+                    throw new bluesky.airline.exceptions.NotFoundException("Flight not found: " + flightId);
+                flightList.add(f);
+            }
         }
         r.setFlights(flightList);
 
@@ -53,10 +57,14 @@ public class ReservationService {
         if (u == null)
             throw new bluesky.airline.exceptions.NotFoundException(
                     "User not found: " + body.getUserId());
-        // Verify user is a Tour Operator
-        boolean isTourOperator = u.getRoles().stream()
-                .anyMatch(role -> role.getName()
-                        .equalsIgnoreCase(bluesky.airline.entities.enums.RoleType.TOUR_OPERATOR.name()));
+
+        // Verify that user is a Tour Operator
+        boolean isTourOperator = false;
+        if (u.getRoles() != null) {
+            isTourOperator = u.getRoles().stream()
+                    .anyMatch(role -> role != null && role.getName() != null && role.getName()
+                            .equalsIgnoreCase(bluesky.airline.entities.enums.RoleType.TOUR_OPERATOR.name()));
+        }
 
         if (!isTourOperator) {
             throw new bluesky.airline.exceptions.ValidationException(
