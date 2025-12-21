@@ -41,6 +41,7 @@ public class AircraftController {
     // Create a new aircraft
     // Endpoint: POST /aircrafts
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN') or hasRole('TOUR_OPERATOR')")
     public ResponseEntity<Aircraft> create(@RequestBody @Valid AircraftReqDTO body) {
         Aircraft a = service.create(body);
         return ResponseEntity.created(java.net.URI.create("/aircrafts/" + a.getId())).body(a);
@@ -49,6 +50,7 @@ public class AircraftController {
     // Update details of a specific aircraft by ID
     // Endpoint: PUT /aircrafts/{id}
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('TOUR_OPERATOR')")
     public ResponseEntity<Aircraft> update(@PathVariable UUID id, @RequestBody @Valid AircraftReqDTO body) {
         return ResponseEntity.ok(service.update(id, body));
     }
@@ -56,6 +58,7 @@ public class AircraftController {
     // Delete a specific aircraft by ID
     // Endpoint: DELETE /aircrafts/{id}
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('TOUR_OPERATOR')")
     public ResponseEntity<?> delete(@PathVariable UUID id) {
         if (!service.existsById(id))
             throw new bluesky.airline.exceptions.NotFoundException("Aircraft not found: " + id);

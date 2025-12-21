@@ -50,7 +50,7 @@ class AircraftControllerTest {
 
     // Test for creating aircrafts by non-admin users
     @Test
-    @WithMockUser(roles = "TOUR_OPERATOR")
+    @WithMockUser(roles = "FLIGHT_MANAGER")
     void testCreateAircraftForbidden() throws Exception {
         AircraftReqDTO req = new AircraftReqDTO();
         req.setBrand("Boeing");
