@@ -13,6 +13,7 @@ import bluesky.airline.entities.Airport;
 import bluesky.airline.entities.Aircraft;
 import bluesky.airline.repositories.CompartmentRepository;
 import bluesky.airline.entities.Compartment;
+import bluesky.airline.dto.flight.FlightRespDTO;
 import org.springframework.transaction.annotation.Transactional;
 
 // Service for Flight entities
@@ -147,5 +148,30 @@ public class FlightService {
 
     public boolean existsById(UUID id) {
         return flights.existsById(id);
+    }
+
+    public FlightRespDTO toDTO(Flight f) {
+        FlightRespDTO dto = new FlightRespDTO();
+        dto.setId(f.getId());
+        dto.setFlightCode(f.getFlightCode());
+        dto.setDepartureDate(f.getDepartureDate());
+        dto.setArrivalDate(f.getArrivalDate());
+        dto.setBasePrice(f.getBasePrice());
+        dto.setStatus(f.getStatus());
+        if (f.getDepartureAirport() != null) {
+            dto.setDepartureAirport(airportService.toDTO(f.getDepartureAirport()));
+        }
+        if (f.getArrivalAirport() != null) {
+            dto.setArrivalAirport(airportService.toDTO(f.getArrivalAirport()));
+        }
+        if (f.getAircraft() != null) {
+            dto.setAircraft(aircraftService.toDTO(f.getAircraft()));
+        }
+        if (f.getCompartments() != null) {
+            dto.setCompartmentCodes(f.getCompartments().stream()
+                    .map(c -> c.getCompartmentCode())
+                    .toList());
+        }
+        return dto;
     }
 }

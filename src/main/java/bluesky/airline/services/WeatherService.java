@@ -46,4 +46,14 @@ public class WeatherService {
         wd.setRetrievedAt(Instant.now());
         return weatherRepo.save(wd);
     }
+
+    public bluesky.airline.dto.weather.WeatherRespDTO toDTO(WeatherData w) {
+        bluesky.airline.dto.weather.WeatherRespDTO dto = new bluesky.airline.dto.weather.WeatherRespDTO();
+        dto.setId(w.getId());
+        dto.setFlightId(w.getFlight().getId());
+        dto.setTemperature(w.getTemperature());
+        dto.setDescription(w.getDescription());
+        dto.setRetrievedAt(w.getRetrievedAt());
+        return dto;
+    }
 }

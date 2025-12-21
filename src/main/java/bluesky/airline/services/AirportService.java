@@ -54,4 +54,14 @@ public class AirportService {
     public boolean existsById(UUID id) {
         return airports.existsById(id);
     }
+
+    public bluesky.airline.dto.airport.AirportRespDTO toDTO(Airport a) {
+        bluesky.airline.dto.airport.AirportRespDTO dto = new bluesky.airline.dto.airport.AirportRespDTO();
+        dto.setId(a.getId());
+        dto.setCode(a.getCode());
+        dto.setName(a.getName());
+        dto.setCity(a.getCity());
+        dto.setCountry(a.getCountry());
+        return dto;
+    }
 }

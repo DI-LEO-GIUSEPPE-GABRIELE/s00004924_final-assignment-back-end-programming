@@ -82,4 +82,21 @@ public class AircraftService {
     public boolean existsById(UUID id) {
         return aircrafts.existsById(id);
     }
+
+    public bluesky.airline.dto.aircraft.AircraftRespDTO toDTO(Aircraft a) {
+        bluesky.airline.dto.aircraft.AircraftRespDTO dto = new bluesky.airline.dto.aircraft.AircraftRespDTO();
+        dto.setId(a.getId());
+        dto.setBrand(a.getBrand());
+        dto.setModel(a.getModel());
+
+        if (a instanceof bluesky.airline.entities.PassengerAircraft) {
+            dto.setType("PASSENGER");
+            dto.setTotalSeats(((bluesky.airline.entities.PassengerAircraft) a).getTotalSeats());
+        } else if (a instanceof bluesky.airline.entities.CargoAircraft) {
+            dto.setType("CARGO");
+            dto.setMaxLoadCapacity(((bluesky.airline.entities.CargoAircraft) a).getMaxLoadCapacity());
+        }
+
+        return dto;
+    }
 }
