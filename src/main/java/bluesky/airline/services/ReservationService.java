@@ -12,6 +12,7 @@ import bluesky.airline.entities.Flight;
 import bluesky.airline.entities.User;
 import java.time.Instant;
 import bluesky.airline.repositories.UserRepository;
+import bluesky.airline.dto.reservation.ReservationRespDTO;
 
 // Service for Reservation entities
 @Service
@@ -94,5 +95,27 @@ public class ReservationService {
 
     public boolean existsById(UUID id) {
         return reservations.existsById(id);
+    }
+
+    public ReservationRespDTO toDTO(Reservation r) {
+        ReservationRespDTO dto = new ReservationRespDTO();
+        dto.setId(r.getId());
+        dto.setReservationDate(r.getReservationDate());
+        dto.setStatus(r.getStatus());
+
+        if (r.getUser() != null) {
+            ReservationRespDTO.UserSummaryDTO u = new ReservationRespDTO.UserSummaryDTO();
+            u.setId(r.getUser().getId());
+            u.setName(r.getUser().getName());
+            u.setSurname(r.getUser().getSurname());
+            u.setEmail(r.getUser().getEmail());
+            dto.setUser(u);
+        }
+
+        if (r.getFlights() != null) {
+            dto.setFlights(r.getFlights().stream().map(flights::toDTO).toList());
+        }
+
+        return dto;
     }
 }
