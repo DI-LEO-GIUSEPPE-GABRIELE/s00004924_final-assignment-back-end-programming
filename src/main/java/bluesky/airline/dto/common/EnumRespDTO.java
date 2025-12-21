@@ -1,5 +1,6 @@
 package bluesky.airline.dto.common;
 
+// DTO for Enum responses
 public class EnumRespDTO {
     private String label;
     private String value;

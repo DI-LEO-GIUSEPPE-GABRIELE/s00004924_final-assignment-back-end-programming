@@ -6,6 +6,7 @@ import java.util.UUID;
 import bluesky.airline.entities.enums.ReservationStatus;
 import bluesky.airline.dto.flight.FlightRespDTO;
 
+// DTO for Reservation responses
 public class ReservationRespDTO {
     private UUID id;
     private Instant reservationDate;
