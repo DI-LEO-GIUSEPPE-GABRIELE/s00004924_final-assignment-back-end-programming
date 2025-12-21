@@ -1,6 +1,5 @@
 package bluesky.airline.entities;
 
-import java.math.BigDecimal;
 import java.time.Instant;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

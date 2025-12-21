@@ -4,8 +4,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
-import jakarta.persistence.FetchType;
-
 // Entity for Compartments
 @Entity
 @Table(name = "compartments")
