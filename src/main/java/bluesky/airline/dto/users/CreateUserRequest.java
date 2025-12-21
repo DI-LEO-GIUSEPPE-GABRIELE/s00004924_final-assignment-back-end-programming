@@ -24,6 +24,10 @@ public class CreateUserRequest {
     @Email(message = "email: Invalid email format")
     private String email;
 
+    @NotBlank(message = "password: Password is required")
+    @Size(min = 4, message = "password: Password too short (min 4)")
+    private String password;
+
     private String avatarUrl;
 
     @NotNull(message = "roleCode: Role code is required")
@@ -53,6 +57,14 @@ public class CreateUserRequest {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getEmail() {

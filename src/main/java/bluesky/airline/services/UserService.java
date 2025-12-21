@@ -70,13 +70,14 @@ public class UserService {
         return repo.findById(id);
     }
 
-    public User create(String name, String surname, String username, String email, String avatarUrl,
+    public User create(String name, String surname, String username, String email, String password, String avatarUrl,
             Integer roleCode) {
         validateCreate(name, email);
         User u = new User(null, name, email);
         u.setSurname(surname);
         u.setUsername(username);
         u.setAvatarUrl(avatarUrl);
+        u.setPassword(encoder.encode(password));
         if (roleCode != null) {
             String roleName = mapRoleCode(roleCode);
             Role r = roleName == null ? null : roles.findByNameIgnoreCase(roleName).orElse(null);

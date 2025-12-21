@@ -55,7 +55,7 @@ public class UserController {
     @PostMapping
     public ResponseEntity<User> create(@RequestBody @jakarta.validation.Valid CreateUserRequest body) {
         User u = service.create(body.getName(), body.getSurname(), body.getUsername(), body.getEmail(),
-                body.getAvatarUrl(), body.getRoleCode());
+                body.getPassword(), body.getAvatarUrl(), body.getRoleCode());
         return ResponseEntity.created(java.net.URI.create("/users/" + u.getId())).body(u);
     }
 
