@@ -14,6 +14,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
+// Test class for AuthController
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
@@ -25,6 +26,7 @@ class AuthControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    // Test for user registration and login
     @Test
     void testRegisterAndLogin() throws Exception {
         AuthRegisterRequest registerRequest = new AuthRegisterRequest();
@@ -52,6 +54,7 @@ class AuthControllerTest {
                 .andExpect(jsonPath("$.token").isNotEmpty());
     }
 
+    // Test for login failure with wrong credentials
     @Test
     void testLoginFailure() throws Exception {
         AuthLoginRequest loginRequest = new AuthLoginRequest();

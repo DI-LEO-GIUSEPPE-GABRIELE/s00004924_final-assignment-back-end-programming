@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+// Test class for AircraftController
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
@@ -24,6 +25,7 @@ class AircraftControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    // Test for creating and listing aircrafts
     @Test
     @WithMockUser(roles = "ADMIN")
     void testCreateAndListAircraft() throws Exception {
@@ -46,8 +48,9 @@ class AircraftControllerTest {
                 .andExpect(jsonPath("$.content").isArray());
     }
 
+    // Test for creating aircrafts by non-admin users
     @Test
-    @WithMockUser(roles = "USER")
+    @WithMockUser(roles = "TOUR_OPERATOR")
     void testCreateAircraftForbidden() throws Exception {
         AircraftReqDTO req = new AircraftReqDTO();
         req.setBrand("Boeing");

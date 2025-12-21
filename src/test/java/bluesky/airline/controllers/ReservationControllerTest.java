@@ -32,6 +32,7 @@ import java.util.List;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+// Test class for ReservationController
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
@@ -64,10 +65,10 @@ class ReservationControllerTest {
     @MockitoBean
     private ExchangeRateService exchangeRateService;
 
+    // Test for creating reservations by admin users
     @Test
     @WithMockUser(roles = "ADMIN")
     void testCreateReservation() throws Exception {
-        // Create Role
         Role tourOpRole = roleRepository.findByNameIgnoreCase("TOUR_OPERATOR")
                 .orElseGet(() -> {
                     Role r = new Role();
@@ -75,8 +76,6 @@ class ReservationControllerTest {
                     r.setRoleCode(2);
                     return roleRepository.save(r);
                 });
-
-        // Create User
         User user = new User();
         user.setName("Tour");
         user.setSurname("Operator");
@@ -86,7 +85,6 @@ class ReservationControllerTest {
         user.setRoles(java.util.Set.of(tourOpRole));
         user = userRepository.save(user);
 
-        // Create Flight
         Airport dep = new Airport();
         dep.setCode("DEP2");
         dep.setName("Departure 2");

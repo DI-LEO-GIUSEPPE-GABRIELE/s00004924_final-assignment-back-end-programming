@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+// Test class for CompartmentController
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
@@ -24,14 +25,16 @@ class CompartmentControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    // Test for listing compartments by non-admin users
     @Test
-    @WithMockUser
+    @WithMockUser(roles = "TOUR_OPERATOR")
     void testListCompartments() throws Exception {
         mockMvc.perform(get("/compartments"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content").isArray());
     }
 
+    // Test for creating compartments by admin users
     @Test
     @WithMockUser(roles = "ADMIN")
     void testCreateCompartment() throws Exception {

@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+// Test class for AirportController
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
@@ -24,6 +25,7 @@ class AirportControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    // Test for creating and listing airports
     @Test
     @WithMockUser(roles = "ADMIN")
     void testCreateAndListAirport() throws Exception {
@@ -45,6 +47,7 @@ class AirportControllerTest {
                 .andExpect(jsonPath("$.content").isArray());
     }
 
+    // Test for creating airports by non-admin users
     @Test
     @WithMockUser(roles = "TOUR_OPERATOR")
     void testCreateAirportForbiddenForTourOperator() throws Exception {

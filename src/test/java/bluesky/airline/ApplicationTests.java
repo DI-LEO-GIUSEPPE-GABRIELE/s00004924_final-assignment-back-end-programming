@@ -3,8 +3,10 @@ package bluesky.airline;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+// Test class for Application
 @SpringBootTest(classes = Application.class)
 class ApplicationTests {
     @Test
-    void contextLoads() {}
+    void contextLoads() {
+    }
 }

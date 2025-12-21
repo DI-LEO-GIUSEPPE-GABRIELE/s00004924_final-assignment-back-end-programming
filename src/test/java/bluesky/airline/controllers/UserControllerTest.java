@@ -9,10 +9,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import org.springframework.transaction.annotation.Transactional;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+// Test class for UserController
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
@@ -24,6 +25,7 @@ class UserControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    // Test for creating and listing users by admin users
     @Test
     @WithMockUser(roles = "ADMIN")
     void testCreateAndListUser() throws Exception {
@@ -46,8 +48,9 @@ class UserControllerTest {
                 .andExpect(jsonPath("$.content").isArray());
     }
 
+    // Test for creating users by non-admin users
     @Test
-    @WithMockUser(roles = "USER")
+    @WithMockUser(roles = "TOUR_OPERATOR")
     void testCreateUserForbidden() throws Exception {
         CreateUserRequest req = new CreateUserRequest();
         req.setName("Admin");

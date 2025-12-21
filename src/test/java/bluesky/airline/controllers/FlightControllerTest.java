@@ -25,6 +25,7 @@ import java.util.List;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+// Test class for FlightController
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
@@ -48,6 +49,7 @@ class FlightControllerTest {
     @MockitoBean
     private ExchangeRateService exchangeRateService;
 
+    // Test for creating and listing flights by admin users
     @Test
     @WithMockUser(roles = "ADMIN")
     void testCreateAndListFlight() throws Exception {
