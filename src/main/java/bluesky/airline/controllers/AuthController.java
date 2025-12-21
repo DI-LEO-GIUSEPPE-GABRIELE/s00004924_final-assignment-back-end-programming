@@ -36,11 +36,8 @@ public class AuthController {
     // Endpoint: POST /auth/register
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody @Validated AuthRegisterRequest body) {
-        boolean exists = userService.findByEmail(body.getEmail()).isPresent();
-        if (exists)
-            throw new bluesky.airline.exceptions.ValidationException(java.util.List.of("email: Email exists"));
-        User u = userService.register(body.getName(), body.getSurname(), body.getUsername(), body.getEmail(),
-                body.getAvatarUrl(), body.getPassword(), body.getRoleCode());
+        User u = userService.create(body.getName(), body.getSurname(), body.getUsername(), body.getEmail(),
+                body.getPassword(), body.getAvatarUrl(), body.getRoleCode());
         return ResponseEntity.created(java.net.URI.create("/users/" + u.getId()))
                 .body(new NewUserRespDTO(u.getId()));
     }

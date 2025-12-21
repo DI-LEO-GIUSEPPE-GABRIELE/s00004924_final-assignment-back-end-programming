@@ -78,28 +78,7 @@ public class UserService {
     // Create a new user
     public User create(String name, String surname, String username, String email, String password, String avatarUrl,
             Integer roleCode) {
-        validateCreate(name, email);
-        User u = new User(null, name, email);
-        u.setSurname(surname);
-        u.setUsername(username);
-        u.setAvatarUrl(avatarUrl);
-        u.setPassword(encoder.encode(password));
-        if (roleCode != null) {
-            String roleName = mapRoleCode(roleCode);
-            Role r = roleName == null ? null : roles.findByNameIgnoreCase(roleName).orElse(null);
-            if (r == null || !isAllowedRole(r))
-                throw new bluesky.airline.exceptions.ValidationException(java.util.List.of("roleCode: Invalid role"));
-            java.util.Set<Role> rs = new java.util.HashSet<>();
-            rs.add(r);
-            u.setRoles(rs);
-        }
-        return repo.save(u);
-    }
-
-    // Register a new user
-    public User register(String name, String surname, String username, String email, String avatarUrl, String password,
-            Integer roleCode) {
-        validateCreate(name, email);
+        validateCreate(email);
         User u = new User(null, name, email);
         u.setSurname(surname);
         u.setUsername(username);
@@ -133,7 +112,7 @@ public class UserService {
     public Optional<User> update(UUID id, String name, String surname, String username, String email, String avatarUrl,
             Integer roleCode) {
         return repo.findById(id).map(existing -> {
-            validateUpdate(id, name, email);
+            validateUpdate(id, email);
             existing.setName(name);
             existing.setSurname(surname);
             existing.setUsername(username);
@@ -171,42 +150,18 @@ public class UserService {
     }
 
     // Validate user creation/registration data
-    private void validateCreate(String name, String email) {
-        validateName(name);
-        validateEmail(email);
+    private void validateCreate(String email) {
         boolean exists = repo.findByEmailIgnoreCase(email).isPresent();
         if (exists)
             throw new ValidationException(java.util.List.of("email: Email already registered"));
     }
 
     // Validate user update data
-    private void validateUpdate(UUID id, String name, String email) {
-        validateName(name);
-        validateEmail(email);
+    private void validateUpdate(UUID id, String email) {
         boolean existsOther = repo.findByEmailIgnoreCase(email)
                 .map(u -> !u.getId().equals(id))
                 .orElse(false);
         if (existsOther)
             throw new ValidationException(java.util.List.of("email: Email already used by another user"));
-    }
-
-    // Validate user name
-    private void validateName(String name) {
-        if (name == null || name.trim().isEmpty())
-            throw new ValidationException(java.util.List.of("name: Name is required"));
-        String n = name.trim();
-        if (n.length() < 2)
-            throw new ValidationException(java.util.List.of("name: Name too short (min 2)"));
-        if (n.length() > 50)
-            throw new ValidationException(java.util.List.of("name: Name too long (max 50)"));
-    }
-
-    // Validate user email
-    private void validateEmail(String email) {
-        if (email == null || email.trim().isEmpty())
-            throw new ValidationException(java.util.List.of("email: Email is required"));
-        String e = email.trim();
-        if (!e.contains("@") || !e.contains("."))
-            throw new ValidationException(java.util.List.of("email: Invalid email format"));
     }
 }
