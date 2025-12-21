@@ -12,18 +12,24 @@ public class AuthRegisterRequest {
     @NotBlank(message = "name: Name is required")
     @Size(min = 2, max = 50, message = "name: Name length must be 2..50")
     private String name;
+
     @Size(max = 50, message = "surname: Surname too long")
     private String surname;
+
     @NotBlank(message = "username: Username is required")
     @Size(max = 50, message = "username: Username too long")
     private String username;
-    private String avatarUrl;
+
     @NotBlank(message = "email: Email is required")
     @Email(message = "email: Invalid email format")
     private String email;
+
+    private String avatarUrl;
+
     @NotBlank(message = "password: Password is required")
     @Size(min = 4, message = "password: Password too short (min 4)")
     private String password;
+
     @NotNull(message = "roleCode: Role code is required")
     @Min(value = 0, message = "roleCode: Invalid role code")
     @Max(value = 2, message = "roleCode: Invalid role code")

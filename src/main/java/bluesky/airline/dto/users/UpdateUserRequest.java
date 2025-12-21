@@ -1,24 +1,34 @@
 package bluesky.airline.dto.users;
 
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 // DTO for User requests (update)
 public class UpdateUserRequest {
-    @Size(min = 2, max = 50, message = "Name must be between 2 and 50 characters")
+    @NotBlank(message = "name: Name is required")
+    @Size(min = 2, max = 50, message = "name: Name length must be 2..50")
     private String name;
 
-    @Size(max = 50, message = "Surname too long")
+    @Size(max = 50, message = "surname: Surname too long")
     private String surname;
 
-    @Size(max = 50, message = "Username too long")
+    @NotBlank(message = "username: Username is required")
+    @Size(max = 50, message = "username: Username too long")
     private String username;
 
-    @Email(message = "Invalid email format")
+    @NotBlank(message = "email: Email is required")
+    @Email(message = "email: Invalid email format")
     private String email;
 
     private String avatarUrl;
 
+    @NotNull(message = "roleCode: Role code is required")
+    @Min(value = 0, message = "roleCode: Invalid role code")
+    @Max(value = 2, message = "roleCode: Invalid role code")
     private Integer roleCode;
 
     public String getName() {
