@@ -654,7 +654,7 @@
             "body": {
               "mode": "graphql",
               "graphql": {
-                "query": "query {\n    flights(page: 0, size: 10) {\n        id\n        code\n        status\n        basePrice\n    }\n}",
+                "query": "query {\n    flights(page: 0, size: 10) {\n        content {\n            id\n            flightCode\n            status\n            basePrice\n        }\n        totalElements\n        totalPages\n    }\n}",
                 "variables": ""
               }
             },
