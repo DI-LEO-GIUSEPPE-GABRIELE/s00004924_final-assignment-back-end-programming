@@ -14,6 +14,7 @@ public class AuthRegisterRequest {
     private String name;
     @Size(max = 50, message = "surname: Surname too long")
     private String surname;
+    @NotBlank(message = "username: Username is required")
     @Size(max = 50, message = "username: Username too long")
     private String username;
     private String avatarUrl;

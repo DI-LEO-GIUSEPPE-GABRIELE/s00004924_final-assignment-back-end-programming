@@ -2,7 +2,6 @@ package bluesky.airline.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authorization.AuthorizationDeniedException;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -28,24 +27,38 @@ public class ExceptionsHandler {
 	}
 
 	@ExceptionHandler(org.springframework.http.converter.HttpMessageNotReadableException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorWithListDTO handleJsonErrors(org.springframework.http.converter.HttpMessageNotReadableException ex) {
-        if (ex.getCause() instanceof com.fasterxml.jackson.databind.exc.InvalidFormatException ifx) {
-            if (ifx.getTargetType() != null && ifx.getTargetType().isEnum()) {
-                String invalidValue = ifx.getValue().toString();
-                String enumName = ifx.getTargetType().getSimpleName();
-                String validValues = java.util.Arrays.stream(ifx.getTargetType().getEnumConstants())
-                        .map(Object::toString)
-                        .collect(java.util.stream.Collectors.joining(", "));
-                return new ErrorWithListDTO("Invalid value '" + invalidValue + "' for " + enumName + ". Allowed values: " + validValues,
-                        LocalDateTime.now(),
-                        java.util.List.of("Allowed values for " + enumName + ": " + validValues));
-            }
-        }
-        return new ErrorWithListDTO("Malformed JSON request", LocalDateTime.now(), java.util.List.of(ex.getMessage()));
-    }
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public ErrorWithListDTO handleJsonErrors(org.springframework.http.converter.HttpMessageNotReadableException ex) {
+		if (ex.getCause() instanceof com.fasterxml.jackson.databind.exc.InvalidFormatException ifx) {
+			// Handle Enum errors
+			if (ifx.getTargetType() != null && ifx.getTargetType().isEnum()) {
+				String invalidValue = ifx.getValue().toString();
+				String enumName = ifx.getTargetType().getSimpleName();
+				String validValues = java.util.Arrays.stream(ifx.getTargetType().getEnumConstants())
+						.map(Object::toString)
+						.collect(java.util.stream.Collectors.joining(", "));
+				return new ErrorWithListDTO(
+						"Invalid value '" + invalidValue + "' for " + enumName + ". Allowed values: " + validValues,
+						LocalDateTime.now(),
+						java.util.List.of("Allowed values for " + enumName + ": " + validValues));
+			}
 
-    @ExceptionHandler(ValidationException.class)
+			// Handle Date/Time errors (Instant, LocalDate, LocalDateTime, etc.)
+			if (ifx.getTargetType() != null && (java.time.Instant.class.isAssignableFrom(ifx.getTargetType()) ||
+					java.time.LocalDate.class.isAssignableFrom(ifx.getTargetType()) ||
+					java.time.LocalDateTime.class.isAssignableFrom(ifx.getTargetType()) ||
+					java.time.ZonedDateTime.class.isAssignableFrom(ifx.getTargetType()))) {
+				String fieldName = ifx.getPath().isEmpty() ? "unknown field"
+						: ifx.getPath().get(ifx.getPath().size() - 1).getFieldName();
+				return new ErrorWithListDTO("Invalid date format", LocalDateTime.now(),
+						java.util.List
+								.of(fieldName + ": Invalid date format. Expected ISO-8601 (2023-12-31T23:59:59Z)"));
+			}
+		}
+		return new ErrorWithListDTO("Malformed JSON request", LocalDateTime.now(), java.util.List.of(ex.getMessage()));
+	}
+
+	@ExceptionHandler(ValidationException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST) // 400
 	public ErrorWithListDTO handleBadRequest(ValidationException ex) {
 		return new ErrorWithListDTO(ex.getMessage(), LocalDateTime.now(), ex.getErrorsList());

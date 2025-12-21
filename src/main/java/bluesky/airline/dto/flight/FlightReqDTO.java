@@ -2,6 +2,7 @@ package bluesky.airline.dto.flight;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Future;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.UUID;
@@ -15,9 +16,11 @@ public class FlightReqDTO {
     private String flightCode;
 
     @NotNull(message = "Departure date is required")
+    @Future(message = "Departure date must be in the future")
     private Instant departureDate;
 
     @NotNull(message = "Arrival date is required")
+    @Future(message = "Arrival date must be in the future")
     private Instant arrivalDate;
 
     @NotNull(message = "Base price is required")
