@@ -21,6 +21,7 @@ public class WeatherService {
     @Value("${openweather.baseUrl:https://api.openweathermap.org/data/2.5/weather}")
     private String baseUrl;
 
+    // Refresh weather data for a flight
     public WeatherData refreshForFlight(Flight flight, Airport departureAirport) {
         String q = departureAirport.getCity();
         String url = baseUrl + "?q=" + java.net.URLEncoder.encode(q, java.nio.charset.StandardCharsets.UTF_8)
@@ -47,6 +48,7 @@ public class WeatherService {
         return weatherRepo.save(wd);
     }
 
+    // Convert a WeatherData entity to a WeatherRespDTO
     public bluesky.airline.dto.weather.WeatherRespDTO toDTO(WeatherData w) {
         bluesky.airline.dto.weather.WeatherRespDTO dto = new bluesky.airline.dto.weather.WeatherRespDTO();
         dto.setId(w.getId());

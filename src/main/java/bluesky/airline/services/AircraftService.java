@@ -14,14 +14,17 @@ public class AircraftService {
     @Autowired
     private AircraftRepository aircrafts;
 
+    // Find all aircrafts with pagination
     public Page<Aircraft> findAll(Pageable pageable) {
         return aircrafts.findAll(pageable);
     }
 
+    // Find an aircraft by its ID
     public Aircraft findById(UUID id) {
         return aircrafts.findById(id).orElse(null);
     }
 
+    // Create a new aircraft
     public Aircraft create(bluesky.airline.dto.aircraft.AircraftReqDTO body) {
         Aircraft a;
         if ("PASSENGER".equalsIgnoreCase(body.getType())) {
@@ -41,6 +44,7 @@ public class AircraftService {
         return aircrafts.save(a);
     }
 
+    // Update an existing aircraft
     public Aircraft update(UUID id, bluesky.airline.dto.aircraft.AircraftReqDTO body) {
         Aircraft found = findById(id);
         if (found == null) {
@@ -71,18 +75,22 @@ public class AircraftService {
         return aircrafts.save(found);
     }
 
+    // Save an aircraft (create or update)
     public Aircraft save(Aircraft aircraft) {
         return aircrafts.save(aircraft);
     }
 
+    // Delete an aircraft by its ID
     public void delete(UUID id) {
         aircrafts.deleteById(id);
     }
 
+    // Check if an aircraft exists by its ID
     public boolean existsById(UUID id) {
         return aircrafts.existsById(id);
     }
 
+    // Convert an Aircraft entity to an AircraftRespDTO
     public bluesky.airline.dto.aircraft.AircraftRespDTO toDTO(Aircraft a) {
         bluesky.airline.dto.aircraft.AircraftRespDTO dto = new bluesky.airline.dto.aircraft.AircraftRespDTO();
         dto.setId(a.getId());

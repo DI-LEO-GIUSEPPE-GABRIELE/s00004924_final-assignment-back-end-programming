@@ -24,10 +24,12 @@ public class ReservationService {
     @Autowired
     private UserRepository users;
 
+    // Find all reservations with pagination
     public Page<Reservation> findAll(Pageable pageable) {
         return reservations.findAll(pageable);
     }
 
+    // Create a new reservation
     public Reservation create(bluesky.airline.dto.reservation.ReservationReqDTO body) {
         Reservation r = new Reservation();
         updateReservationFromDTO(r, body);
@@ -40,6 +42,7 @@ public class ReservationService {
         return reservations.save(r);
     }
 
+    // Update a reservation from a ReservationReqDTO
     private void updateReservationFromDTO(Reservation r, bluesky.airline.dto.reservation.ReservationReqDTO body) {
         java.util.List<Flight> flightList = new java.util.ArrayList<>();
         if (body.getFlightIds() != null) {
@@ -77,26 +80,32 @@ public class ReservationService {
             r.setStatus(body.getStatus());
     }
 
+    // Find all reservations with a specific status and pagination
     public Page<Reservation> findByStatus(ReservationStatus status, Pageable pageable) {
         return reservations.findByStatus(status, pageable);
     }
 
+    // Find a reservation by its ID
     public Reservation findById(UUID id) {
         return reservations.findById(id).orElse(null);
     }
 
+    // Save a reservation (create or update)
     public Reservation save(Reservation reservation) {
         return reservations.save(reservation);
     }
 
+    // Delete a reservation by its ID
     public void delete(UUID id) {
         reservations.deleteById(id);
     }
 
+    // Check if a reservation exists by its ID
     public boolean existsById(UUID id) {
         return reservations.existsById(id);
     }
 
+    // Convert a Reservation entity to a ReservationRespDTO
     public ReservationRespDTO toDTO(Reservation r) {
         ReservationRespDTO dto = new ReservationRespDTO();
         dto.setId(r.getId());

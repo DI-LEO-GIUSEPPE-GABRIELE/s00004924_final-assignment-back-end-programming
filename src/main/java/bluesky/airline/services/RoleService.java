@@ -12,6 +12,7 @@ public class RoleService {
     @Autowired
     private RoleRepository roles;
 
+    // Find all roles
     public List<Role> findAll() {
         return roles.findAll();
     }

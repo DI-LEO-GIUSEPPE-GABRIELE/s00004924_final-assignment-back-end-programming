@@ -15,6 +15,7 @@ public class ExchangeRateService {
     @Value("${exchangerate.baseUrl:https://v6.exchangerate-api.com/v6}")
     private String baseUrl;
 
+    // Convert an amount from one currency to another
     public BigDecimal convert(BigDecimal amount, String base, String target) {
         if (amount == null) {
             return BigDecimal.ZERO;

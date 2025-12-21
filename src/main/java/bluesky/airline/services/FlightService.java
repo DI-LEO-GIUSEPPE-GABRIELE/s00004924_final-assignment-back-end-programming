@@ -28,10 +28,12 @@ public class FlightService {
     @Autowired
     private AircraftService aircraftService;
 
+    // Find all flights with pagination
     public Page<Flight> findAll(Pageable pageable) {
         return flights.findAll(pageable);
     }
 
+    // Create a new flight
     @Transactional
     public Flight create(bluesky.airline.dto.flight.FlightReqDTO body) {
         Flight f = new Flight();
@@ -65,6 +67,7 @@ public class FlightService {
         return f;
     }
 
+    // Update an existing flight
     @Transactional
     public Flight update(UUID id, bluesky.airline.dto.flight.FlightReqDTO body) {
         Flight f = findById(id);
@@ -101,6 +104,7 @@ public class FlightService {
         return saved;
     }
 
+    // Update flight fields from DTO
     private void updateFlightFromDTO(Flight f, bluesky.airline.dto.flight.FlightReqDTO body) {
         f.setFlightCode(body.getFlightCode());
         f.setDepartureDate(body.getDepartureDate());
@@ -126,30 +130,37 @@ public class FlightService {
         f.setAircraft(aircraft);
     }
 
+    // Find a flight by its ID
     public Flight findById(UUID id) {
         return flights.findById(id).orElse(null);
     }
 
+    // Search flights by flight code, date range, and pagination
     public Page<Flight> search(String code, Instant from, Instant to, Pageable pageable) {
         return flights.search(code, from, to, pageable);
     }
 
+    // Find all flights with a specific status and pagination
     public Page<Flight> findByStatus(FlightStatus status, Pageable pageable) {
         return flights.findByStatus(status, pageable);
     }
 
+    // Save a flight (create or update)
     public Flight save(Flight flight) {
         return flights.save(flight);
     }
 
+    // Delete a flight by its ID
     public void delete(UUID id) {
         flights.deleteById(id);
     }
 
+    // Check if a flight exists by its ID
     public boolean existsById(UUID id) {
         return flights.existsById(id);
     }
 
+    // Convert a Flight entity to a FlightRespDTO
     public FlightRespDTO toDTO(Flight f) {
         FlightRespDTO dto = new FlightRespDTO();
         dto.setId(f.getId());

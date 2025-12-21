@@ -24,14 +24,17 @@ public class UserService {
     @Autowired
     private PasswordEncoder encoder;
 
+    // Find all users
     public List<User> findAll() {
         return repo.findAll();
     }
 
+    // Find a user by its email
     public Optional<User> findByEmail(String email) {
         return repo.findByEmailIgnoreCase(email);
     }
 
+    // Find all users filtered by name and email domain
     public List<User> findAllFiltered(String nameContains, String emailDomain) {
         String nc = nameContains;
         String suffix = emailDomain != null ? ("@" + emailDomain) : null;
@@ -45,6 +48,7 @@ public class UserService {
         return repo.findAll();
     }
 
+    // Search users with pagination
     public Page<User> searchPaged(String mode, String nameContains, String emailDomain, Pageable pageable) {
         String nc = nameContains;
         String domain = emailDomain;
@@ -66,10 +70,12 @@ public class UserService {
         }
     }
 
+    // Find a user by its ID
     public Optional<User> findById(UUID id) {
         return repo.findById(id);
     }
 
+    // Create a new user
     public User create(String name, String surname, String username, String email, String password, String avatarUrl,
             Integer roleCode) {
         validateCreate(name, email);
@@ -90,6 +96,7 @@ public class UserService {
         return repo.save(u);
     }
 
+    // Register a new user
     public User register(String name, String surname, String username, String email, String avatarUrl, String password,
             Integer roleCode) {
         validateCreate(name, email);
@@ -110,6 +117,7 @@ public class UserService {
         return repo.save(u);
     }
 
+    // Map role code to role name
     private String mapRoleCode(Integer code) {
         if (code == null)
             return null;
@@ -121,6 +129,7 @@ public class UserService {
         };
     }
 
+    // Update a user from a UserReqDTO
     public Optional<User> update(UUID id, String name, String surname, String username, String email, String avatarUrl,
             Integer roleCode) {
         return repo.findById(id).map(existing -> {
@@ -144,6 +153,7 @@ public class UserService {
         });
     }
 
+    // Check if a role is allowed for user creation/registration
     private boolean isAllowedRole(Role r) {
         String n = r.getName();
         return n != null && (n.equalsIgnoreCase("ADMIN")
@@ -151,6 +161,7 @@ public class UserService {
                 || n.equalsIgnoreCase("FLIGHT_MANAGER"));
     }
 
+    // Delete a user by its ID
     public boolean delete(UUID id) {
         if (repo.existsById(id)) {
             repo.deleteById(id);
@@ -159,6 +170,7 @@ public class UserService {
         return false;
     }
 
+    // Validate user creation/registration data
     private void validateCreate(String name, String email) {
         validateName(name);
         validateEmail(email);
@@ -167,6 +179,7 @@ public class UserService {
             throw new ValidationException(java.util.List.of("email: Email already registered"));
     }
 
+    // Validate user update data
     private void validateUpdate(UUID id, String name, String email) {
         validateName(name);
         validateEmail(email);
@@ -177,6 +190,7 @@ public class UserService {
             throw new ValidationException(java.util.List.of("email: Email already used by another user"));
     }
 
+    // Validate user name
     private void validateName(String name) {
         if (name == null || name.trim().isEmpty())
             throw new ValidationException(java.util.List.of("name: Name is required"));
@@ -187,6 +201,7 @@ public class UserService {
             throw new ValidationException(java.util.List.of("name: Name too long (max 50)"));
     }
 
+    // Validate user email
     private void validateEmail(String email) {
         if (email == null || email.trim().isEmpty())
             throw new ValidationException(java.util.List.of("email: Email is required"));

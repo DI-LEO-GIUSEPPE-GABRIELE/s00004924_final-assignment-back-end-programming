@@ -18,6 +18,7 @@ public class AuthService {
     @Autowired
     private PasswordEncoder encoder;
 
+    // Check user credentials and generate a JWT token
     public String checkCredentialsAndGenerateToken(AuthLoginRequest body) {
         User u = users.findByEmailIgnoreCase(body.getEmail())
                 .orElseThrow(() -> new bluesky.airline.exceptions.UnauthorizedException("Invalid email or password"));

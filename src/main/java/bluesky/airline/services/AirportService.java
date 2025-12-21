@@ -14,14 +14,17 @@ public class AirportService {
     @Autowired
     private AirportRepository airports;
 
+    // Find all airports with pagination
     public Page<Airport> findAll(Pageable pageable) {
         return airports.findAll(pageable);
     }
 
+    // Find an airport by its ID
     public Airport findById(UUID id) {
         return airports.findById(id).orElse(null);
     }
 
+    // Create a new airport
     public Airport create(bluesky.airline.dto.airport.AirportReqDTO body) {
         Airport a = new Airport();
         a.setCode(body.getCode());
@@ -31,6 +34,7 @@ public class AirportService {
         return airports.save(a);
     }
 
+    // Update an existing airport
     public Airport update(UUID id, bluesky.airline.dto.airport.AirportReqDTO body) {
         Airport found = findById(id);
         if (found == null) {
@@ -43,18 +47,22 @@ public class AirportService {
         return airports.save(found);
     }
 
+    // Save an airport (create or update)
     public Airport save(Airport airport) {
         return airports.save(airport);
     }
 
+    // Delete an airport by its ID
     public void delete(UUID id) {
         airports.deleteById(id);
     }
 
+    // Check if an airport exists by its ID
     public boolean existsById(UUID id) {
         return airports.existsById(id);
     }
 
+    // Convert an Airport entity to an AirportRespDTO
     public bluesky.airline.dto.airport.AirportRespDTO toDTO(Airport a) {
         bluesky.airline.dto.airport.AirportRespDTO dto = new bluesky.airline.dto.airport.AirportRespDTO();
         dto.setId(a.getId());
