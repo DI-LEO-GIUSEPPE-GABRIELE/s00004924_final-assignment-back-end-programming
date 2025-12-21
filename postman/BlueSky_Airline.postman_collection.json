@@ -871,7 +871,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"name\": \"John Doe\",\n    \"surname\": \"Doe\",\n    \"username\": \"johndoe\",\n    \"email\": \"john@example.com\",\n    \"avatarUrl\": \"http://example.com/avatar.png\",\n    \"roleCode\": 0\n}",
+              "raw": "{\n    \"name\": \"John Doe\",\n    \"surname\": \"Doe\",\n    \"username\": \"johndoe\",\n    \"email\": \"john@example.com\",\n    \"password\": \"password123\",\n    \"avatarUrl\": \"http://example.com/avatar.png\",\n    \"roleCode\": 0\n}",
               "options": {
                 "raw": {
                   "language": "json"
