@@ -16,16 +16,23 @@ public class ExchangeRateService {
     private String baseUrl;
 
     public BigDecimal convert(BigDecimal amount, String base, String target) {
-        String url = baseUrl + "/" + apiKey + "/latest/" + base;
-        Map<?, ?> res = http.getForObject(url, Map.class);
-        if (res == null)
-            return amount;
-        Object rates = res.get("conversion_rates");
-        if (rates instanceof Map<?, ?> m) {
-            Object rate = m.get(target);
-            if (rate instanceof Number n) {
-                return amount.multiply(BigDecimal.valueOf(n.doubleValue()));
+        if (amount == null) {
+            return BigDecimal.ZERO;
+        }
+        try {
+            String url = baseUrl + "/" + apiKey + "/latest/" + base;
+            Map<?, ?> res = http.getForObject(url, Map.class);
+            if (res == null)
+                return amount;
+            Object rates = res.get("conversion_rates");
+            if (rates instanceof Map<?, ?> m) {
+                Object rate = m.get(target);
+                if (rate instanceof Number n) {
+                    return amount.multiply(BigDecimal.valueOf(n.doubleValue()));
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return amount;
     }

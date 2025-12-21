@@ -16,6 +16,7 @@ import bluesky.airline.entities.enums.FlightStatus;
 import bluesky.airline.services.AirportService;
 import bluesky.airline.services.FlightService;
 import bluesky.airline.services.WeatherService;
+import bluesky.airline.services.ExchangeRateService;
 import bluesky.airline.dto.flight.FlightReqDTO;
 import bluesky.airline.dto.flight.FlightRespDTO;
 import bluesky.airline.dto.airport.AirportRespDTO;
@@ -38,6 +39,8 @@ public class FlightController {
     private AirportService airportService;
     @Autowired
     private WeatherService weatherService;
+    @Autowired
+    private ExchangeRateService exchangeRateService;
 
     // List flights endpoint
     // Endpoint: GET /flights
@@ -115,6 +118,24 @@ public class FlightController {
         return ResponseEntity.ok(toDTO(wd));
     }
 
+    // Convert flight price endpoint
+    // Endpoint: GET /flights/{id}/price/convert
+    @GetMapping("/{id}/price/convert")
+    @PreAuthorize("permitAll()")
+    public ResponseEntity<java.math.BigDecimal> convertPrice(
+            @PathVariable UUID id,
+            @RequestParam String target,
+            @RequestParam(defaultValue = "EUR") String base) {
+        Flight f = flights.findById(id);
+        if (f == null)
+            throw new bluesky.airline.exceptions.NotFoundException("Flight not found: " + id);
+        if (f.getBasePrice() == null) {
+            return ResponseEntity.ok(java.math.BigDecimal.ZERO);
+        }
+        java.math.BigDecimal converted = exchangeRateService.convert(f.getBasePrice(), base, target);
+        return ResponseEntity.ok(converted);
+    }
+
     // Get all flight statuses
     // Endpoint: GET /flights/statuses
     @GetMapping("/statuses")
@@ -187,4 +208,5 @@ public class FlightController {
         dto.setRetrievedAt(w.getRetrievedAt());
         return dto;
     }
+
 }
