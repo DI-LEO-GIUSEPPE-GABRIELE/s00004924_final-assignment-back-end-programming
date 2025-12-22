@@ -14,24 +14,24 @@ import bluesky.airline.repositories.FlightRepository;
 import bluesky.airline.repositories.RoleRepository;
 import bluesky.airline.repositories.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import bluesky.airline.services.WeatherService;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
+import java.util.UUID;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
-import bluesky.airline.services.WeatherService;
+import org.springframework.beans.factory.annotation.Autowired;
 import bluesky.airline.services.ExchangeRateService;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
-import java.util.UUID;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import org.springframework.boot.test.context.SpringBootTest;
 
 // Test class for ReservationController
 @SpringBootTest
@@ -129,10 +129,10 @@ class ReservationControllerTest {
                 .andExpect(jsonPath("$.id").exists());
     }
 
+    // Test for updating reservation status by admin users
     @Test
     @WithMockUser(roles = "ADMIN")
     void testUpdateStatusAndGetReservation() throws Exception {
-        // Setup user, flight, etc. (reusing setup logic simplified)
         Role role = roleRepository.findByNameIgnoreCase("TOUR_OPERATOR")
                 .orElseGet(() -> {
                     Role r = new Role();
@@ -194,27 +194,24 @@ class ReservationControllerTest {
 
         String id = com.jayway.jsonpath.JsonPath.read(response, "$.id");
 
-        // Update Status
         mockMvc.perform(put("/reservations/" + id + "/status")
                 .param("status", "CONFIRMED"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value("CONFIRMED"));
 
-        // Get
         mockMvc.perform(get("/reservations/" + id))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(id));
 
-        // List
         mockMvc.perform(get("/reservations"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content").isArray());
     }
 
+    // Test for deleting a reservation by admin users
     @Test
     @WithMockUser(roles = "ADMIN")
     void testDeleteReservation() throws Exception {
-        // Setup
         Role role = roleRepository.findByNameIgnoreCase("TOUR_OPERATOR")
                 .orElseGet(() -> {
                     Role r = new Role();
@@ -283,12 +280,12 @@ class ReservationControllerTest {
                 .andExpect(status().isNotFound());
     }
 
+    // Test for creating a reservation by flight managers
     @Test
     @WithMockUser(roles = "FLIGHT_MANAGER")
     void testCreateReservationForbidden() throws Exception {
         ReservationReqDTO req = new ReservationReqDTO();
         req.setStatus(ReservationStatus.PENDING);
-        // Need to provide valid fields to pass validation
         req.setUserId(UUID.randomUUID());
         req.setFlightIds(List.of(UUID.randomUUID()));
 
