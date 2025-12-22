@@ -1,10 +1,10 @@
 package bluesky.airline.repositories;
 
-import java.util.UUID;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 import bluesky.airline.entities.Airport;
+import org.springframework.stereotype.Repository;
+import java.util.UUID;
 
 // Repository for Airport entities
 @Repository

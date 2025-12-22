@@ -1,21 +1,21 @@
 package bluesky.airline.entities;
 
-import java.time.Instant;
-import java.math.BigDecimal;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.JoinColumn;
+import java.math.BigDecimal;
+import jakarta.persistence.Table;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.EnumType;
+import java.time.Instant;
+import jakarta.persistence.Column;
+import java.util.HashSet;
+import java.util.Set;
+import bluesky.airline.entities.enums.FlightStatus;
+import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
-import bluesky.airline.entities.enums.FlightStatus;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.JoinTable;
-import java.util.Set;
-import java.util.HashSet;
 
 // Entity for Flights
 @Entity

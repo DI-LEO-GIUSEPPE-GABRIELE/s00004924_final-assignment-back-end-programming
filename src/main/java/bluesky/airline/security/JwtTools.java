@@ -1,17 +1,17 @@
 package bluesky.airline.security;
 
-import java.time.Instant;
-import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
-import bluesky.airline.entities.User;
-import io.jsonwebtoken.Jwts;
+import org.springframework.security.core.GrantedAuthority;
+import java.util.List;
+import org.springframework.beans.factory.annotation.Value;
 import io.jsonwebtoken.security.Keys;
+import java.util.Date;
+import io.jsonwebtoken.Jwts;
+import org.springframework.security.core.Authentication;
+import bluesky.airline.entities.User;
+import java.util.stream.Collectors;
+import java.time.Instant;
 
 // Service for JWT token generation and validation
 @Service

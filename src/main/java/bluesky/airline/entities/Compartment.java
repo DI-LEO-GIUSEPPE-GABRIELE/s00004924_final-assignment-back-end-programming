@@ -1,7 +1,7 @@
 package bluesky.airline.entities;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Column;
 import jakarta.persistence.Table;
 
 // Entity for Compartments
