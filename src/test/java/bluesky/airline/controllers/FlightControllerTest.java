@@ -54,30 +54,30 @@ class FlightControllerTest {
         @WithMockUser(roles = "ADMIN")
         void testCreateAndListFlight() throws Exception {
                 Airport dep = new Airport();
-                dep.setCode("DEP");
-                dep.setName("Departure Airport");
-                dep.setCity("City A");
-                dep.setCountry("Country A");
+                dep.setCode("JFK");
+                dep.setName("John F. Kennedy International Airport");
+                dep.setCity("New York");
+                dep.setCountry("USA");
                 dep = airportRepository.save(dep);
 
                 Airport arr = new Airport();
-                arr.setCode("ARR");
-                arr.setName("Arrival Airport");
-                arr.setCity("City B");
-                arr.setCountry("Country B");
+                dep.setCode("LGW");
+                dep.setName("Gatwick Airport");
+                dep.setCity("London");
+                dep.setCountry("UK");
                 arr = airportRepository.save(arr);
 
                 PassengerAircraft aircraft = new PassengerAircraft();
                 aircraft.setBrand("Boeing");
-                aircraft.setModel("737");
-                aircraft.setTotalSeats(200);
+                aircraft.setModel("747");
+                aircraft.setTotalSeats(150);
                 aircraft = aircraftRepository.save(aircraft);
 
                 FlightReqDTO req = new FlightReqDTO();
                 req.setFlightCode("BS123");
                 req.setDepartureDate(Instant.now().plus(1, ChronoUnit.DAYS));
                 req.setArrivalDate(Instant.now().plus(1, ChronoUnit.DAYS).plus(2, ChronoUnit.HOURS));
-                req.setBasePrice(new BigDecimal("150.00"));
+                req.setBasePrice(new BigDecimal("150"));
                 req.setStatus(FlightStatus.SCHEDULED);
                 req.setDepartureAirportId(dep.getId());
                 req.setArrivalAirportId(arr.getId());
@@ -101,23 +101,23 @@ class FlightControllerTest {
         @WithMockUser(roles = "ADMIN")
         void testUpdateAndGetFlight() throws Exception {
                 Airport dep = new Airport();
-                dep.setCode("D1");
-                dep.setName("D1");
-                dep.setCity("C1");
-                dep.setCountry("C1");
+                dep.setCode("MXP");
+                dep.setName("Milano Malpensa Airport");
+                dep.setCity("Milan");
+                dep.setCountry("Italy");
                 dep = airportRepository.save(dep);
 
                 Airport arr = new Airport();
-                arr.setCode("A1");
-                arr.setName("A1");
-                arr.setCity("C2");
-                arr.setCountry("C2");
+                arr.setCode("SSH");
+                arr.setName("Sharm el-Sheikh Airport");
+                arr.setCity("Sharm el-Sheikh");
+                arr.setCountry("Egypt");
                 arr = airportRepository.save(arr);
 
                 PassengerAircraft aircraft = new PassengerAircraft();
-                aircraft.setBrand("B");
-                aircraft.setModel("M");
-                aircraft.setTotalSeats(100);
+                aircraft.setBrand("Airbus");
+                aircraft.setModel("A320");
+                aircraft.setTotalSeats(180);
                 aircraft = aircraftRepository.save(aircraft);
 
                 FlightReqDTO req = new FlightReqDTO();
@@ -139,12 +139,12 @@ class FlightControllerTest {
 
                 String id = com.jayway.jsonpath.JsonPath.read(response, "$.id");
 
-                req.setFlightCode("BS999-UPD");
+                req.setFlightCode("BS999-update");
                 mockMvc.perform(put("/flights/" + id)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(objectMapper.writeValueAsString(req)))
                                 .andExpect(status().isOk())
-                                .andExpect(jsonPath("$.flightCode").value("BS999-UPD"));
+                                .andExpect(jsonPath("$.flightCode").value("BS999-update"));
 
                 mockMvc.perform(get("/flights/" + id))
                                 .andExpect(status().isOk())
@@ -156,23 +156,23 @@ class FlightControllerTest {
         @WithMockUser(roles = "ADMIN")
         void testDeleteFlight() throws Exception {
                 Airport dep = new Airport();
-                dep.setCode("D2");
-                dep.setName("D2");
-                dep.setCity("C1");
-                dep.setCountry("C1");
+                dep.setCode("JFK");
+                dep.setName("John F. Kennedy International Airport");
+                dep.setCity("New York");
+                dep.setCountry("USA");
                 dep = airportRepository.save(dep);
 
                 Airport arr = new Airport();
-                arr.setCode("A2");
-                arr.setName("A2");
-                arr.setCity("C2");
-                arr.setCountry("C2");
+                arr.setCode("MXP");
+                arr.setName("Milano Malpensa Airport");
+                arr.setCity("Milan");
+                arr.setCountry("Italy");
                 arr = airportRepository.save(arr);
 
                 PassengerAircraft aircraft = new PassengerAircraft();
-                aircraft.setBrand("B");
-                aircraft.setModel("M2");
-                aircraft.setTotalSeats(100);
+                aircraft.setBrand("Boeing");
+                aircraft.setModel("747");
+                aircraft.setTotalSeats(150);
                 aircraft = aircraftRepository.save(aircraft);
 
                 FlightReqDTO req = new FlightReqDTO();
@@ -215,30 +215,30 @@ class FlightControllerTest {
         @WithMockUser(roles = "ADMIN")
         void testConvertPrice() throws Exception {
                 Airport dep = new Airport();
-                dep.setCode("D3");
-                dep.setName("D3");
-                dep.setCity("C1");
-                dep.setCountry("C1");
+                dep.setCode("JFK");
+                dep.setName("John F. Kennedy International Airport");
+                dep.setCity("New York");
+                dep.setCountry("USA");
                 dep = airportRepository.save(dep);
 
                 Airport arr = new Airport();
-                arr.setCode("A3");
-                arr.setName("A3");
-                arr.setCity("C2");
-                arr.setCountry("C2");
+                dep.setCode("LGW");
+                dep.setName("Gatwick Airport");
+                dep.setCity("London");
+                dep.setCountry("UK");
                 arr = airportRepository.save(arr);
 
                 PassengerAircraft aircraft = new PassengerAircraft();
-                aircraft.setBrand("B");
-                aircraft.setModel("M3");
-                aircraft.setTotalSeats(100);
+                aircraft.setBrand("Boeing");
+                aircraft.setModel("747");
+                aircraft.setTotalSeats(150);
                 aircraft = aircraftRepository.save(aircraft);
 
                 FlightReqDTO req = new FlightReqDTO();
                 req.setFlightCode("BS777");
                 req.setDepartureDate(Instant.now().plus(1, ChronoUnit.DAYS));
                 req.setArrivalDate(Instant.now().plus(1, ChronoUnit.DAYS).plus(2, ChronoUnit.HOURS));
-                req.setBasePrice(new BigDecimal("100.00"));
+                req.setBasePrice(new BigDecimal("100"));
                 req.setStatus(FlightStatus.SCHEDULED);
                 req.setDepartureAirportId(dep.getId());
                 req.setArrivalAirportId(arr.getId());
@@ -270,23 +270,23 @@ class FlightControllerTest {
         @WithMockUser(roles = "ADMIN")
         void testCheckWeather() throws Exception {
                 Airport dep = new Airport();
-                dep.setCode("DW");
-                dep.setName("DW");
-                dep.setCity("CW");
-                dep.setCountry("CW");
+                dep.setCode("MXP");
+                dep.setName("Milano Malpensa Airport");
+                dep.setCity("Milan");
+                dep.setCountry("Italy");
                 dep = airportRepository.save(dep);
 
                 Airport arr = new Airport();
-                arr.setCode("AW");
-                arr.setName("AW");
-                arr.setCity("CW2");
-                arr.setCountry("CW2");
+                arr.setCode("SSH");
+                arr.setName("Sharm el-Sheikh Airport");
+                arr.setCity("Sharm el-Sheikh");
+                arr.setCountry("Egypt");
                 arr = airportRepository.save(arr);
 
                 PassengerAircraft aircraft = new PassengerAircraft();
-                aircraft.setBrand("B");
-                aircraft.setModel("M");
-                aircraft.setTotalSeats(100);
+                aircraft.setBrand("Airbus");
+                aircraft.setModel("A320");
+                aircraft.setTotalSeats(180);
                 aircraft = aircraftRepository.save(aircraft);
 
                 FlightReqDTO req = new FlightReqDTO();
@@ -336,27 +336,27 @@ class FlightControllerTest {
         @WithMockUser(roles = "TOUR_OPERATOR")
         void testCreateFlightForbidden() throws Exception {
                 Airport dep = new Airport();
-                dep.setCode("D_F");
-                dep.setName("D_F");
-                dep.setCity("C_F");
-                dep.setCountry("C_F");
+                dep.setCode("JFK");
+                dep.setName("John F. Kennedy International Airport");
+                dep.setCity("New York");
+                dep.setCountry("USA");
                 dep = airportRepository.save(dep);
 
                 Airport arr = new Airport();
-                arr.setCode("A_F");
-                arr.setName("A_F");
-                arr.setCity("C_F");
-                arr.setCountry("C_F");
+                arr.setCode("MXP");
+                arr.setName("Milano Malpensa Airport");
+                arr.setCity("Milan");
+                arr.setCountry("Italy");
                 arr = airportRepository.save(arr);
 
                 PassengerAircraft aircraft = new PassengerAircraft();
-                aircraft.setBrand("B");
-                aircraft.setModel("M");
-                aircraft.setTotalSeats(100);
+                aircraft.setBrand("Boeing");
+                aircraft.setModel("747");
+                aircraft.setTotalSeats(150);
                 aircraft = aircraftRepository.save(aircraft);
 
                 FlightReqDTO req = new FlightReqDTO();
-                req.setFlightCode("FORBIDDEN");
+                req.setFlightCode("BS123");
                 req.setDepartureDate(Instant.now().plus(1, ChronoUnit.DAYS));
                 req.setArrivalDate(Instant.now().plus(1, ChronoUnit.DAYS).plus(2, ChronoUnit.HOURS));
                 req.setBasePrice(new BigDecimal("100.00"));
@@ -364,7 +364,7 @@ class FlightControllerTest {
                 req.setDepartureAirportId(dep.getId());
                 req.setArrivalAirportId(arr.getId());
                 req.setAircraftId(aircraft.getId());
-                req.setCompartmentCodes(List.of("ECONOMY"));
+                req.setCompartmentCodes(List.of("BUSINESS"));
 
                 mockMvc.perform(post("/flights")
                                 .contentType(MediaType.APPLICATION_JSON)

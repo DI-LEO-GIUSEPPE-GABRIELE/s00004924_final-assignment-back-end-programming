@@ -80,30 +80,30 @@ class ReservationControllerTest {
         User user = new User();
         user.setName("Tour");
         user.setSurname("Operator");
-        user.setUsername("tour_op");
-        user.setEmail("tour@example.com");
-        user.setPassword("password");
-        user.setRoles(java.util.Set.of(tourOpRole));
+        user.setUsername("touroperator");
+        user.setEmail("touroperator@example.com");
+        user.setPassword("password123");
+        user.setRoleCode(1); // TOUR_OPERATOR
         user = userRepository.save(user);
 
         Airport dep = new Airport();
-        dep.setCode("DEP2");
-        dep.setName("Departure 2");
-        dep.setCity("City C");
-        dep.setCountry("Country C");
+        dep.setCode("JFK");
+        dep.setName("John F. Kennedy International Airport");
+        dep.setCity("New York");
+        dep.setCountry("USA");
         dep = airportRepository.save(dep);
 
         Airport arr = new Airport();
-        arr.setCode("ARR2");
-        arr.setName("Arrival 2");
-        arr.setCity("City D");
-        arr.setCountry("Country D");
+        dep.setCode("LGW");
+        dep.setName("Gatwick Airport");
+        dep.setCity("London");
+        dep.setCountry("UK");
         arr = airportRepository.save(arr);
 
         PassengerAircraft aircraft = new PassengerAircraft();
         aircraft.setBrand("Boeing");
-        aircraft.setModel("777");
-        aircraft.setTotalSeats(300);
+        aircraft.setModel("747");
+        aircraft.setTotalSeats(150);
         aircraft = aircraftRepository.save(aircraft);
 
         Flight flight = new Flight();
@@ -137,48 +137,48 @@ class ReservationControllerTest {
                 .orElseGet(() -> {
                     Role r = new Role();
                     r.setName("TOUR_OPERATOR");
-                    r.setRoleCode(2);
+                    r.setRoleCode(1);
                     return roleRepository.save(r);
                 });
 
         User user = new User();
-        user.setName("U");
-        user.setSurname("S");
-        user.setUsername("u_res_test");
-        user.setEmail("u_res@test.com");
-        user.setPassword("p");
-        user.setRoles(java.util.Set.of(role));
+        user.setName("Admin");
+        user.setSurname("User");
+        user.setUsername("adminuser");
+        user.setEmail("adminuser@example.com");
+        user.setPassword("password123");
+        user.setRoleCode(0); // ADMIN
         user = userRepository.save(user);
 
         Airport dep = new Airport();
-        dep.setCode("D_R");
-        dep.setName("D_R");
-        dep.setCity("C");
-        dep.setCountry("C");
+        dep.setCode("MXP");
+        dep.setName("Milano Malpensa Airport");
+        dep.setCity("Milan");
+        dep.setCountry("Italy");
         dep = airportRepository.save(dep);
 
         Airport arr = new Airport();
-        arr.setCode("A_R");
-        arr.setName("A_R");
-        arr.setCity("C");
-        arr.setCountry("C");
+        arr.setCode("SSH");
+        arr.setName("Sharm el-Sheikh Airport");
+        arr.setCity("Sharm el-Sheikh");
+        arr.setCountry("Egypt");
         arr = airportRepository.save(arr);
 
-        PassengerAircraft ac = new PassengerAircraft();
-        ac.setBrand("B");
-        ac.setModel("M");
-        ac.setTotalSeats(100);
-        ac = aircraftRepository.save(ac);
+        PassengerAircraft aircraft = new PassengerAircraft();
+        aircraft.setBrand("Airbus");
+        aircraft.setModel("A320");
+        aircraft.setTotalSeats(180);
+        aircraft = aircraftRepository.save(aircraft);
 
         Flight f = new Flight();
-        f.setFlightCode("RES01");
+        f.setFlightCode("BS999");
         f.setDepartureDate(Instant.now().plus(1, ChronoUnit.DAYS));
         f.setArrivalDate(Instant.now().plus(1, ChronoUnit.DAYS).plus(2, ChronoUnit.HOURS));
         f.setBasePrice(new BigDecimal("100"));
         f.setStatus(FlightStatus.SCHEDULED);
         f.setDepartureAirport(dep);
         f.setArrivalAirport(arr);
-        f.setAircraft(ac);
+        f.setAircraft(aircraft);
         f = flightRepository.save(f);
 
         ReservationReqDTO req = new ReservationReqDTO();
@@ -221,43 +221,43 @@ class ReservationControllerTest {
                 });
 
         User user = new User();
-        user.setName("U");
-        user.setSurname("S");
-        user.setUsername("u_del_test");
-        user.setEmail("u_del@test.com");
-        user.setPassword("p");
-        user.setRoles(java.util.Set.of(role));
+        user.setName("Admin");
+        user.setSurname("User");
+        user.setUsername("adminuser");
+        user.setEmail("adminuser@example.com");
+        user.setPassword("password123");
+        user.setRoleCode(0); // ADMIN
         user = userRepository.save(user);
 
         Airport dep = new Airport();
-        dep.setCode("D_RD");
-        dep.setName("D_RD");
-        dep.setCity("C");
-        dep.setCountry("C");
+        dep.setCode("JFK");
+        dep.setName("John F. Kennedy International Airport");
+        dep.setCity("New York");
+        dep.setCountry("USA");
         dep = airportRepository.save(dep);
 
         Airport arr = new Airport();
-        arr.setCode("A_RD");
-        arr.setName("A_RD");
-        arr.setCity("C");
-        arr.setCountry("C");
+        arr.setCode("MXP");
+        arr.setName("Milano Malpensa Airport");
+        arr.setCity("Milan");
+        arr.setCountry("Italy");
         arr = airportRepository.save(arr);
 
-        PassengerAircraft ac = new PassengerAircraft();
-        ac.setBrand("B");
-        ac.setModel("M");
-        ac.setTotalSeats(100);
-        ac = aircraftRepository.save(ac);
+        PassengerAircraft aircraft = new PassengerAircraft();
+        aircraft.setBrand("Boeing");
+        aircraft.setModel("747");
+        aircraft.setTotalSeats(150);
+        aircraft = aircraftRepository.save(aircraft);
 
         Flight f = new Flight();
-        f.setFlightCode("RES02");
+        f.setFlightCode("BS888");
         f.setDepartureDate(Instant.now().plus(1, ChronoUnit.DAYS));
         f.setArrivalDate(Instant.now().plus(1, ChronoUnit.DAYS).plus(2, ChronoUnit.HOURS));
         f.setBasePrice(new BigDecimal("100"));
         f.setStatus(FlightStatus.SCHEDULED);
         f.setDepartureAirport(dep);
         f.setArrivalAirport(arr);
-        f.setAircraft(ac);
+        f.setAircraft(aircraft);
         f = flightRepository.save(f);
 
         ReservationReqDTO req = new ReservationReqDTO();
