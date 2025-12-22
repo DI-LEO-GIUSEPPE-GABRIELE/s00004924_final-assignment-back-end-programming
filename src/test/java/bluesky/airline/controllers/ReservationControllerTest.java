@@ -29,6 +29,7 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.UUID;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -126,5 +127,174 @@ class ReservationControllerTest {
                 .content(objectMapper.writeValueAsString(req)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").exists());
+    }
+
+    @Test
+    @WithMockUser(roles = "ADMIN")
+    void testUpdateStatusAndGetReservation() throws Exception {
+        // Setup user, flight, etc. (reusing setup logic simplified)
+        Role role = roleRepository.findByNameIgnoreCase("TOUR_OPERATOR")
+                .orElseGet(() -> {
+                    Role r = new Role();
+                    r.setName("TOUR_OPERATOR");
+                    r.setRoleCode(2);
+                    return roleRepository.save(r);
+                });
+
+        User user = new User();
+        user.setName("U");
+        user.setSurname("S");
+        user.setUsername("u_res_test");
+        user.setEmail("u_res@test.com");
+        user.setPassword("p");
+        user.setRoles(java.util.Set.of(role));
+        user = userRepository.save(user);
+
+        Airport dep = new Airport();
+        dep.setCode("D_R");
+        dep.setName("D_R");
+        dep.setCity("C");
+        dep.setCountry("C");
+        dep = airportRepository.save(dep);
+
+        Airport arr = new Airport();
+        arr.setCode("A_R");
+        arr.setName("A_R");
+        arr.setCity("C");
+        arr.setCountry("C");
+        arr = airportRepository.save(arr);
+
+        PassengerAircraft ac = new PassengerAircraft();
+        ac.setBrand("B");
+        ac.setModel("M");
+        ac.setTotalSeats(100);
+        ac = aircraftRepository.save(ac);
+
+        Flight f = new Flight();
+        f.setFlightCode("RES01");
+        f.setDepartureDate(Instant.now().plus(1, ChronoUnit.DAYS));
+        f.setArrivalDate(Instant.now().plus(1, ChronoUnit.DAYS).plus(2, ChronoUnit.HOURS));
+        f.setBasePrice(new BigDecimal("100"));
+        f.setStatus(FlightStatus.SCHEDULED);
+        f.setDepartureAirport(dep);
+        f.setArrivalAirport(arr);
+        f.setAircraft(ac);
+        f = flightRepository.save(f);
+
+        ReservationReqDTO req = new ReservationReqDTO();
+        req.setUserId(user.getId());
+        req.setFlightIds(List.of(f.getId()));
+        req.setStatus(ReservationStatus.PENDING);
+
+        String response = mockMvc.perform(post("/reservations")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(req)))
+                .andExpect(status().isCreated())
+                .andReturn().getResponse().getContentAsString();
+
+        String id = com.jayway.jsonpath.JsonPath.read(response, "$.id");
+
+        // Update Status
+        mockMvc.perform(put("/reservations/" + id + "/status")
+                .param("status", "CONFIRMED"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("CONFIRMED"));
+
+        // Get
+        mockMvc.perform(get("/reservations/" + id))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(id));
+
+        // List
+        mockMvc.perform(get("/reservations"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content").isArray());
+    }
+
+    @Test
+    @WithMockUser(roles = "ADMIN")
+    void testDeleteReservation() throws Exception {
+        // Setup
+        Role role = roleRepository.findByNameIgnoreCase("TOUR_OPERATOR")
+                .orElseGet(() -> {
+                    Role r = new Role();
+                    r.setName("TOUR_OPERATOR");
+                    r.setRoleCode(2);
+                    return roleRepository.save(r);
+                });
+
+        User user = new User();
+        user.setName("U");
+        user.setSurname("S");
+        user.setUsername("u_del_test");
+        user.setEmail("u_del@test.com");
+        user.setPassword("p");
+        user.setRoles(java.util.Set.of(role));
+        user = userRepository.save(user);
+
+        Airport dep = new Airport();
+        dep.setCode("D_RD");
+        dep.setName("D_RD");
+        dep.setCity("C");
+        dep.setCountry("C");
+        dep = airportRepository.save(dep);
+
+        Airport arr = new Airport();
+        arr.setCode("A_RD");
+        arr.setName("A_RD");
+        arr.setCity("C");
+        arr.setCountry("C");
+        arr = airportRepository.save(arr);
+
+        PassengerAircraft ac = new PassengerAircraft();
+        ac.setBrand("B");
+        ac.setModel("M");
+        ac.setTotalSeats(100);
+        ac = aircraftRepository.save(ac);
+
+        Flight f = new Flight();
+        f.setFlightCode("RES02");
+        f.setDepartureDate(Instant.now().plus(1, ChronoUnit.DAYS));
+        f.setArrivalDate(Instant.now().plus(1, ChronoUnit.DAYS).plus(2, ChronoUnit.HOURS));
+        f.setBasePrice(new BigDecimal("100"));
+        f.setStatus(FlightStatus.SCHEDULED);
+        f.setDepartureAirport(dep);
+        f.setArrivalAirport(arr);
+        f.setAircraft(ac);
+        f = flightRepository.save(f);
+
+        ReservationReqDTO req = new ReservationReqDTO();
+        req.setUserId(user.getId());
+        req.setFlightIds(List.of(f.getId()));
+        req.setStatus(ReservationStatus.PENDING);
+
+        String response = mockMvc.perform(post("/reservations")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(req)))
+                .andExpect(status().isCreated())
+                .andReturn().getResponse().getContentAsString();
+
+        String id = com.jayway.jsonpath.JsonPath.read(response, "$.id");
+
+        mockMvc.perform(delete("/reservations/" + id))
+                .andExpect(status().isNoContent());
+
+        mockMvc.perform(get("/reservations/" + id))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @WithMockUser(roles = "FLIGHT_MANAGER")
+    void testCreateReservationForbidden() throws Exception {
+        ReservationReqDTO req = new ReservationReqDTO();
+        req.setStatus(ReservationStatus.PENDING);
+        // Need to provide valid fields to pass validation
+        req.setUserId(UUID.randomUUID());
+        req.setFlightIds(List.of(UUID.randomUUID()));
+
+        mockMvc.perform(post("/reservations")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(req)))
+                .andExpect(status().isForbidden());
     }
 }
