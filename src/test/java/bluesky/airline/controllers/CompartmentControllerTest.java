@@ -39,15 +39,15 @@ class CompartmentControllerTest {
         @WithMockUser(roles = "ADMIN")
         void testCreateCompartment() throws Exception {
                 CompartmentReqDTO req = new CompartmentReqDTO();
-                req.setCompartmentCode("NEW_COMPARTMENT");
-                req.setDescription("New Compartment Description");
+                req.setCompartmentCode("PREMIUM PLUS");
+                req.setDescription("Premium Plus Compartment");
 
                 mockMvc.perform(post("/compartments")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(objectMapper.writeValueAsString(req)))
                                 .andExpect(status().isCreated())
                                 .andExpect(jsonPath("$.id").exists())
-                                .andExpect(jsonPath("$.compartmentCode").value("NEW_COMPARTMENT"));
+                                .andExpect(jsonPath("$.compartmentCode").value("PREMIUM PLUS"));
         }
 
         // Test for updating and getting compartments by admin users
@@ -55,8 +55,8 @@ class CompartmentControllerTest {
         @WithMockUser(roles = "ADMIN")
         void testUpdateAndGetCompartment() throws Exception {
                 CompartmentReqDTO req = new CompartmentReqDTO();
-                req.setCompartmentCode("UPDATABLE");
-                req.setDescription("Description");
+                req.setCompartmentCode("PREMIUM PLUS");
+                req.setDescription("Premium Plus Compartment");
 
                 String response = mockMvc.perform(post("/compartments")
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -66,12 +66,12 @@ class CompartmentControllerTest {
 
                 String id = com.jayway.jsonpath.JsonPath.read(response, "$.id");
 
-                req.setDescription("Updated Description");
+                req.setDescription("Premium Plus Compartment (Updated)");
                 mockMvc.perform(put("/compartments/" + id)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(objectMapper.writeValueAsString(req)))
                                 .andExpect(status().isOk())
-                                .andExpect(jsonPath("$.description").value("Updated Description"));
+                                .andExpect(jsonPath("$.description").value("Premium Plus Compartment (Updated)"));
 
                 mockMvc.perform(get("/compartments/" + id))
                                 .andExpect(status().isOk())
@@ -83,8 +83,8 @@ class CompartmentControllerTest {
         @WithMockUser(roles = "ADMIN")
         void testDeleteCompartment() throws Exception {
                 CompartmentReqDTO req = new CompartmentReqDTO();
-                req.setCompartmentCode("DELETABLE");
-                req.setDescription("Description");
+                req.setCompartmentCode("PREMIUM PLUS");
+                req.setDescription("Premium Plus Compartment");
 
                 String response = mockMvc.perform(post("/compartments")
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -115,8 +115,8 @@ class CompartmentControllerTest {
         @WithMockUser(roles = "TOUR_OPERATOR")
         void testCreateCompartmentForbidden() throws Exception {
                 CompartmentReqDTO req = new CompartmentReqDTO();
-                req.setCompartmentCode("FORBIDDEN");
-                req.setDescription("Forbidden");
+                req.setCompartmentCode("PREMIUM PLUS");
+                req.setDescription("Premium Plus Compartment");
 
                 mockMvc.perform(post("/compartments")
                                 .contentType(MediaType.APPLICATION_JSON)

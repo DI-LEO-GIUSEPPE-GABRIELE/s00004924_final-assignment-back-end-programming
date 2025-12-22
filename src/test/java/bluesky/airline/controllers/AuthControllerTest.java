@@ -30,12 +30,12 @@ class AuthControllerTest {
         @Test
         void testRegisterAndLogin() throws Exception {
                 AuthRegisterRequest registerRequest = new AuthRegisterRequest();
-                registerRequest.setName("Test");
+                registerRequest.setName("Admin");
                 registerRequest.setSurname("User");
-                registerRequest.setUsername("testuser_auth");
-                registerRequest.setEmail("test_auth@example.com");
+                registerRequest.setUsername("adminuser");
+                registerRequest.setEmail("adminuser@example.com");
                 registerRequest.setPassword("password123");
-                registerRequest.setRoleCode(1); // USER
+                registerRequest.setRoleCode(0); // ADMIN
 
                 mockMvc.perform(post("/auth/register")
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -44,7 +44,7 @@ class AuthControllerTest {
                                 .andExpect(jsonPath("$.id").exists());
 
                 AuthLoginRequest loginRequest = new AuthLoginRequest();
-                loginRequest.setEmail("test_auth@example.com");
+                loginRequest.setEmail("adminuser@example.com");
                 loginRequest.setPassword("password123");
 
                 mockMvc.perform(post("/auth/login")
@@ -58,8 +58,8 @@ class AuthControllerTest {
         @Test
         void testLoginFailure() throws Exception {
                 AuthLoginRequest loginRequest = new AuthLoginRequest();
-                loginRequest.setEmail("wrong@example.com");
-                loginRequest.setPassword("wrongpass");
+                loginRequest.setEmail("adminuser@example.com");
+                loginRequest.setPassword("password12345");
 
                 mockMvc.perform(post("/auth/login")
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -67,16 +67,16 @@ class AuthControllerTest {
                                 .andExpect(status().isUnauthorized());
         }
 
-        // Test for registration failure (e.g. existing user)
+        // Test for registration failure for existing user
         @Test
         void testRegisterFailure() throws Exception {
                 AuthRegisterRequest registerRequest = new AuthRegisterRequest();
-                registerRequest.setName("Duplicate");
-                registerRequest.setSurname("User");
-                registerRequest.setUsername("dup_user");
-                registerRequest.setEmail("dup@example.com");
+                registerRequest.setName("Tour");
+                registerRequest.setSurname("Operator");
+                registerRequest.setUsername("touroperator");
+                registerRequest.setEmail("touroperator@example.com");
                 registerRequest.setPassword("password123");
-                registerRequest.setRoleCode(1);
+                registerRequest.setRoleCode(1); // TOUR_OPERATOR
 
                 mockMvc.perform(post("/auth/register")
                                 .contentType(MediaType.APPLICATION_JSON)

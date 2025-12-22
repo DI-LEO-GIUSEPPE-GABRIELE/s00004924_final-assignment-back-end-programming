@@ -52,8 +52,8 @@ class AirportControllerTest {
         @WithMockUser(roles = "TOUR_OPERATOR")
         void testCreateAirportForbiddenForTourOperator() throws Exception {
                 AirportReqDTO req = new AirportReqDTO();
-                req.setCode("LHR");
-                req.setName("Heathrow Airport");
+                req.setCode("LGW");
+                req.setName("Gatwick Airport");
                 req.setCity("London");
                 req.setCountry("UK");
 
@@ -68,10 +68,10 @@ class AirportControllerTest {
         @WithMockUser(roles = "ADMIN")
         void testUpdateAndGetAirport() throws Exception {
                 AirportReqDTO req = new AirportReqDTO();
-                req.setCode("MUC");
-                req.setName("Munich Airport");
-                req.setCity("Munich");
-                req.setCountry("Germany");
+                req.setCode("MXP");
+                req.setName("Milano Malpensa Airport");
+                req.setCity("Milan");
+                req.setCountry("Italy");
 
                 String response = mockMvc.perform(post("/airports")
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -81,12 +81,12 @@ class AirportControllerTest {
 
                 String id = com.jayway.jsonpath.JsonPath.read(response, "$.id");
 
-                req.setName("Munich Franz Josef Strauss");
+                req.setName("Milano Malpensa Airport (MXP)");
                 mockMvc.perform(put("/airports/" + id)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(objectMapper.writeValueAsString(req)))
                                 .andExpect(status().isOk())
-                                .andExpect(jsonPath("$.name").value("Munich Franz Josef Strauss"));
+                                .andExpect(jsonPath("$.name").value("Milano Malpensa Airport (MXP)"));
 
                 mockMvc.perform(get("/airports/" + id))
                                 .andExpect(status().isOk())
@@ -98,10 +98,10 @@ class AirportControllerTest {
         @WithMockUser(roles = "ADMIN")
         void testDeleteAirport() throws Exception {
                 AirportReqDTO req = new AirportReqDTO();
-                req.setCode("TXL");
-                req.setName("Tegel");
-                req.setCity("Berlin");
-                req.setCountry("Germany");
+                req.setCode("SSH");
+                req.setName("Sharm el-Sheikh Airport");
+                req.setCity("Sharm el-Sheikh");
+                req.setCountry("Egypt");
 
                 String response = mockMvc.perform(post("/airports")
                                 .contentType(MediaType.APPLICATION_JSON)

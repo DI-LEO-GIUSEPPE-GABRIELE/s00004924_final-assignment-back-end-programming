@@ -33,8 +33,8 @@ class AircraftControllerTest {
                 req.setBrand("Boeing");
                 req.setModel("747");
                 req.setType("PASSENGER");
-                req.setTotalSeats(400);
-                req.setMaxLoadCapacity(100000);
+                req.setTotalSeats(150);
+                req.setMaxLoadCapacity(10000);
 
                 mockMvc.perform(post("/aircrafts")
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -56,8 +56,8 @@ class AircraftControllerTest {
                 req.setBrand("Boeing");
                 req.setModel("747");
                 req.setType("PASSENGER");
-                req.setTotalSeats(400);
-                req.setMaxLoadCapacity(100000);
+                req.setTotalSeats(150);
+                req.setMaxLoadCapacity(10000);
 
                 mockMvc.perform(post("/aircrafts")
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -74,7 +74,7 @@ class AircraftControllerTest {
                 req.setModel("A320");
                 req.setType("PASSENGER");
                 req.setTotalSeats(180);
-                req.setMaxLoadCapacity(0);
+                req.setMaxLoadCapacity(5000);
 
                 String response = mockMvc.perform(post("/aircrafts")
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -101,10 +101,10 @@ class AircraftControllerTest {
         @WithMockUser(roles = "ADMIN")
         void testDeleteAircraft() throws Exception {
                 AircraftReqDTO req = new AircraftReqDTO();
-                req.setBrand("DeleteMe");
-                req.setModel("X");
+                req.setBrand("Airbus");
+                req.setModel("A320");
                 req.setType("PASSENGER");
-                req.setTotalSeats(10);
+                req.setTotalSeats(180);
 
                 String response = mockMvc.perform(post("/aircrafts")
                                 .contentType(MediaType.APPLICATION_JSON)
