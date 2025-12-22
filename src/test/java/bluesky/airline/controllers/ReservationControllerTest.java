@@ -94,10 +94,10 @@ class ReservationControllerTest {
         dep = airportRepository.save(dep);
 
         Airport arr = new Airport();
-        dep.setCode("LGW");
-        dep.setName("Gatwick Airport");
-        dep.setCity("London");
-        dep.setCountry("UK");
+        arr.setCode("LGW");
+        arr.setName("Gatwick Airport");
+        arr.setCity("London");
+        arr.setCountry("UK");
         arr = airportRepository.save(arr);
 
         PassengerAircraft aircraft = new PassengerAircraft();
@@ -129,15 +129,15 @@ class ReservationControllerTest {
                 .andExpect(jsonPath("$.id").exists());
     }
 
-    // Test for updating reservation status by admin users
+    // Test for updating reservation status by tour operator users
     @Test
-    @WithMockUser(roles = "ADMIN")
+    @WithMockUser(roles = "TOUR_OPERATOR")
     void testUpdateStatusAndGetReservation() throws Exception {
-        Role role = roleRepository.findByNameIgnoreCase("ADMIN")
+        Role role = roleRepository.findByNameIgnoreCase("TOUR_OPERATOR")
                 .orElseGet(() -> {
                     Role r = new Role();
-                    r.setName("ADMIN");
-                    r.setRoleCode(0);
+                    r.setName("TOUR_OPERATOR");
+                    r.setRoleCode(2);
                     return roleRepository.save(r);
                 });
 
@@ -147,7 +147,7 @@ class ReservationControllerTest {
         user.setUsername("adminuser");
         user.setEmail("adminuser@example.com");
         user.setPassword("password123");
-        user.setRoles(java.util.Set.of(role)); // ADMIN
+        user.setRoles(java.util.Set.of(role)); // TOUR_OPERATOR
         user = userRepository.save(user);
 
         Airport dep = new Airport();
@@ -212,21 +212,21 @@ class ReservationControllerTest {
     @Test
     @WithMockUser(roles = "ADMIN")
     void testDeleteReservation() throws Exception {
-        Role role = roleRepository.findByNameIgnoreCase("ADMIN")
+        Role role = roleRepository.findByNameIgnoreCase("TOUR_OPERATOR")
                 .orElseGet(() -> {
                     Role r = new Role();
-                    r.setName("ADMIN");
-                    r.setRoleCode(0);
+                    r.setName("TOUR_OPERATOR");
+                    r.setRoleCode(2);
                     return roleRepository.save(r);
                 });
 
         User user = new User();
-        user.setName("Admin");
-        user.setSurname("User");
-        user.setUsername("adminuser");
-        user.setEmail("adminuser@example.com");
+        user.setName("Tour");
+        user.setSurname("Operator");
+        user.setUsername("touroperator");
+        user.setEmail("touroperator@example.com");
         user.setPassword("password123");
-        user.setRoles(java.util.Set.of(role)); // ADMIN
+        user.setRoles(java.util.Set.of(role)); // TOUR_OPERATOR
         user = userRepository.save(user);
 
         Airport dep = new Airport();

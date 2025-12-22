@@ -61,10 +61,10 @@ class FlightControllerTest {
                 dep = airportRepository.save(dep);
 
                 Airport arr = new Airport();
-                dep.setCode("LGW");
-                dep.setName("Gatwick Airport");
-                dep.setCity("London");
-                dep.setCountry("UK");
+                arr.setCode("LGW");
+                arr.setName("Gatwick Airport");
+                arr.setCity("London");
+                arr.setCountry("UK");
                 arr = airportRepository.save(arr);
 
                 PassengerAircraft aircraft = new PassengerAircraft();
@@ -222,10 +222,10 @@ class FlightControllerTest {
                 dep = airportRepository.save(dep);
 
                 Airport arr = new Airport();
-                dep.setCode("LGW");
-                dep.setName("Gatwick Airport");
-                dep.setCity("London");
-                dep.setCountry("UK");
+                arr.setCode("LGW");
+                arr.setName("Gatwick Airport");
+                arr.setCity("London");
+                arr.setCountry("UK");
                 arr = airportRepository.save(arr);
 
                 PassengerAircraft aircraft = new PassengerAircraft();

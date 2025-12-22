@@ -13,6 +13,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import org.springframework.transaction.annotation.Transactional;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
+import bluesky.airline.repositories.RoleRepository;
+import bluesky.airline.entities.Role;
+
 // Test class for UserController
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -25,10 +28,32 @@ class UserControllerTest {
         @Autowired
         private ObjectMapper objectMapper;
 
+        @Autowired
+        private RoleRepository roleRepository;
+
         // Test for creating and listing users by admin users
         @Test
         @WithMockUser(roles = "ADMIN")
         void testCreateAndListUser() throws Exception {
+                if (roleRepository.findByNameIgnoreCase("ADMIN").isEmpty()) {
+                        Role admin = new Role();
+                        admin.setName("ADMIN");
+                        admin.setRoleCode(0);
+                        roleRepository.save(admin);
+                }
+                if (roleRepository.findByNameIgnoreCase("FLIGHT_MANAGER").isEmpty()) {
+                        Role fm = new Role();
+                        fm.setName("FLIGHT_MANAGER");
+                        fm.setRoleCode(1);
+                        roleRepository.save(fm);
+                }
+                if (roleRepository.findByNameIgnoreCase("TOUR_OPERATOR").isEmpty()) {
+                        Role to = new Role();
+                        to.setName("TOUR_OPERATOR");
+                        to.setRoleCode(2);
+                        roleRepository.save(to);
+                }
+
                 CreateUserRequest req = new CreateUserRequest();
                 req.setName("Admin");
                 req.setSurname("User");
@@ -70,13 +95,26 @@ class UserControllerTest {
         @Test
         @WithMockUser(roles = "ADMIN")
         void testUpdateAndGetUser() throws Exception {
+                if (roleRepository.findByNameIgnoreCase("FLIGHT_MANAGER").isEmpty()) {
+                        Role fm = new Role();
+                        fm.setName("FLIGHT_MANAGER");
+                        fm.setRoleCode(1);
+                        roleRepository.save(fm);
+                }
+                if (roleRepository.findByNameIgnoreCase("TOUR_OPERATOR").isEmpty()) {
+                        Role to = new Role();
+                        to.setName("TOUR_OPERATOR");
+                        to.setRoleCode(2);
+                        roleRepository.save(to);
+                }
+
                 CreateUserRequest req = new CreateUserRequest();
                 req.setName("Flight");
                 req.setSurname("Manager");
                 req.setUsername("flightmanager");
                 req.setEmail("flightmanager@example.com");
                 req.setPassword("password123");
-                req.setRoleCode(2); // FLIGHT_MANAGER
+                req.setRoleCode(1); // FLIGHT_MANAGER
 
                 String response = mockMvc.perform(post("/users")
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -89,14 +127,15 @@ class UserControllerTest {
                 bluesky.airline.dto.users.UpdateUserRequest updateReq = new bluesky.airline.dto.users.UpdateUserRequest();
                 updateReq.setName("Flight (updated)");
                 updateReq.setSurname("Manager (updated)");
+                updateReq.setUsername("flightmanager");
                 updateReq.setEmail("flightmanagerupdated@example.com");
-                updateReq.setRoleCode(1); // TOUR_OPERATOR
+                updateReq.setRoleCode(2); // TOUR_OPERATOR
 
                 mockMvc.perform(put("/users/" + id)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(objectMapper.writeValueAsString(updateReq)))
                                 .andExpect(status().isOk())
-                                .andExpect(jsonPath("$.name").value("UpdatedName"));
+                                .andExpect(jsonPath("$.name").value("Flight (updated)"));
 
                 mockMvc.perform(get("/users/" + id))
                                 .andExpect(status().isOk())
