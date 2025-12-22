@@ -1,20 +1,20 @@
 package bluesky.airline.services;
 
-import java.time.Instant;
-import java.util.UUID;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-import bluesky.airline.entities.Flight;
-import bluesky.airline.entities.enums.FlightStatus;
-import bluesky.airline.repositories.FlightRepository;
-import bluesky.airline.entities.Airport;
-import bluesky.airline.entities.Aircraft;
-import bluesky.airline.repositories.CompartmentRepository;
-import bluesky.airline.entities.Compartment;
-import bluesky.airline.dto.flight.FlightRespDTO;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import java.time.Instant;
+import bluesky.airline.dto.flight.FlightRespDTO;
+import bluesky.airline.repositories.CompartmentRepository;
+import bluesky.airline.entities.Airport;
+import bluesky.airline.entities.Flight;
+import bluesky.airline.entities.Aircraft;
+import bluesky.airline.entities.enums.FlightStatus;
+import bluesky.airline.entities.Compartment;
+import bluesky.airline.repositories.FlightRepository;
+import java.util.UUID;
 
 // Service for Flight entities
 @Service

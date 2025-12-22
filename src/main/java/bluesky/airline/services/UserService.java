@@ -1,18 +1,18 @@
 package bluesky.airline.services;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-import bluesky.airline.entities.Role;
-import bluesky.airline.entities.User;
-import bluesky.airline.exceptions.ValidationException;
 import bluesky.airline.repositories.RoleRepository;
+import java.util.UUID;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import bluesky.airline.entities.User;
 import bluesky.airline.repositories.UserRepository;
+import bluesky.airline.entities.Role;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import java.util.List;
+import bluesky.airline.exceptions.ValidationException;
+import java.util.Optional;
 
 // Service for User entities
 @Service

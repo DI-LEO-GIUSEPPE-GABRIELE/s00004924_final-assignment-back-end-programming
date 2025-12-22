@@ -1,29 +1,29 @@
 package bluesky.airline.controllers;
 
-import bluesky.airline.dto.flight.FlightReqDTO;
-import bluesky.airline.entities.Airport;
-import bluesky.airline.entities.PassengerAircraft;
-import bluesky.airline.entities.enums.FlightStatus;
-import bluesky.airline.repositories.AircraftRepository;
-import bluesky.airline.repositories.AirportRepository;
-import bluesky.airline.services.ExchangeRateService;
-import bluesky.airline.services.WeatherService;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import java.util.List;
-import org.junit.jupiter.api.Test;
+import org.springframework.transaction.annotation.Transactional;
 import java.time.Instant;
+import bluesky.airline.services.WeatherService;
+import org.junit.jupiter.api.Test;
+import java.math.BigDecimal;
 import java.time.temporal.ChronoUnit;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
+import bluesky.airline.dto.flight.FlightReqDTO;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
-import org.springframework.test.web.servlet.MockMvc;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import bluesky.airline.entities.enums.FlightStatus;
+import java.util.List;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
-import java.math.BigDecimal;
+import org.springframework.security.test.context.support.WithMockUser;
+import bluesky.airline.entities.Airport;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import bluesky.airline.repositories.AircraftRepository;
+import bluesky.airline.repositories.AirportRepository;
+import org.springframework.http.MediaType;
+import bluesky.airline.entities.PassengerAircraft;
+import org.springframework.boot.test.context.SpringBootTest;
+import bluesky.airline.services.ExchangeRateService;
+import org.springframework.test.web.servlet.MockMvc;
 
 // Test class for FlightController
 @SpringBootTest

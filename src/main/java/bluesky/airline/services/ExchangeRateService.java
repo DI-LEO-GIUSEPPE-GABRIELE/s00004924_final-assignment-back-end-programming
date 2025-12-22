@@ -1,9 +1,9 @@
 package bluesky.airline.services;
 
-import java.math.BigDecimal;
 import java.util.Map;
-import org.springframework.beans.factory.annotation.Value;
+import java.math.BigDecimal;
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.client.RestTemplate;
 
 // Service for currency exchange rates

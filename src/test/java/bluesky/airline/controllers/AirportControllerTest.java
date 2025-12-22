@@ -1,17 +1,17 @@
 package bluesky.airline.controllers;
 
-import bluesky.airline.dto.airport.AirportReqDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import bluesky.airline.dto.airport.AirportReqDTO;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 // Test class for AirportController
 @SpringBootTest

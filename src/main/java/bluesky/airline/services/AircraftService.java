@@ -1,12 +1,12 @@
 package bluesky.airline.services;
 
-import java.util.UUID;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-import bluesky.airline.entities.Aircraft;
 import bluesky.airline.repositories.AircraftRepository;
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import java.util.UUID;
+import org.springframework.data.domain.Page;
+import bluesky.airline.entities.Aircraft;
+import org.springframework.data.domain.Pageable;
 
 // Service for Aircraft entities
 @Service

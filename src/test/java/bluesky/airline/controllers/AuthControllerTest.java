@@ -1,18 +1,18 @@
 package bluesky.airline.controllers;
 
 import bluesky.airline.dto.auth.AuthRegisterRequest;
-import bluesky.airline.dto.auth.AuthLoginRequest;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import org.junit.jupiter.api.Test;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import org.springframework.http.MediaType;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.beans.factory.annotation.Autowired;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import org.springframework.boot.test.context.SpringBootTest;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import bluesky.airline.dto.auth.AuthLoginRequest;
+import org.junit.jupiter.api.Test;
 
 // Test class for AuthController
 @SpringBootTest

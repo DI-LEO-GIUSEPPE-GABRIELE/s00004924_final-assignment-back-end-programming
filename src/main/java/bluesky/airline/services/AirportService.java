@@ -1,12 +1,12 @@
 package bluesky.airline.services;
 
-import java.util.UUID;
-import org.springframework.beans.factory.annotation.Autowired;
+import bluesky.airline.repositories.AirportRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import java.util.UUID;
 import bluesky.airline.entities.Airport;
-import bluesky.airline.repositories.AirportRepository;
+import org.springframework.stereotype.Service;
 
 // Service for Airport entities
 @Service
