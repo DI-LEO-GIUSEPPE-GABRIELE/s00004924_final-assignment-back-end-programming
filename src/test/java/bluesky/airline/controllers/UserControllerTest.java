@@ -32,10 +32,10 @@ class UserControllerTest {
                 CreateUserRequest req = new CreateUserRequest();
                 req.setName("Admin");
                 req.setSurname("User");
-                req.setUsername("adminuser_test");
-                req.setEmail("admin_test@example.com");
-                req.setPassword("password");
-                req.setRoleCode(2);
+                req.setUsername("adminuser");
+                req.setEmail("adminuser@example.com");
+                req.setPassword("password123");
+                req.setRoleCode(0); // ADMIN
 
                 mockMvc.perform(post("/users")
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -53,12 +53,12 @@ class UserControllerTest {
         @WithMockUser(roles = "TOUR_OPERATOR")
         void testCreateUserForbidden() throws Exception {
                 CreateUserRequest req = new CreateUserRequest();
-                req.setName("Admin");
-                req.setSurname("User");
-                req.setUsername("adminuser_forbidden");
-                req.setEmail("admin_forbidden@example.com");
-                req.setPassword("password");
-                req.setRoleCode(2);
+                req.setName("Tour");
+                req.setSurname("Operator");
+                req.setUsername("touroperator");
+                req.setEmail("touroperator@example.com");
+                req.setPassword("password123");
+                req.setRoleCode(1); // TOUR_OPERATOR
 
                 mockMvc.perform(post("/users")
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -71,12 +71,12 @@ class UserControllerTest {
         @WithMockUser(roles = "ADMIN")
         void testUpdateAndGetUser() throws Exception {
                 CreateUserRequest req = new CreateUserRequest();
-                req.setName("ToUpdate");
-                req.setSurname("User");
-                req.setUsername("update_user");
-                req.setEmail("update@example.com");
-                req.setPassword("password");
-                req.setRoleCode(1); // USER
+                req.setName("Flight");
+                req.setSurname("Manager");
+                req.setUsername("flightmanager");
+                req.setEmail("flightmanager@example.com");
+                req.setPassword("password123");
+                req.setRoleCode(2); // FLIGHT_MANAGER
 
                 String response = mockMvc.perform(post("/users")
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -87,11 +87,10 @@ class UserControllerTest {
                 String id = com.jayway.jsonpath.JsonPath.read(response, "$.id");
 
                 bluesky.airline.dto.users.UpdateUserRequest updateReq = new bluesky.airline.dto.users.UpdateUserRequest();
-                updateReq.setName("UpdatedName");
-                updateReq.setSurname("UpdatedSurname");
-                updateReq.setUsername("updated_user");
-                updateReq.setEmail("update@example.com"); // Email remains same or changed
-                updateReq.setRoleCode(1); // USER
+                updateReq.setName("Flight (updated)");
+                updateReq.setSurname("Manager (updated)");
+                updateReq.setEmail("flightmanagerupdated@example.com");
+                updateReq.setRoleCode(1); // TOUR_OPERATOR
 
                 mockMvc.perform(put("/users/" + id)
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -109,12 +108,12 @@ class UserControllerTest {
         @WithMockUser(roles = "ADMIN")
         void testDeleteUser() throws Exception {
                 CreateUserRequest req = new CreateUserRequest();
-                req.setName("ToDelete");
-                req.setSurname("User");
-                req.setUsername("delete_user");
-                req.setEmail("delete@example.com");
-                req.setPassword("password");
-                req.setRoleCode(1);
+                req.setName("Flight");
+                req.setSurname("Manager");
+                req.setUsername("flightmanager");
+                req.setEmail("flightmanager@example.com");
+                req.setPassword("password123");
+                req.setRoleCode(2); // FLIGHT_MANAGER
 
                 String response = mockMvc.perform(post("/users")
                                 .contentType(MediaType.APPLICATION_JSON)

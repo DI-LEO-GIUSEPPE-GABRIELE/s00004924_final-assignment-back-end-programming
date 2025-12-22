@@ -35,7 +35,7 @@ class FlightGraphqlControllerTest {
     @WithMockUser(roles = "ADMIN")
     void testListFlights() throws Exception {
         Flight flight = new Flight();
-        flight.setFlightCode("GQ100");
+        flight.setFlightCode("BS123");
         flight.setDepartureDate(Instant.now().plus(1, ChronoUnit.DAYS));
         flight.setArrivalDate(Instant.now().plus(1, ChronoUnit.DAYS).plus(2, ChronoUnit.HOURS));
         flight.setBasePrice(new BigDecimal("200.00"));
@@ -49,6 +49,6 @@ class FlightGraphqlControllerTest {
                 .content(query))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.flights.content").isArray())
-                .andExpect(jsonPath("$.data.flights.content[0].flightCode").value("GQ100"));
+                .andExpect(jsonPath("$.data.flights.content[0].flightCode").value("BS123"));
     }
 }
