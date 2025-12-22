@@ -107,7 +107,7 @@ erDiagram
 
 -   **Language**: Java 21
 -   **Framework**: Spring Boot 3.5.7
--   **Database**: PostgreSQL
+-   **Database**: PostgreSQL (Production), H2 (Testing)
 -   **Persistence**: Spring Data JPA / Hibernate
 -   **Security**: Spring Security + JJWT
 -   **API**: REST & GraphQL
@@ -153,9 +153,25 @@ mvn spring-boot:run
 ```
 The server will start at `http://localhost:3001`.
 
-## 🧪 How to Test (Step-by-Step)
+## 🧪 Testing
 
-Follow this flow to test the main functionalities using Postman or cURL.
+The project is covered by a comprehensive suite of automated tests.
+
+### Running Automated Tests
+To execute the full test suite (Unit + Integration):
+```bash
+mvn test
+```
+This will run all tests using the H2 in-memory database to ensure isolation and speed.
+
+### Test Coverage
+-   **Controllers**: Tested using `@SpringBootTest` with `@AutoConfigureMockMvc`. We simulate HTTP requests and verify responses, including status codes (200, 201, 400, 403) and JSON bodies.
+-   **Security**: `@WithMockUser` is used to simulate authenticated users with specific roles (ADMIN, TOUR_OPERATOR, etc.) to verify RBAC logic.
+-   **Services & Logic**: Business logic is validated to ensure constraints (e.g., duplicate emails, invalid flight dates) are handled correctly.
+
+## 🧪 Manual Testing (Postman/cURL)
+
+Follow this flow to test manually.
 
 ### Phase 1: Authentication
 1.  **Register a User** (e.g., as an ADMIN):

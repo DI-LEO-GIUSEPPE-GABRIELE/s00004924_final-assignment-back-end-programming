@@ -1,8 +1,8 @@
 package bluesky.airline.dto.reservation;
 
-import jakarta.validation.constraints.NotNull;
-import java.util.UUID;
 import java.util.List;
+import java.util.UUID;
+import jakarta.validation.constraints.NotNull;
 import bluesky.airline.entities.enums.ReservationStatus;
 
 // DTO for Reservation requests (create/update)

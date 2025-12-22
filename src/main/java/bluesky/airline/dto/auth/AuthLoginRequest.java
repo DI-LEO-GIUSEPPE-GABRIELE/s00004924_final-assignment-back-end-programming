@@ -1,8 +1,8 @@
 package bluesky.airline.dto.auth;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Email;
 
 // DTO for Authentication login requests
 public class AuthLoginRequest {

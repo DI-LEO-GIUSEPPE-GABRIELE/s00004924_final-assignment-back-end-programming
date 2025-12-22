@@ -1,16 +1,16 @@
 package bluesky.airline.controllers;
 
-import java.util.UUID;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import java.util.UUID;
+import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.validation.Valid;
+import bluesky.airline.dto.aircraft.AircraftReqDTO;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import bluesky.airline.entities.Aircraft;
 import bluesky.airline.services.AircraftService;
-import bluesky.airline.dto.aircraft.AircraftReqDTO;
-import jakarta.validation.Valid;
 
 // Controller for aircraft management, only accessible by ADMIN and TOUR_OPERATOR roles
 // Endpoint: /aircrafts

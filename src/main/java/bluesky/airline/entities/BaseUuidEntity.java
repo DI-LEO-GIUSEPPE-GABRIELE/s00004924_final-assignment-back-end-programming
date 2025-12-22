@@ -2,10 +2,10 @@ package bluesky.airline.entities;
 
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.Id;
-import java.util.UUID;
-import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UuidGenerator;
+import java.util.UUID;
 import org.hibernate.type.SqlTypes;
+import org.hibernate.annotations.JdbcTypeCode;
 
 // Entity for Base UUID IDs
 @MappedSuperclass

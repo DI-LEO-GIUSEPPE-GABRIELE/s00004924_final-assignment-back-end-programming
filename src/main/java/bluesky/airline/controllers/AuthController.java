@@ -1,18 +1,18 @@
 package bluesky.airline.controllers;
 
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import bluesky.airline.services.AuthService;
+import org.springframework.validation.annotation.Validated;
 import bluesky.airline.services.UserService;
-import bluesky.airline.entities.User;
-import bluesky.airline.dto.auth.AuthLoginRequest;
 import bluesky.airline.dto.auth.AuthRegisterRequest;
+import bluesky.airline.services.AuthService;
+import bluesky.airline.dto.auth.AuthLoginRequest;
+import org.springframework.web.bind.annotation.RequestBody;
+import bluesky.airline.entities.User;
 import bluesky.airline.dto.auth.LoginRespDTO;
+import org.springframework.http.ResponseEntity;
 import bluesky.airline.dto.auth.NewUserRespDTO;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 // Controller for authentication and user management, accessible by all roles
 // Endpoint: /auth

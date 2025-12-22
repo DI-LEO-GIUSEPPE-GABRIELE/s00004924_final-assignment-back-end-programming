@@ -1,9 +1,9 @@
 package bluesky.airline.entities;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.Table;
 import jakarta.persistence.Column;
-import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 

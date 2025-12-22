@@ -1,13 +1,12 @@
 package bluesky.airline.dto.flight;
 
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Future;
-import java.math.BigDecimal;
+import bluesky.airline.entities.enums.FlightStatus;
 import java.time.Instant;
 import java.util.UUID;
-import bluesky.airline.entities.enums.FlightStatus;
-
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.NotBlank;
+import java.math.BigDecimal;
+import jakarta.validation.constraints.NotNull;
 import java.util.List;
 
 // DTO for Flight requests (create/update)
