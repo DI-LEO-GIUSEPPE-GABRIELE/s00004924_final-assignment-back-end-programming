@@ -475,12 +475,12 @@
                 },
                 {
                   "key": "from",
-                  "value": "2023-01-01T00:00:00Z",
+                  "value": "2026-02-01T00:00:00Z",
                   "disabled": true
                 },
                 {
                   "key": "to",
-                  "value": "2023-12-31T23:59:59Z",
+                  "value": "2026-02-02T23:59:59Z",
                   "disabled": true
                 },
                 {
@@ -560,7 +560,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"flightCode\": \"BS123\",\n    \"departureDate\": \"2023-12-25T10:00:00Z\",\n    \"arrivalDate\": \"2023-12-25T14:00:00Z\",\n    \"basePrice\": 150.00,\n    \"status\": \"SCHEDULED\",\n    \"departureAirportId\": \"<UUID>\",\n    \"arrivalAirportId\": \"<UUID>\",\n    \"aircraftId\": \"<UUID>\",\n    \"compartmentCodes\": [\"ECONOMY\", \"BUSINESS\"]\n}",
+              "raw": "{\n    \"flightCode\": \"BS123\",\n    \"departureDate\": \"2023-12-25T10:00:00Z\",\n    \"arrivalDate\": \"2023-12-25T14:00:00Z\",\n    \"basePrice\": 150.00,\n    \"status\": \"SCHEDULED\",\n    \"departureAirportId\": \"<Insert the UUID>\",\n    \"arrivalAirportId\": \"<Insert the UUID>\",\n    \"aircraftId\": \"<Insert the UUID>\",\n    \"compartmentCodes\": [\"ECONOMY\", \"BUSINESS\"]\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -601,7 +601,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"flightCode\": \"BS123-UPD\",\n    \"departureDate\": \"2023-12-26T10:00:00Z\",\n    \"arrivalDate\": \"2023-12-26T14:00:00Z\",\n    \"basePrice\": 200.00,\n    \"status\": \"DELAYED\",\n    \"departureAirportId\": \"<UUID>\",\n    \"arrivalAirportId\": \"<UUID>\",\n    \"aircraftId\": \"<UUID>\",\n    \"compartmentCodes\": [\"ECONOMY\", \"BUSINESS\", \"FIRST_CLASS\"]\n}",
+              "raw": "{\n    \"flightCode\": \"BS123-UPD\",\n    \"departureDate\": \"2023-12-26T10:00:00Z\",\n    \"arrivalDate\": \"2023-12-26T14:00:00Z\",\n    \"basePrice\": 200.00,\n    \"status\": \"DELAYED\",\n    \"departureAirportId\": \"<Insert the UUID>\",\n    \"arrivalAirportId\": \"<Insert the UUID>\",\n    \"aircraftId\": \"<Insert the UUID>\",\n    \"compartmentCodes\": [\"ECONOMY\", \"BUSINESS\", \"FIRST_CLASS\"]\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -717,7 +717,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"flightIds\": [\"<UUID>\"],\n    \"userId\": \"<UUID>\",\n    \"status\": \"PENDING\"\n}",
+              "raw": "{\n    \"flightIds\": [\"<Insert the UUID>\"],\n    \"userId\": \"<Insert the UUID>\",\n    \"status\": \"PENDING\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -871,7 +871,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"name\": \"John Doe\",\n    \"surname\": \"Doe\",\n    \"username\": \"johndoe\",\n    \"email\": \"john@example.com\",\n    \"password\": \"password123\",\n    \"avatarUrl\": \"http://example.com/avatar.png\",\n    \"roleCode\": 0\n}",
+              "raw": "{\n    \"name\": \"Veratour\",\n    \"surname\": \"Company\",\n    \"username\": \"veratour\",\n    \"email\": \"veratour@example.com\",\n    \"password\": \"password123\",\n    \"avatarUrl\": \"http://example.com/avatar.png\",\n    \"roleCode\": 2\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -893,7 +893,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"name\": \"John Updated\",\n    \"surname\": \"Updated\",\n    \"username\": \"johnupdated\",\n    \"email\": \"john@example.com\",\n    \"avatarUrl\": \"http://example.com/avatar_updated.png\",\n    \"roleCode\": 0\n}",
+              "raw": "{\n    \"name\": \"Veratour\",\n    \"surname\": \"Updated Company\",\n    \"username\": \"veratour\",\n    \"email\": \"veratour@example.com\",\n    \"avatarUrl\": \"http://example.com/avatar_updated.png\",\n    \"roleCode\": 1\n}",
               "options": {
                 "raw": {
                   "language": "json"
