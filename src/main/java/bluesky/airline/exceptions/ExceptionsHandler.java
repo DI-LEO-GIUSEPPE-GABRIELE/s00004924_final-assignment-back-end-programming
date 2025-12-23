@@ -2,17 +2,17 @@ package bluesky.airline.exceptions;
 
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.http.HttpStatus;
-import bluesky.airline.dto.errors.ErrorWithListDTO;
-import bluesky.airline.dto.errors.ErrorDTO;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import bluesky.airline.dto.errors.ErrorWithListDTO;
+import bluesky.airline.dto.errors.ErrorDTO;
 
 // Handler for exceptions
 @RestControllerAdvice

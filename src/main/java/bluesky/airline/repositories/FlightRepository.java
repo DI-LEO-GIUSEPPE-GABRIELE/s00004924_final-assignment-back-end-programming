@@ -1,15 +1,15 @@
 package bluesky.airline.repositories;
 
 import org.springframework.data.jpa.repository.Query;
-import bluesky.airline.entities.enums.FlightStatus;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.jpa.repository.JpaRepository;
-import java.time.Instant;
-import bluesky.airline.entities.Flight;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
-import java.util.UUID;
 import org.springframework.data.domain.Page;
+import bluesky.airline.entities.enums.FlightStatus;
+import bluesky.airline.entities.Flight;
+import java.util.UUID;
+import java.time.Instant;
 
 // Repository for Flight entities
 @Repository
