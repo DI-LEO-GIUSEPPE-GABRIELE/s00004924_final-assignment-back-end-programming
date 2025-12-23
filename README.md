@@ -7,12 +7,12 @@ The application implements a Test Driven Development (TDD) approach to ensure qu
 
 The application handles the core operations of an airline company managent system, including:
 
-**Roles Management**: Each user is assigned role (ADMIN, FLIGHT_MANAGER, TOUR_OPERATOR) that determines their access level.
-**User Management**: Registration, authentication and users management for role ADMIN.
-**Flight Management**: Full flights management for roles FLIGHT_MANAGER and ADMIN.
-**Compartment Management**: Full compartments management for role ADMIN.
-**Aircraft and Airports**: Full aircrafts and airports management for roles ADMIN and TOUR_OPERATOR.
-**Reservations**: Full reservations management for roles ADMIN and TOUR_OPERATOR.
+- **Roles Management**: Each user is assigned role (ADMIN, FLIGHT_MANAGER, TOUR_OPERATOR) that determines their access level.
+- **User Management**: Registration, authentication and users management for role ADMIN.
+- **Flight Management**: Full flights management for roles FLIGHT_MANAGER and ADMIN.
+- **Compartment Management**: Full compartments management for role ADMIN.
+- **Aircraft and Airports**: Full aircrafts and airports management for roles ADMIN and TOUR_OPERATOR.
+- **Reservations**: Full reservations management for roles ADMIN and TOUR_OPERATOR.
 
 ## Technologies Used
 
