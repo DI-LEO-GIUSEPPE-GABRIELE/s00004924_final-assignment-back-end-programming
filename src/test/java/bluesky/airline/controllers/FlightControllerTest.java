@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 import java.time.temporal.ChronoUnit;
 import bluesky.airline.dto.flight.FlightReqDTO;
+import bluesky.airline.dto.weather.WeatherRespDTO;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -21,6 +22,7 @@ import bluesky.airline.repositories.AircraftRepository;
 import bluesky.airline.repositories.AirportRepository;
 import org.springframework.http.MediaType;
 import bluesky.airline.entities.PassengerAircraft;
+import bluesky.airline.entities.WeatherData;
 import org.springframework.boot.test.context.SpringBootTest;
 import bluesky.airline.services.ExchangeRateService;
 import org.springframework.test.web.servlet.MockMvc;
@@ -308,11 +310,11 @@ class FlightControllerTest {
 
                 String id = com.jayway.jsonpath.JsonPath.read(response, "$.id");
 
-                bluesky.airline.entities.WeatherData wd = new bluesky.airline.entities.WeatherData();
+                WeatherData wd = new WeatherData();
                 wd.setTemperature(25.0);
                 wd.setDescription("Sunny");
 
-                bluesky.airline.dto.weather.WeatherRespDTO dto = new bluesky.airline.dto.weather.WeatherRespDTO();
+                WeatherRespDTO dto = new WeatherRespDTO();
                 dto.setTemperature(25.0);
                 dto.setDescription("Sunny");
 

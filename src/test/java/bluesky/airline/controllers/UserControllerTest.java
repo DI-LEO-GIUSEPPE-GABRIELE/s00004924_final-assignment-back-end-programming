@@ -3,6 +3,7 @@ package bluesky.airline.controllers;
 import org.springframework.boot.test.context.SpringBootTest;
 import bluesky.airline.repositories.RoleRepository;
 import bluesky.airline.dto.users.CreateUserRequest;
+import bluesky.airline.dto.users.UpdateUserRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.transaction.annotation.Transactional;
@@ -123,7 +124,7 @@ class UserControllerTest {
 
                 String id = com.jayway.jsonpath.JsonPath.read(response, "$.id");
 
-                bluesky.airline.dto.users.UpdateUserRequest updateReq = new bluesky.airline.dto.users.UpdateUserRequest();
+                UpdateUserRequest updateReq = new UpdateUserRequest();
                 updateReq.setName("Flight (updated)");
                 updateReq.setSurname("Manager (updated)");
                 updateReq.setUsername("flightmanager");
