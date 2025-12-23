@@ -1,5 +1,6 @@
 package bluesky.airline.security;
 
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 import bluesky.airline.repositories.UserRepository;
@@ -10,6 +11,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import org.springframework.util.AntPathMatcher;
+import java.util.List;
 import java.util.UUID;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -37,9 +39,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                         UUID userId = UUID.fromString(subject);
                         User u = users.findWithRolesById(userId).orElse(null);
                         if (u != null) {
-                            java.util.List<org.springframework.security.core.authority.SimpleGrantedAuthority> auths = u
+                            List<SimpleGrantedAuthority> auths = u
                                     .getRoles().stream()
-                                    .map(r -> new org.springframework.security.core.authority.SimpleGrantedAuthority(
+                                    .map(r -> new SimpleGrantedAuthority(
                                             "ROLE_" + r.getName()))
                                     .toList();
                             UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(u, null,
