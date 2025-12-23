@@ -97,6 +97,7 @@ If you want to change logged User, you can do:
 **Create at least a Flight**: `POST /flights`, (Admin/Flight Manager only). Then you can test all the endpoints for flights (also external APIs refreshWeather `POST /flights/:id/weather/refresh` and convertPrice `GET /flights/:id/price/convert?target=USD`).
 **Create at least a Reservation**: `POST /reservations`, (Admin/Tour Operator only). Then you can test all the endpoints for reservations.
 
+Almost all GET List endpoints are paginated and some are filterable through query parameters.
 For some controller, the creation is restricted to Admin role, but other endpoints are available for all or some roles.
 
 ### 3 - GraphQL
