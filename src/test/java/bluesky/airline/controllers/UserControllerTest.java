@@ -163,5 +163,47 @@ class UserControllerTest {
 
                 mockMvc.perform(delete("/users/" + id))
                                 .andExpect(status().isNoContent());
+
+                mockMvc.perform(get("/users/" + id))
+                                .andExpect(status().isNotFound());
+        }
+
+        // Test for creating a user with duplicate username
+        @Test
+        @WithMockUser(roles = "ADMIN")
+        void testCreateUserDuplicateUsername() throws Exception {
+                if (roleRepository.findByNameIgnoreCase("ADMIN").isEmpty()) {
+                        Role admin = new Role();
+                        admin.setName("ADMIN");
+                        admin.setRoleCode(0);
+                        roleRepository.save(admin);
+                }
+
+                CreateUserRequest req1 = new CreateUserRequest();
+                req1.setName("User1");
+                req1.setSurname("One");
+                req1.setUsername("duplicateuser");
+                req1.setEmail("user1@example.com");
+                req1.setPassword("password123");
+                req1.setRoleCode(0);
+
+                mockMvc.perform(post("/users")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(req1)))
+                                .andExpect(status().isCreated());
+
+                CreateUserRequest req2 = new CreateUserRequest();
+                req2.setName("User2");
+                req2.setSurname("Two");
+                req2.setUsername("duplicateuser"); // Same username
+                req2.setEmail("user2@example.com"); // Different email
+                req2.setPassword("password123");
+                req2.setRoleCode(0);
+
+                mockMvc.perform(post("/users")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(req2)))
+                                .andExpect(status().isBadRequest())
+                                .andExpect(jsonPath("$.errorsList[0]").value("username: Username already registered"));
         }
 }

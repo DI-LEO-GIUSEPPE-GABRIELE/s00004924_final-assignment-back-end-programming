@@ -78,7 +78,7 @@ public class UserService {
     // Create a new user
     public User create(String name, String surname, String username, String email, String password, String avatarUrl,
             Integer roleCode) {
-        validateCreate(email);
+        validateCreate(email, username);
         User u = new User(null, name, email);
         u.setSurname(surname);
         u.setUsername(username);
@@ -112,7 +112,7 @@ public class UserService {
     public Optional<User> update(UUID id, String name, String surname, String username, String email, String avatarUrl,
             Integer roleCode) {
         return repo.findById(id).map(existing -> {
-            validateUpdate(id, email);
+            validateUpdate(id, email, username);
             existing.setName(name);
             existing.setSurname(surname);
             existing.setUsername(username);
@@ -150,18 +150,35 @@ public class UserService {
     }
 
     // Validate user creation/registration data
-    private void validateCreate(String email) {
-        boolean exists = repo.findByEmailIgnoreCase(email).isPresent();
-        if (exists)
-            throw new ValidationException(java.util.List.of("email: Email already registered"));
+    private void validateCreate(String email, String username) {
+        java.util.List<String> errors = new java.util.ArrayList<>();
+        if (repo.findByEmailIgnoreCase(email).isPresent())
+            errors.add("email: Email already registered");
+        if (username != null && repo.findByUsernameIgnoreCase(username).isPresent())
+            errors.add("username: Username already registered");
+
+        if (!errors.isEmpty())
+            throw new ValidationException(errors);
     }
 
     // Validate user update data
-    private void validateUpdate(UUID id, String email) {
-        boolean existsOther = repo.findByEmailIgnoreCase(email)
+    private void validateUpdate(UUID id, String email, String username) {
+        java.util.List<String> errors = new java.util.ArrayList<>();
+        boolean existsEmail = repo.findByEmailIgnoreCase(email)
                 .map(u -> !u.getId().equals(id))
                 .orElse(false);
-        if (existsOther)
-            throw new ValidationException(java.util.List.of("email: Email already used by another user"));
+        if (existsEmail)
+            errors.add("email: Email already used by another user");
+
+        if (username != null) {
+            boolean existsUsername = repo.findByUsernameIgnoreCase(username)
+                    .map(u -> !u.getId().equals(id))
+                    .orElse(false);
+            if (existsUsername)
+                errors.add("username: Username already registered");
+        }
+
+        if (!errors.isEmpty())
+            throw new ValidationException(errors);
     }
 }
