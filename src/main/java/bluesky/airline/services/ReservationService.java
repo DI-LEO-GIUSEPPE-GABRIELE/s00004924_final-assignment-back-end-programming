@@ -1,5 +1,6 @@
 package bluesky.airline.services;
 
+import bluesky.airline.dto.reservation.ReservationReqDTO;
 import bluesky.airline.dto.reservation.ReservationRespDTO;
 import org.springframework.stereotype.Service;
 import bluesky.airline.entities.Flight;
@@ -11,6 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import bluesky.airline.entities.User;
 import org.springframework.data.domain.Page;
 import bluesky.airline.entities.enums.ReservationStatus;
+import bluesky.airline.entities.enums.RoleType;
+import bluesky.airline.exceptions.NotFoundException;
+import bluesky.airline.exceptions.ValidationException;
 import org.springframework.data.domain.Pageable;
 import java.time.Instant;
 
@@ -30,7 +34,7 @@ public class ReservationService {
     }
 
     // Create a new reservation
-    public Reservation create(bluesky.airline.dto.reservation.ReservationReqDTO body) {
+    public Reservation create(ReservationReqDTO body) {
         Reservation r = new Reservation();
         updateReservationFromDTO(r, body);
 
@@ -43,7 +47,7 @@ public class ReservationService {
     }
 
     // Update a reservation from a ReservationReqDTO
-    private void updateReservationFromDTO(Reservation r, bluesky.airline.dto.reservation.ReservationReqDTO body) {
+    private void updateReservationFromDTO(Reservation r, ReservationReqDTO body) {
         java.util.List<Flight> flightList = new java.util.ArrayList<>();
         if (body.getFlightIds() != null) {
             for (UUID flightId : body.getFlightIds()) {
@@ -51,7 +55,7 @@ public class ReservationService {
                     continue;
                 Flight f = flights.findById(flightId);
                 if (f == null)
-                    throw new bluesky.airline.exceptions.NotFoundException("Flight not found: " + flightId);
+                    throw new NotFoundException("Flight not found: " + flightId);
                 flightList.add(f);
             }
         }
@@ -59,7 +63,7 @@ public class ReservationService {
 
         User u = users.findWithRolesById(body.getUserId()).orElse(null);
         if (u == null)
-            throw new bluesky.airline.exceptions.NotFoundException(
+            throw new NotFoundException(
                     "User not found: " + body.getUserId());
 
         // Verify that user is a Tour Operator
@@ -67,11 +71,11 @@ public class ReservationService {
         if (u.getRoles() != null) {
             isTourOperator = u.getRoles().stream()
                     .anyMatch(role -> role != null && role.getName() != null && role.getName()
-                            .equalsIgnoreCase(bluesky.airline.entities.enums.RoleType.TOUR_OPERATOR.name()));
+                            .equalsIgnoreCase(RoleType.TOUR_OPERATOR.name()));
         }
 
         if (!isTourOperator) {
-            throw new bluesky.airline.exceptions.ValidationException(
+            throw new ValidationException(
                     java.util.List.of("userId: User is not a Tour Operator"));
         }
         r.setUser(u);

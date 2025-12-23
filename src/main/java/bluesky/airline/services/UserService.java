@@ -88,7 +88,7 @@ public class UserService {
             String roleName = mapRoleCode(roleCode);
             Role r = roleName == null ? null : roles.findByNameIgnoreCase(roleName).orElse(null);
             if (r == null || !isAllowedRole(r))
-                throw new bluesky.airline.exceptions.ValidationException(java.util.List.of("roleCode: Invalid role"));
+                throw new ValidationException(java.util.List.of("roleCode: Invalid role"));
             java.util.Set<Role> rs = new java.util.HashSet<>();
             rs.add(r);
             u.setRoles(rs);
@@ -122,7 +122,7 @@ public class UserService {
                 String roleName = mapRoleCode(roleCode);
                 Role r = roleName == null ? null : roles.findByNameIgnoreCase(roleName).orElse(null);
                 if (r == null || !isAllowedRole(r))
-                    throw new bluesky.airline.exceptions.ValidationException(
+                    throw new ValidationException(
                             java.util.List.of("roleCode: Invalid role"));
                 java.util.Set<Role> rs = new java.util.HashSet<>();
                 rs.add(r);

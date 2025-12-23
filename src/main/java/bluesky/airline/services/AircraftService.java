@@ -5,7 +5,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.UUID;
 import org.springframework.data.domain.Page;
+import bluesky.airline.dto.aircraft.AircraftReqDTO;
+import bluesky.airline.dto.aircraft.AircraftRespDTO;
 import bluesky.airline.entities.Aircraft;
+import bluesky.airline.entities.CargoAircraft;
+import bluesky.airline.entities.PassengerAircraft;
+import bluesky.airline.exceptions.NotFoundException;
+import bluesky.airline.exceptions.ValidationException;
+
 import org.springframework.data.domain.Pageable;
 
 // Service for Aircraft entities
@@ -25,18 +32,18 @@ public class AircraftService {
     }
 
     // Create a new aircraft
-    public Aircraft create(bluesky.airline.dto.aircraft.AircraftReqDTO body) {
+    public Aircraft create(AircraftReqDTO body) {
         Aircraft a;
         if ("PASSENGER".equalsIgnoreCase(body.getType())) {
-            bluesky.airline.entities.PassengerAircraft p = new bluesky.airline.entities.PassengerAircraft();
+            PassengerAircraft p = new PassengerAircraft();
             p.setTotalSeats(body.getTotalSeats());
             a = p;
         } else if ("CARGO".equalsIgnoreCase(body.getType())) {
-            bluesky.airline.entities.CargoAircraft c = new bluesky.airline.entities.CargoAircraft();
+            CargoAircraft c = new CargoAircraft();
             c.setMaxLoadCapacity(body.getMaxLoadCapacity());
             a = c;
         } else {
-            throw new bluesky.airline.exceptions.ValidationException(
+            throw new ValidationException(
                     java.util.List.of("type: Invalid aircraft type (PASSENGER/CARGO)"));
         }
         a.setBrand(body.getBrand());
@@ -45,27 +52,27 @@ public class AircraftService {
     }
 
     // Update an existing aircraft
-    public Aircraft update(UUID id, bluesky.airline.dto.aircraft.AircraftReqDTO body) {
+    public Aircraft update(UUID id, AircraftReqDTO body) {
         Aircraft found = findById(id);
         if (found == null) {
-            throw new bluesky.airline.exceptions.NotFoundException("Aircraft not found: " + id);
+            throw new NotFoundException("Aircraft not found: " + id);
         }
 
-        if (found instanceof bluesky.airline.entities.PassengerAircraft
+        if (found instanceof PassengerAircraft
                 && !"PASSENGER".equalsIgnoreCase(body.getType())) {
-            throw new bluesky.airline.exceptions.ValidationException(
+            throw new ValidationException(
                     java.util.List.of("type: Cannot change aircraft type from PASSENGER"));
         }
-        if (found instanceof bluesky.airline.entities.CargoAircraft && !"CARGO".equalsIgnoreCase(body.getType())) {
-            throw new bluesky.airline.exceptions.ValidationException(
+        if (found instanceof CargoAircraft && !"CARGO".equalsIgnoreCase(body.getType())) {
+            throw new ValidationException(
                     java.util.List.of("type: Cannot change aircraft type from CARGO"));
         }
 
         if ("PASSENGER".equalsIgnoreCase(body.getType())
-                && found instanceof bluesky.airline.entities.PassengerAircraft p) {
+                && found instanceof PassengerAircraft p) {
             p.setTotalSeats(body.getTotalSeats());
         } else if ("CARGO".equalsIgnoreCase(body.getType())
-                && found instanceof bluesky.airline.entities.CargoAircraft c) {
+                && found instanceof CargoAircraft c) {
             c.setMaxLoadCapacity(body.getMaxLoadCapacity());
         }
 
@@ -91,18 +98,18 @@ public class AircraftService {
     }
 
     // Convert an Aircraft entity to an AircraftRespDTO
-    public bluesky.airline.dto.aircraft.AircraftRespDTO toDTO(Aircraft a) {
-        bluesky.airline.dto.aircraft.AircraftRespDTO dto = new bluesky.airline.dto.aircraft.AircraftRespDTO();
+    public AircraftRespDTO toDTO(Aircraft a) {
+        AircraftRespDTO dto = new AircraftRespDTO();
         dto.setId(a.getId());
         dto.setBrand(a.getBrand());
         dto.setModel(a.getModel());
 
-        if (a instanceof bluesky.airline.entities.PassengerAircraft) {
+        if (a instanceof PassengerAircraft) {
             dto.setType("PASSENGER");
-            dto.setTotalSeats(((bluesky.airline.entities.PassengerAircraft) a).getTotalSeats());
-        } else if (a instanceof bluesky.airline.entities.CargoAircraft) {
+            dto.setTotalSeats(((PassengerAircraft) a).getTotalSeats());
+        } else if (a instanceof CargoAircraft) {
             dto.setType("CARGO");
-            dto.setMaxLoadCapacity(((bluesky.airline.entities.CargoAircraft) a).getMaxLoadCapacity());
+            dto.setMaxLoadCapacity(((CargoAircraft) a).getMaxLoadCapacity());
         }
 
         return dto;

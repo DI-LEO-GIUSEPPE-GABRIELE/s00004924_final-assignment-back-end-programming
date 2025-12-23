@@ -6,12 +6,15 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.Instant;
+import bluesky.airline.dto.flight.FlightReqDTO;
 import bluesky.airline.dto.flight.FlightRespDTO;
 import bluesky.airline.repositories.CompartmentRepository;
 import bluesky.airline.entities.Airport;
 import bluesky.airline.entities.Flight;
 import bluesky.airline.entities.Aircraft;
 import bluesky.airline.entities.enums.FlightStatus;
+import bluesky.airline.exceptions.NotFoundException;
+import bluesky.airline.exceptions.ValidationException;
 import bluesky.airline.entities.Compartment;
 import bluesky.airline.repositories.FlightRepository;
 import java.util.UUID;
@@ -35,7 +38,7 @@ public class FlightService {
 
     // Create a new flight
     @Transactional
-    public Flight create(bluesky.airline.dto.flight.FlightReqDTO body) {
+    public Flight create(FlightReqDTO body) {
         Flight f = new Flight();
         updateFlightFromDTO(f, body);
         f = flights.save(f);
@@ -58,7 +61,7 @@ public class FlightService {
                 String available = compartments.findAll().stream()
                         .map(Compartment::getCompartmentCode)
                         .collect(java.util.stream.Collectors.joining(", "));
-                throw new bluesky.airline.exceptions.ValidationException(
+                throw new ValidationException(
                         java.util.List.of("Invalid compartment codes: " + invalidCodes + ". Available: " + available));
             }
             f.setCompartments(validCompartments);
@@ -69,10 +72,10 @@ public class FlightService {
 
     // Update an existing flight
     @Transactional
-    public Flight update(UUID id, bluesky.airline.dto.flight.FlightReqDTO body) {
+    public Flight update(UUID id, FlightReqDTO body) {
         Flight f = findById(id);
         if (f == null) {
-            throw new bluesky.airline.exceptions.NotFoundException("Flight not found: " + id);
+            throw new NotFoundException("Flight not found: " + id);
         }
         updateFlightFromDTO(f, body);
         Flight saved = flights.save(f);
@@ -95,7 +98,7 @@ public class FlightService {
                 String available = compartments.findAll().stream()
                         .map(Compartment::getCompartmentCode)
                         .collect(java.util.stream.Collectors.joining(", "));
-                throw new bluesky.airline.exceptions.ValidationException(
+                throw new ValidationException(
                         java.util.List.of("Invalid compartment codes: " + invalidCodes + ". Available: " + available));
             }
             f.setCompartments(validCompartments);
@@ -105,7 +108,7 @@ public class FlightService {
     }
 
     // Update flight fields from DTO
-    private void updateFlightFromDTO(Flight f, bluesky.airline.dto.flight.FlightReqDTO body) {
+    private void updateFlightFromDTO(Flight f, FlightReqDTO body) {
         f.setFlightCode(body.getFlightCode());
         f.setDepartureDate(body.getDepartureDate());
         f.setArrivalDate(body.getArrivalDate());
@@ -114,19 +117,19 @@ public class FlightService {
 
         Airport dep = airportService.findById(body.getDepartureAirportId());
         if (dep == null)
-            throw new bluesky.airline.exceptions.NotFoundException(
+            throw new NotFoundException(
                     "Departure Airport not found: " + body.getDepartureAirportId());
         f.setDepartureAirport(dep);
 
         Airport arr = airportService.findById(body.getArrivalAirportId());
         if (arr == null)
-            throw new bluesky.airline.exceptions.NotFoundException(
+            throw new NotFoundException(
                     "Arrival Airport not found: " + body.getArrivalAirportId());
         f.setArrivalAirport(arr);
 
         Aircraft aircraft = aircraftService.findById(body.getAircraftId());
         if (aircraft == null)
-            throw new bluesky.airline.exceptions.NotFoundException("Aircraft not found: " + body.getAircraftId());
+            throw new NotFoundException("Aircraft not found: " + body.getAircraftId());
         f.setAircraft(aircraft);
     }
 

@@ -2,6 +2,7 @@ package bluesky.airline.services;
 
 import bluesky.airline.security.JwtTools;
 import bluesky.airline.entities.User;
+import bluesky.airline.exceptions.UnauthorizedException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import bluesky.airline.repositories.UserRepository;
 import org.springframework.stereotype.Service;
@@ -21,9 +22,9 @@ public class AuthService {
     // Check user credentials and generate a JWT token
     public String checkCredentialsAndGenerateToken(AuthLoginRequest body) {
         User u = users.findByEmailIgnoreCase(body.getEmail())
-                .orElseThrow(() -> new bluesky.airline.exceptions.UnauthorizedException("Invalid email or password"));
+                .orElseThrow(() -> new UnauthorizedException("Invalid email or password"));
         if (!encoder.matches(body.getPassword(), u.getPassword()))
-            throw new bluesky.airline.exceptions.UnauthorizedException("Invalid email or password");
+            throw new UnauthorizedException("Invalid email or password");
         return jwtTools.generateForUser(u);
     }
 }

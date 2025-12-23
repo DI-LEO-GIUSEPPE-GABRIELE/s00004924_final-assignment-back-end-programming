@@ -7,6 +7,7 @@ import org.springframework.web.client.RestTemplate;
 import bluesky.airline.repositories.WeatherDataRepository;
 import bluesky.airline.entities.WeatherData;
 import java.util.Map;
+import bluesky.airline.dto.weather.WeatherRespDTO;
 import bluesky.airline.entities.Airport;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -50,8 +51,8 @@ public class WeatherService {
     }
 
     // Convert a WeatherData entity to a WeatherRespDTO
-    public bluesky.airline.dto.weather.WeatherRespDTO toDTO(WeatherData w) {
-        bluesky.airline.dto.weather.WeatherRespDTO dto = new bluesky.airline.dto.weather.WeatherRespDTO();
+    public WeatherRespDTO toDTO(WeatherData w) {
+        WeatherRespDTO dto = new WeatherRespDTO();
         dto.setId(w.getId());
         dto.setFlightId(w.getFlight().getId());
         dto.setTemperature(w.getTemperature());

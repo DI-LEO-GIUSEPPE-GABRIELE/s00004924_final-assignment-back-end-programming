@@ -5,7 +5,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.UUID;
+import bluesky.airline.dto.airport.AirportReqDTO;
+import bluesky.airline.dto.airport.AirportRespDTO;
 import bluesky.airline.entities.Airport;
+import bluesky.airline.exceptions.NotFoundException;
 import org.springframework.stereotype.Service;
 
 // Service for Airport entities
@@ -25,7 +28,7 @@ public class AirportService {
     }
 
     // Create a new airport
-    public Airport create(bluesky.airline.dto.airport.AirportReqDTO body) {
+    public Airport create(AirportReqDTO body) {
         Airport a = new Airport();
         a.setCode(body.getCode());
         a.setName(body.getName());
@@ -35,10 +38,10 @@ public class AirportService {
     }
 
     // Update an existing airport
-    public Airport update(UUID id, bluesky.airline.dto.airport.AirportReqDTO body) {
+    public Airport update(UUID id, AirportReqDTO body) {
         Airport found = findById(id);
         if (found == null) {
-            throw new bluesky.airline.exceptions.NotFoundException("Airport not found: " + id);
+            throw new NotFoundException("Airport not found: " + id);
         }
         found.setCode(body.getCode());
         found.setName(body.getName());
@@ -63,8 +66,8 @@ public class AirportService {
     }
 
     // Convert an Airport entity to an AirportRespDTO
-    public bluesky.airline.dto.airport.AirportRespDTO toDTO(Airport a) {
-        bluesky.airline.dto.airport.AirportRespDTO dto = new bluesky.airline.dto.airport.AirportRespDTO();
+    public AirportRespDTO toDTO(Airport a) {
+        AirportRespDTO dto = new AirportRespDTO();
         dto.setId(a.getId());
         dto.setCode(a.getCode());
         dto.setName(a.getName());
