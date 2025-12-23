@@ -14,7 +14,7 @@ The application handles the core operations of an airline company managent syste
 - **Aircraft and Airports**: Full aircrafts and airports management for roles ADMIN and TOUR_OPERATOR.
 - **Reservations**: Full reservations management for roles ADMIN and TOUR_OPERATOR.
 
-## Technologies Used
+## Used Technologies
 
 - **Java**: Programming language.
 - **Spring Boot**: Framework for building the RESTful API.
@@ -32,7 +32,7 @@ The data model is represented by an Entity-Relationship Diagram (ERD) that shows
 
 ### Database Setup
 
-**In terminal**
+**_In terminal_**
 
 Create a PostgreSQL database named `bluesky_airline`.
 
@@ -40,7 +40,7 @@ Create a PostgreSQL database named `bluesky_airline`.
 psql -U postgres -h localhost -c "CREATE DATABASE bluesky_airline;"
 ```
 
-**In Editor (PgAdmin or DBeaver or similar)**
+**_In Editor (PgAdmin or DBeaver or similar)_**
 
 Create a new database connection with this details (you can change this in application.properties):
 
@@ -61,7 +61,7 @@ Keywords for setup:
 - `openweather.apiKey`: API key for weather data (my API key is in application.properties but you can get it from https://openweathermap.org/).
 - `exchangerate.apiKey`: API key for currency conversion (my API key is in application.properties but you can get it from https://www.exchangerate-api.com/).
 
-### Build & Run (using Maven)
+### Build and Run (using Maven)
 
 <!-- Clean and compile -->
 
