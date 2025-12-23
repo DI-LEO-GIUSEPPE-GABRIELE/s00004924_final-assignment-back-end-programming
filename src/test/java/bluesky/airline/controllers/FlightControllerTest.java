@@ -1,31 +1,31 @@
 package bluesky.airline.controllers;
 
 import org.springframework.transaction.annotation.Transactional;
-import java.time.Instant;
-import bluesky.airline.services.WeatherService;
-import org.junit.jupiter.api.Test;
-import java.math.BigDecimal;
-import java.time.temporal.ChronoUnit;
-import bluesky.airline.dto.flight.FlightReqDTO;
-import bluesky.airline.dto.weather.WeatherRespDTO;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import bluesky.airline.entities.enums.FlightStatus;
-import java.util.List;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.http.MediaType;
+import bluesky.airline.services.WeatherService;
+import bluesky.airline.dto.flight.FlightReqDTO;
+import bluesky.airline.dto.weather.WeatherRespDTO;
+import bluesky.airline.entities.enums.FlightStatus;
 import bluesky.airline.entities.Airport;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import bluesky.airline.repositories.AircraftRepository;
 import bluesky.airline.repositories.AirportRepository;
-import org.springframework.http.MediaType;
 import bluesky.airline.entities.PassengerAircraft;
 import bluesky.airline.entities.WeatherData;
-import org.springframework.boot.test.context.SpringBootTest;
 import bluesky.airline.services.ExchangeRateService;
-import org.springframework.test.web.servlet.MockMvc;
+import org.junit.jupiter.api.Test;
+import java.math.BigDecimal;
+import java.time.temporal.ChronoUnit;
+import java.time.Instant;
+import java.util.List;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 // Test class for FlightController
 @SpringBootTest

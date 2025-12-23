@@ -1,38 +1,38 @@
 package bluesky.airline.controllers;
 
-import java.util.UUID;
-import java.math.BigDecimal;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import bluesky.airline.entities.Airport;
 import bluesky.airline.repositories.RoleRepository;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import bluesky.airline.services.WeatherService;
 import bluesky.airline.entities.User;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.http.MediaType;
 import bluesky.airline.entities.PassengerAircraft;
 import bluesky.airline.repositories.AircraftRepository;
 import bluesky.airline.entities.Flight;
-import bluesky.airline.repositories.FlightRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.Test;
-import java.time.temporal.ChronoUnit;
-import org.springframework.boot.test.context.SpringBootTest;
 import bluesky.airline.services.ExchangeRateService;
 import bluesky.airline.entities.enums.FlightStatus;
-import org.springframework.beans.factory.annotation.Autowired;
+import bluesky.airline.repositories.FlightRepository;
 import bluesky.airline.repositories.AirportRepository;
 import bluesky.airline.repositories.UserRepository;
 import bluesky.airline.entities.Role;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
-import java.util.List;
-import java.util.Set;
-import java.time.Instant;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.transaction.annotation.Transactional;
 import bluesky.airline.entities.enums.ReservationStatus;
 import bluesky.airline.dto.reservation.ReservationReqDTO;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.http.MediaType;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.junit.jupiter.api.Test;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 // Test class for ReservationController
 @SpringBootTest

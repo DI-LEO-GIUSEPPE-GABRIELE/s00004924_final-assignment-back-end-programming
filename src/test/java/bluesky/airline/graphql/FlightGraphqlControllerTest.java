@@ -1,20 +1,20 @@
 package bluesky.airline.graphql;
 
-import org.springframework.http.MediaType;
 import bluesky.airline.entities.enums.FlightStatus;
-import org.springframework.boot.test.context.SpringBootTest;
 import bluesky.airline.repositories.FlightRepository;
-import java.time.Instant;
 import bluesky.airline.entities.Flight;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.junit.jupiter.api.Test;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import org.springframework.test.web.servlet.MockMvc;
 import java.time.temporal.ChronoUnit;
-import org.springframework.transaction.annotation.Transactional;
+import java.time.Instant;
 import java.math.BigDecimal;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
