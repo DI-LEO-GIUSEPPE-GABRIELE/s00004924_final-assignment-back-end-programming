@@ -1,10 +1,10 @@
 package bluesky.airline.services;
 
-import org.springframework.data.domain.Pageable;
 import bluesky.airline.repositories.CompartmentRepository;
 import bluesky.airline.dto.compartment.CompartmentReqDTO;
 import bluesky.airline.entities.Compartment;
 import bluesky.airline.exceptions.NotFoundException;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,17 +1,17 @@
 package bluesky.airline.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import bluesky.airline.entities.Flight;
-import java.time.Instant;
-import org.springframework.web.client.RestTemplate;
 import bluesky.airline.repositories.WeatherDataRepository;
 import bluesky.airline.entities.WeatherData;
-import java.util.List;
-import java.util.Map;
 import bluesky.airline.dto.weather.WeatherRespDTO;
 import bluesky.airline.entities.Airport;
+import java.util.List;
+import java.util.Map;
+import java.time.Instant;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.client.RestTemplate;
 
 // Service for WeatherData entities
 @Service

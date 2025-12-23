@@ -1,10 +1,10 @@
 package bluesky.airline.services;
 
 import bluesky.airline.entities.Role;
+import bluesky.airline.repositories.RoleRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import bluesky.airline.repositories.RoleRepository;
 
 // Service for Role entities
 @Service

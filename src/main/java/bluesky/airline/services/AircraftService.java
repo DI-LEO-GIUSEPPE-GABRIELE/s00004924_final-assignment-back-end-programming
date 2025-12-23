@@ -3,8 +3,7 @@ package bluesky.airline.services;
 import bluesky.airline.repositories.AircraftRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import java.util.List;
-import java.util.UUID;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
 import bluesky.airline.dto.aircraft.AircraftReqDTO;
 import bluesky.airline.dto.aircraft.AircraftRespDTO;
@@ -13,8 +12,8 @@ import bluesky.airline.entities.CargoAircraft;
 import bluesky.airline.entities.PassengerAircraft;
 import bluesky.airline.exceptions.NotFoundException;
 import bluesky.airline.exceptions.ValidationException;
-
-import org.springframework.data.domain.Pageable;
+import java.util.List;
+import java.util.UUID;
 
 // Service for Aircraft entities
 @Service

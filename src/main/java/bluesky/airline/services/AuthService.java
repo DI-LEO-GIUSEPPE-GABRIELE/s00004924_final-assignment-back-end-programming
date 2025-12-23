@@ -3,11 +3,11 @@ package bluesky.airline.services;
 import bluesky.airline.security.JwtTools;
 import bluesky.airline.entities.User;
 import bluesky.airline.exceptions.UnauthorizedException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import bluesky.airline.repositories.UserRepository;
+import bluesky.airline.dto.auth.AuthLoginRequest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import bluesky.airline.dto.auth.AuthLoginRequest;
 
 // Service for authentication
 @Service

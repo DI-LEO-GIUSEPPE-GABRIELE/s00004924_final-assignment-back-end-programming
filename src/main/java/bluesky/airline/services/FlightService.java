@@ -5,7 +5,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.time.Instant;
 import bluesky.airline.dto.flight.FlightReqDTO;
 import bluesky.airline.dto.flight.FlightRespDTO;
 import bluesky.airline.repositories.CompartmentRepository;
@@ -24,6 +23,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.time.Instant;
 
 // Service for Flight entities
 @Service

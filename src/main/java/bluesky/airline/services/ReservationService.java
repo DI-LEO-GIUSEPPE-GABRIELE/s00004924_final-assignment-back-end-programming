@@ -1,24 +1,24 @@
 package bluesky.airline.services;
 
+import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import bluesky.airline.dto.reservation.ReservationReqDTO;
 import bluesky.airline.dto.reservation.ReservationRespDTO;
-import org.springframework.stereotype.Service;
 import bluesky.airline.entities.Flight;
 import bluesky.airline.repositories.UserRepository;
 import bluesky.airline.repositories.ReservationRepository;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 import bluesky.airline.entities.Reservation;
-import org.springframework.beans.factory.annotation.Autowired;
 import bluesky.airline.entities.User;
-import org.springframework.data.domain.Page;
 import bluesky.airline.entities.enums.ReservationStatus;
 import bluesky.airline.entities.enums.RoleType;
 import bluesky.airline.exceptions.NotFoundException;
 import bluesky.airline.exceptions.ValidationException;
-import org.springframework.data.domain.Pageable;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 // Service for Reservation entities
 @Service

@@ -1,15 +1,15 @@
 package bluesky.airline.services;
 
-import bluesky.airline.repositories.AirportRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.beans.factory.annotation.Autowired;
-import java.util.UUID;
+import org.springframework.stereotype.Service;
+import bluesky.airline.repositories.AirportRepository;
 import bluesky.airline.dto.airport.AirportReqDTO;
 import bluesky.airline.dto.airport.AirportRespDTO;
 import bluesky.airline.entities.Airport;
 import bluesky.airline.exceptions.NotFoundException;
-import org.springframework.stereotype.Service;
+import java.util.UUID;
 
 // Service for Airport entities
 @Service

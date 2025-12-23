@@ -3,20 +3,20 @@ package bluesky.airline.security;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
-import bluesky.airline.repositories.UserRepository;
-import java.io.IOException;
-import bluesky.airline.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import org.springframework.util.AntPathMatcher;
-import java.util.List;
-import java.util.UUID;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
+import bluesky.airline.repositories.UserRepository;
+import bluesky.airline.entities.User;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
+import java.util.List;
+import java.util.UUID;
+import java.io.IOException;
 
 // Filter for JWT authentication
 @Component
