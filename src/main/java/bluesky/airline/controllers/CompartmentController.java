@@ -4,6 +4,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
+import java.util.List;
 import java.util.UUID;
 import bluesky.airline.entities.Compartment;
 import bluesky.airline.services.CompartmentService;
@@ -44,7 +45,7 @@ public class CompartmentController {
     // Endpoint: GET /compartments/codes
     @GetMapping("/codes")
     @PreAuthorize("permitAll()")
-    public ResponseEntity<java.util.List<EnumRespDTO>> getCodes() {
+    public ResponseEntity<List<EnumRespDTO>> getCodes() {
         return ResponseEntity.ok(compartments.findAll().stream()
                 .map(c -> new EnumRespDTO(c.getCompartmentCode(), c.getDescription()))
                 .toList());

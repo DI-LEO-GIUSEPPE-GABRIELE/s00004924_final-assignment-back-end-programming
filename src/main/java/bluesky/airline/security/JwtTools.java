@@ -6,6 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
 import io.jsonwebtoken.security.Keys;
+import java.util.Arrays;
 import java.util.Date;
 import io.jsonwebtoken.Jwts;
 import org.springframework.security.core.Authentication;
@@ -67,8 +68,8 @@ public class JwtTools {
                 .verifyWith(Keys.hmacShaKeyFor(secret.getBytes(java.nio.charset.StandardCharsets.UTF_8))).build()
                 .parseSignedClaims(token).getPayload().get("roles");
         if (roles == null || roles.isBlank())
-            return java.util.List.of();
-        return java.util.Arrays.stream(roles.split(","))
+            return List.of();
+        return Arrays.stream(roles.split(","))
                 .filter(r -> !r.isBlank())
                 .map(SimpleGrantedAuthority::new)
                 .toList();

@@ -7,6 +7,8 @@ import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 import bluesky.airline.dto.flight.FlightRespDTO;
 import bluesky.airline.dto.weather.WeatherRespDTO;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 import java.time.Instant;
 import org.springframework.http.ResponseEntity;
@@ -106,7 +108,7 @@ public class FlightController {
         Airport dep = f.getDepartureAirport();
         if (dep == null)
             throw new ValidationException(
-                    java.util.List.of("Flight has no departure airport"));
+                    List.of("Flight has no departure airport"));
         Airport found = airportService.findById(dep.getId());
         WeatherData wd = weatherService.refreshForFlight(f, found != null ? found : dep);
         return ResponseEntity.ok(weatherService.toDTO(wd));
@@ -134,8 +136,8 @@ public class FlightController {
     // Endpoint: GET /flights/statuses
     @GetMapping("/statuses")
     @PreAuthorize("permitAll()")
-    public ResponseEntity<java.util.List<EnumRespDTO>> getStatuses() {
-        return ResponseEntity.ok(java.util.Arrays.stream(FlightStatus.values())
+    public ResponseEntity<List<EnumRespDTO>> getStatuses() {
+        return ResponseEntity.ok(Arrays.stream(FlightStatus.values())
                 .map(s -> new EnumRespDTO(s.name(), s.name()))
                 .toList());
     }

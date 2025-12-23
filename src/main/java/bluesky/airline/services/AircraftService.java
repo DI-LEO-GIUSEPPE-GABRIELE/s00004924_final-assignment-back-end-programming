@@ -3,6 +3,7 @@ package bluesky.airline.services;
 import bluesky.airline.repositories.AircraftRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
 import java.util.UUID;
 import org.springframework.data.domain.Page;
 import bluesky.airline.dto.aircraft.AircraftReqDTO;
@@ -44,7 +45,7 @@ public class AircraftService {
             a = c;
         } else {
             throw new ValidationException(
-                    java.util.List.of("type: Invalid aircraft type (PASSENGER/CARGO)"));
+                    List.of("type: Invalid aircraft type (PASSENGER/CARGO)"));
         }
         a.setBrand(body.getBrand());
         a.setModel(body.getModel());
@@ -61,11 +62,11 @@ public class AircraftService {
         if (found instanceof PassengerAircraft
                 && !"PASSENGER".equalsIgnoreCase(body.getType())) {
             throw new ValidationException(
-                    java.util.List.of("type: Cannot change aircraft type from PASSENGER"));
+                    List.of("type: Cannot change aircraft type from PASSENGER"));
         }
         if (found instanceof CargoAircraft && !"CARGO".equalsIgnoreCase(body.getType())) {
             throw new ValidationException(
-                    java.util.List.of("type: Cannot change aircraft type from CARGO"));
+                    List.of("type: Cannot change aircraft type from CARGO"));
         }
 
         if ("PASSENGER".equalsIgnoreCase(body.getType())

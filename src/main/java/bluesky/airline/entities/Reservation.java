@@ -1,6 +1,7 @@
 package bluesky.airline.entities;
 
 import java.time.Instant;
+import java.util.List;
 import jakarta.persistence.ManyToOne;
 import bluesky.airline.entities.enums.ReservationStatus;
 import jakarta.persistence.Entity;
@@ -30,7 +31,7 @@ public class Reservation extends BaseUuidEntity {
     // Many-to-Many: each reservation can have multiple flights
     @jakarta.persistence.ManyToMany(fetch = FetchType.LAZY)
     @jakarta.persistence.JoinTable(name = "reservations_flights", joinColumns = @JoinColumn(name = "reservation_id"), inverseJoinColumns = @JoinColumn(name = "flight_id"))
-    private java.util.List<Flight> flights;
+    private List<Flight> flights;
 
     public Instant getReservationDate() {
         return reservationDate;
@@ -56,11 +57,11 @@ public class Reservation extends BaseUuidEntity {
         this.user = user;
     }
 
-    public java.util.List<Flight> getFlights() {
+    public List<Flight> getFlights() {
         return flights;
     }
 
-    public void setFlights(java.util.List<Flight> flights) {
+    public void setFlights(List<Flight> flights) {
         this.flights = flights;
     }
 }

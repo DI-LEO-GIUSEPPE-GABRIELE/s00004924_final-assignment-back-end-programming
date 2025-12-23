@@ -3,6 +3,7 @@ package bluesky.airline.controllers;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import jakarta.validation.Valid;
@@ -69,8 +70,8 @@ public class AircraftController {
     // Endpoint: GET /aircrafts/types
     @GetMapping("/types")
     @PreAuthorize("permitAll()")
-    public ResponseEntity<java.util.List<EnumRespDTO>> getTypes() {
-        return ResponseEntity.ok(java.util.List.of(
+    public ResponseEntity<List<EnumRespDTO>> getTypes() {
+        return ResponseEntity.ok(List.of(
                 new EnumRespDTO("PASSENGER", "PASSENGER"),
                 new EnumRespDTO("CARGO", "CARGO")));
     }
