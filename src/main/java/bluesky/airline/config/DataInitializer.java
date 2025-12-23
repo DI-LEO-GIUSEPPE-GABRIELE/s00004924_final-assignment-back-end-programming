@@ -1,15 +1,15 @@
 package bluesky.airline.config;
 
-import bluesky.airline.repositories.RoleRepository;
-import bluesky.airline.repositories.CompartmentRepository;
-import bluesky.airline.entities.Compartment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Component;
+import org.springframework.context.event.EventListener;
 import bluesky.airline.entities.Role;
 import bluesky.airline.entities.enums.CompartmentCode;
-import org.springframework.context.event.EventListener;
+import bluesky.airline.repositories.RoleRepository;
+import bluesky.airline.repositories.CompartmentRepository;
+import bluesky.airline.entities.Compartment;
 import bluesky.airline.entities.enums.RoleType;
 
 // Component to initialize roles and compartments on application startup

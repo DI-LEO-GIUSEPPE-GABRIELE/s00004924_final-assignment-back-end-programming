@@ -1,31 +1,31 @@
 package bluesky.airline.controllers;
 
-import bluesky.airline.services.WeatherService;
-import org.springframework.security.access.prepost.PreAuthorize;
-import bluesky.airline.services.AirportService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
-import bluesky.airline.dto.flight.FlightRespDTO;
-import bluesky.airline.dto.weather.WeatherRespDTO;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.data.domain.Page;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.time.Instant;
-import org.springframework.http.ResponseEntity;
 import bluesky.airline.entities.enums.FlightStatus;
 import bluesky.airline.exceptions.NotFoundException;
 import bluesky.airline.exceptions.ValidationException;
-import org.springframework.data.domain.Pageable;
 import bluesky.airline.dto.common.EnumRespDTO;
 import bluesky.airline.dto.flight.FlightReqDTO;
 import bluesky.airline.services.ExchangeRateService;
 import bluesky.airline.entities.Flight;
-import org.springframework.format.annotation.DateTimeFormat;
 import bluesky.airline.entities.WeatherData;
-import org.springframework.data.domain.Page;
-import org.springframework.beans.factory.annotation.Autowired;
 import bluesky.airline.services.FlightService;
 import bluesky.airline.entities.Airport;
+import bluesky.airline.dto.flight.FlightRespDTO;
+import bluesky.airline.dto.weather.WeatherRespDTO;
+import bluesky.airline.services.WeatherService;
+import bluesky.airline.services.AirportService;
 
 // Controller for flight management, accessible by ADMIN and FLIGHT_MANAGER roles
 // Endpoint: /flights

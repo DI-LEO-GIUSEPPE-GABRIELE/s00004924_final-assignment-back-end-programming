@@ -3,25 +3,25 @@ package bluesky.airline.controllers;
 import bluesky.airline.entities.enums.ReservationStatus;
 import bluesky.airline.exceptions.NotFoundException;
 import bluesky.airline.dto.reservation.ReservationReqDTO;
+import bluesky.airline.dto.reservation.ReservationRespDTO;
+import bluesky.airline.entities.Reservation;
+import bluesky.airline.services.ReservationService;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.data.domain.Pageable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import java.util.UUID;
-import bluesky.airline.entities.Reservation;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PutMapping;
-import jakarta.validation.Valid;
-import bluesky.airline.dto.reservation.ReservationRespDTO;
 import org.springframework.http.ResponseEntity;
-import bluesky.airline.services.ReservationService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import java.util.UUID;
+import jakarta.validation.Valid;
 
 // Controller for reservation management, accessible by ADMIN and TOUR_OPERATOR roles
 // Endpoint: /reservations

@@ -4,16 +4,16 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 import bluesky.airline.entities.Compartment;
 import bluesky.airline.services.CompartmentService;
-import org.springframework.web.bind.annotation.*;
 import bluesky.airline.dto.common.EnumRespDTO;
 import bluesky.airline.dto.compartment.CompartmentReqDTO;
 import bluesky.airline.dto.compartment.CompartmentRespDTO;
 import bluesky.airline.exceptions.NotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 
 // Controller for Compartments
 @RestController
