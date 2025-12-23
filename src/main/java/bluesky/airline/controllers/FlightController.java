@@ -6,6 +6,8 @@ import bluesky.airline.services.AirportService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 import bluesky.airline.dto.flight.FlightRespDTO;
+import bluesky.airline.dto.weather.WeatherRespDTO;
+
 import java.util.UUID;
 import java.time.Instant;
 import org.springframework.http.ResponseEntity;
@@ -84,7 +86,7 @@ public class FlightController {
     // Delete flight endpoint
     // Endpoint: DELETE /flights/{id}
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable UUID id) {
+    public ResponseEntity<Void> delete(@PathVariable UUID id) {
         if (!flights.existsById(id))
             throw new bluesky.airline.exceptions.NotFoundException("Flight not found: " + id);
         flights.delete(id);
@@ -95,7 +97,7 @@ public class FlightController {
     // roles
     // Endpoint: POST /flights/{id}/weather/refresh
     @PostMapping("/{id}/weather/refresh")
-    public ResponseEntity<?> refreshWeather(@PathVariable UUID id) {
+    public ResponseEntity<WeatherRespDTO> refreshWeather(@PathVariable UUID id) {
         Flight f = flights.findById(id);
         if (f == null)
             throw new bluesky.airline.exceptions.NotFoundException("Flight not found: " + id);

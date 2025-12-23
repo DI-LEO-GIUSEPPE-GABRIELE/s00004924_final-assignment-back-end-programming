@@ -1,5 +1,6 @@
 package bluesky.airline.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import bluesky.airline.entities.Flight;
 import java.time.Instant;
 import org.springframework.web.client.RestTemplate;
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class WeatherService {
     private final RestTemplate http = new RestTemplate();
-    @org.springframework.beans.factory.annotation.Autowired
+    @Autowired
     private WeatherDataRepository weatherRepo;
     @Value("${openweather.apiKey}")
     private String apiKey;

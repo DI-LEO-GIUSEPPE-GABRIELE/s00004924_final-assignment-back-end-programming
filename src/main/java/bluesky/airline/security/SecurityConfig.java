@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.Customizer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -23,11 +24,11 @@ import java.util.List;
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
-    @org.springframework.beans.factory.annotation.Autowired
+    @Autowired
     private JwtAuthFilter jwtAuthFilter;
-    @org.springframework.beans.factory.annotation.Autowired
+    @Autowired
     private CustomAuthenticationEntryPoint authEntryPoint;
-    @org.springframework.beans.factory.annotation.Autowired
+    @Autowired
     private CustomAccessDeniedHandler accessDeniedHandler;
 
     @Bean

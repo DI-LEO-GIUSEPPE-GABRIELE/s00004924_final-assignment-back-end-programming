@@ -56,7 +56,7 @@ public class AircraftController {
     // Delete a specific aircraft by ID
     // Endpoint: DELETE /aircrafts/{id}
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable UUID id) {
+    public ResponseEntity<Void> delete(@PathVariable UUID id) {
         if (!service.existsById(id))
             throw new bluesky.airline.exceptions.NotFoundException("Aircraft not found: " + id);
         service.delete(id);

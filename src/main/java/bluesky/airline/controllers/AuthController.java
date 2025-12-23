@@ -9,6 +9,7 @@ import bluesky.airline.dto.auth.AuthLoginRequest;
 import org.springframework.web.bind.annotation.RequestBody;
 import bluesky.airline.entities.User;
 import bluesky.airline.dto.auth.LoginRespDTO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import bluesky.airline.dto.auth.NewUserRespDTO;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,15 +20,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
-    @org.springframework.beans.factory.annotation.Autowired
+    @Autowired
     private AuthService authService;
-    @org.springframework.beans.factory.annotation.Autowired
+    @Autowired
     private UserService userService;
 
     // Do login and return a JWT token
     // Endpoint: POST /auth/login
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody @Validated AuthLoginRequest body) {
+    public ResponseEntity<LoginRespDTO> login(@RequestBody @Validated AuthLoginRequest body) {
         String token = authService.checkCredentialsAndGenerateToken(body);
         return ResponseEntity.ok(new LoginRespDTO(token));
     }
@@ -35,7 +36,7 @@ public class AuthController {
     // Register a new user and return the created user's ID
     // Endpoint: POST /auth/register
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody @Validated AuthRegisterRequest body) {
+    public ResponseEntity<NewUserRespDTO> register(@RequestBody @Validated AuthRegisterRequest body) {
         User u = userService.create(body.getName(), body.getSurname(), body.getUsername(), body.getEmail(),
                 body.getPassword(), body.getAvatarUrl(), body.getRoleCode());
         return ResponseEntity.created(java.net.URI.create("/users/" + u.getId()))

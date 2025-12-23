@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.util.UUID;
 import bluesky.airline.dto.users.CreateUserRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.PostMapping;
 import bluesky.airline.dto.users.UpdateUserRequest;
@@ -27,7 +28,7 @@ import bluesky.airline.dto.users.UpdateUserRequest;
 @RequestMapping("/users")
 @PreAuthorize("hasRole('ADMIN')")
 public class UserController {
-    @org.springframework.beans.factory.annotation.Autowired
+    @Autowired
     private UserService service;
 
     // List users endpoint with pagination/sorting and optional filters

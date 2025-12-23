@@ -5,6 +5,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import bluesky.airline.repositories.UserRepository;
 import java.io.IOException;
 import bluesky.airline.entities.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -18,9 +19,9 @@ import jakarta.servlet.http.HttpServletRequest;
 // Filter for JWT authentication
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
-    @org.springframework.beans.factory.annotation.Autowired
+    @Autowired
     private JwtTools jwtTools;
-    @org.springframework.beans.factory.annotation.Autowired
+    @Autowired
     private UserRepository users;
 
     @Override

@@ -59,7 +59,7 @@ public class AirportController {
     // Endpoint: DELETE /airports/{id}
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable UUID id) {
+    public ResponseEntity<Void> delete(@PathVariable UUID id) {
         if (!service.existsById(id))
             throw new bluesky.airline.exceptions.NotFoundException("Airport not found: " + id);
         service.delete(id);

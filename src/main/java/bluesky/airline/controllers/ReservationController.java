@@ -4,6 +4,7 @@ import bluesky.airline.entities.enums.ReservationStatus;
 import bluesky.airline.dto.reservation.ReservationReqDTO;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.data.domain.Pageable;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,7 +28,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 @RequestMapping("/reservations")
 @PreAuthorize("hasRole('ADMIN') or hasRole('TOUR_OPERATOR')")
 public class ReservationController {
-    @org.springframework.beans.factory.annotation.Autowired
+    @Autowired
     private ReservationService reservations;
 
     // List reservations endpoint

@@ -1,15 +1,17 @@
 package bluesky.airline.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import bluesky.airline.entities.Role;
+import bluesky.airline.services.RoleService;
 
 // Controller for roles
 // Endpoint: /roles
 @RestController
 @RequestMapping("/roles")
 public class RoleController {
-    @org.springframework.beans.factory.annotation.Autowired
-    private bluesky.airline.services.RoleService roles;
+    @Autowired
+    private RoleService roles;
 
     // Get all roles
     // Endpoint: GET /roles
