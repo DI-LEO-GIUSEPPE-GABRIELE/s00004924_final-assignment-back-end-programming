@@ -1,6 +1,7 @@
 package bluesky.airline.controllers;
 
 import bluesky.airline.entities.Airport;
+import bluesky.airline.exceptions.NotFoundException;
 import java.util.UUID;
 import jakarta.validation.Valid;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -34,7 +35,7 @@ public class AirportController {
     public ResponseEntity<Airport> get(@PathVariable UUID id) {
         Airport a = service.findById(id);
         if (a == null)
-            throw new bluesky.airline.exceptions.NotFoundException("Airport not found: " + id);
+            throw new NotFoundException("Airport not found: " + id);
         return ResponseEntity.ok(a);
     }
 
@@ -61,7 +62,7 @@ public class AirportController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable UUID id) {
         if (!service.existsById(id))
-            throw new bluesky.airline.exceptions.NotFoundException("Airport not found: " + id);
+            throw new NotFoundException("Airport not found: " + id);
         service.delete(id);
         return ResponseEntity.noContent().build();
     }

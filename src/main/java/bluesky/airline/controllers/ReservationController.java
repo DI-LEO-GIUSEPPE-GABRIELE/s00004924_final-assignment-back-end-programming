@@ -1,6 +1,7 @@
 package bluesky.airline.controllers;
 
 import bluesky.airline.entities.enums.ReservationStatus;
+import bluesky.airline.exceptions.NotFoundException;
 import bluesky.airline.dto.reservation.ReservationReqDTO;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.data.domain.Pageable;
@@ -49,7 +50,7 @@ public class ReservationController {
     public ResponseEntity<ReservationRespDTO> get(@PathVariable UUID id) {
         Reservation r = reservations.findById(id);
         if (r == null)
-            throw new bluesky.airline.exceptions.NotFoundException("Reservation not found: " + id);
+            throw new NotFoundException("Reservation not found: " + id);
         return ResponseEntity.ok(reservations.toDTO(r));
     }
 
@@ -69,7 +70,7 @@ public class ReservationController {
             @RequestParam ReservationStatus status) {
         Reservation r = reservations.findById(id);
         if (r == null)
-            throw new bluesky.airline.exceptions.NotFoundException("Reservation not found: " + id);
+            throw new NotFoundException("Reservation not found: " + id);
         r.setStatus(status);
         return ResponseEntity.ok(reservations.toDTO(reservations.save(r)));
     }
@@ -80,7 +81,7 @@ public class ReservationController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable UUID id) {
         if (!reservations.existsById(id))
-            throw new bluesky.airline.exceptions.NotFoundException("Reservation not found: " + id);
+            throw new NotFoundException("Reservation not found: " + id);
         reservations.delete(id);
         return ResponseEntity.noContent().build();
     }

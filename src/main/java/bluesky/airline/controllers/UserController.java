@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import bluesky.airline.services.UserService;
 import bluesky.airline.entities.User;
+import bluesky.airline.exceptions.NotFoundException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,7 +49,7 @@ public class UserController {
     public ResponseEntity<User> get(@PathVariable UUID id) {
         return service.findById(id)
                 .map(ResponseEntity::ok)
-                .orElseThrow(() -> new bluesky.airline.exceptions.NotFoundException("User not found: " + id));
+                .orElseThrow(() -> new NotFoundException("User not found: " + id));
     }
 
     // Create user endpoint
@@ -69,7 +70,7 @@ public class UserController {
                 .update(id, body.getName(), body.getSurname(), body.getUsername(), body.getEmail(), body.getAvatarUrl(),
                         body.getRoleCode())
                 .map(ResponseEntity::ok)
-                .orElseThrow(() -> new bluesky.airline.exceptions.NotFoundException("User not found: " + id));
+                .orElseThrow(() -> new NotFoundException("User not found: " + id));
     }
 
     // Delete user endpoint
@@ -77,7 +78,7 @@ public class UserController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable UUID id) {
         if (!service.delete(id))
-            throw new bluesky.airline.exceptions.NotFoundException("User not found: " + id);
+            throw new NotFoundException("User not found: " + id);
         return ResponseEntity.noContent().build();
     }
 }

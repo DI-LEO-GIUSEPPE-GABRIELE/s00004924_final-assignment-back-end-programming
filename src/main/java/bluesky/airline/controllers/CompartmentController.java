@@ -8,6 +8,7 @@ import java.util.UUID;
 import bluesky.airline.entities.Compartment;
 import bluesky.airline.services.CompartmentService;
 import org.springframework.web.bind.annotation.*;
+import bluesky.airline.dto.common.EnumRespDTO;
 import bluesky.airline.dto.compartment.CompartmentReqDTO;
 import bluesky.airline.dto.compartment.CompartmentRespDTO;
 import bluesky.airline.exceptions.NotFoundException;
@@ -43,9 +44,9 @@ public class CompartmentController {
     // Endpoint: GET /compartments/codes
     @GetMapping("/codes")
     @PreAuthorize("permitAll()")
-    public ResponseEntity<java.util.List<bluesky.airline.dto.common.EnumRespDTO>> getCodes() {
+    public ResponseEntity<java.util.List<EnumRespDTO>> getCodes() {
         return ResponseEntity.ok(compartments.findAll().stream()
-                .map(c -> new bluesky.airline.dto.common.EnumRespDTO(c.getCompartmentCode(), c.getDescription()))
+                .map(c -> new EnumRespDTO(c.getCompartmentCode(), c.getDescription()))
                 .toList());
     }
 

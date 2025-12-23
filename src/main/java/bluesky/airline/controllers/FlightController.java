@@ -7,12 +7,14 @@ import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 import bluesky.airline.dto.flight.FlightRespDTO;
 import bluesky.airline.dto.weather.WeatherRespDTO;
-
 import java.util.UUID;
 import java.time.Instant;
 import org.springframework.http.ResponseEntity;
 import bluesky.airline.entities.enums.FlightStatus;
+import bluesky.airline.exceptions.NotFoundException;
+import bluesky.airline.exceptions.ValidationException;
 import org.springframework.data.domain.Pageable;
+import bluesky.airline.dto.common.EnumRespDTO;
 import bluesky.airline.dto.flight.FlightReqDTO;
 import bluesky.airline.services.ExchangeRateService;
 import bluesky.airline.entities.Flight;
@@ -64,7 +66,7 @@ public class FlightController {
     public ResponseEntity<FlightRespDTO> get(@PathVariable UUID id) {
         Flight f = flights.findById(id);
         if (f == null)
-            throw new bluesky.airline.exceptions.NotFoundException("Flight not found: " + id);
+            throw new NotFoundException("Flight not found: " + id);
         return ResponseEntity.ok(flights.toDTO(f));
     }
 
@@ -88,7 +90,7 @@ public class FlightController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable UUID id) {
         if (!flights.existsById(id))
-            throw new bluesky.airline.exceptions.NotFoundException("Flight not found: " + id);
+            throw new NotFoundException("Flight not found: " + id);
         flights.delete(id);
         return ResponseEntity.noContent().build();
     }
@@ -100,10 +102,10 @@ public class FlightController {
     public ResponseEntity<WeatherRespDTO> refreshWeather(@PathVariable UUID id) {
         Flight f = flights.findById(id);
         if (f == null)
-            throw new bluesky.airline.exceptions.NotFoundException("Flight not found: " + id);
+            throw new NotFoundException("Flight not found: " + id);
         Airport dep = f.getDepartureAirport();
         if (dep == null)
-            throw new bluesky.airline.exceptions.ValidationException(
+            throw new ValidationException(
                     java.util.List.of("Flight has no departure airport"));
         Airport found = airportService.findById(dep.getId());
         WeatherData wd = weatherService.refreshForFlight(f, found != null ? found : dep);
@@ -120,7 +122,7 @@ public class FlightController {
             @RequestParam(defaultValue = "EUR") String base) {
         Flight f = flights.findById(id);
         if (f == null)
-            throw new bluesky.airline.exceptions.NotFoundException("Flight not found: " + id);
+            throw new NotFoundException("Flight not found: " + id);
         if (f.getBasePrice() == null) {
             return ResponseEntity.ok(java.math.BigDecimal.ZERO);
         }
@@ -132,9 +134,9 @@ public class FlightController {
     // Endpoint: GET /flights/statuses
     @GetMapping("/statuses")
     @PreAuthorize("permitAll()")
-    public ResponseEntity<java.util.List<bluesky.airline.dto.common.EnumRespDTO>> getStatuses() {
+    public ResponseEntity<java.util.List<EnumRespDTO>> getStatuses() {
         return ResponseEntity.ok(java.util.Arrays.stream(FlightStatus.values())
-                .map(s -> new bluesky.airline.dto.common.EnumRespDTO(s.name(), s.name()))
+                .map(s -> new EnumRespDTO(s.name(), s.name()))
                 .toList());
     }
 }

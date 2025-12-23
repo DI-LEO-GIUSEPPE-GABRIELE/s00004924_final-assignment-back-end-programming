@@ -7,9 +7,11 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import jakarta.validation.Valid;
 import bluesky.airline.dto.aircraft.AircraftReqDTO;
+import bluesky.airline.dto.common.EnumRespDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import bluesky.airline.entities.Aircraft;
+import bluesky.airline.exceptions.NotFoundException;
 import bluesky.airline.services.AircraftService;
 
 // Controller for aircraft management, only accessible by ADMIN and TOUR_OPERATOR roles
@@ -34,7 +36,7 @@ public class AircraftController {
     public ResponseEntity<Aircraft> get(@PathVariable UUID id) {
         Aircraft a = service.findById(id);
         if (a == null)
-            throw new bluesky.airline.exceptions.NotFoundException("Aircraft not found: " + id);
+            throw new NotFoundException("Aircraft not found: " + id);
         return ResponseEntity.ok(a);
     }
 
@@ -58,7 +60,7 @@ public class AircraftController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable UUID id) {
         if (!service.existsById(id))
-            throw new bluesky.airline.exceptions.NotFoundException("Aircraft not found: " + id);
+            throw new NotFoundException("Aircraft not found: " + id);
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
@@ -67,9 +69,9 @@ public class AircraftController {
     // Endpoint: GET /aircrafts/types
     @GetMapping("/types")
     @PreAuthorize("permitAll()")
-    public ResponseEntity<java.util.List<bluesky.airline.dto.common.EnumRespDTO>> getTypes() {
+    public ResponseEntity<java.util.List<EnumRespDTO>> getTypes() {
         return ResponseEntity.ok(java.util.List.of(
-                new bluesky.airline.dto.common.EnumRespDTO("PASSENGER", "PASSENGER"),
-                new bluesky.airline.dto.common.EnumRespDTO("CARGO", "CARGO")));
+                new EnumRespDTO("PASSENGER", "PASSENGER"),
+                new EnumRespDTO("CARGO", "CARGO")));
     }
 }
