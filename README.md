@@ -16,15 +16,15 @@ The application handles the core operations of an airline company managent syste
 
 ## Technologies Used
 
-**Java**: Programming language.
-**Spring Boot**: Framework for building the RESTful API.
-**GraphQL**: Query language for API (used only for flights list for didactical purposes).
-**PostgreSQL**: Database for production environment.
-**H2**: Database for testing environment (used to avoid affecting the main database).
-**Maven**: Build tool.
-**JUnit**: Testing framework.
-**Mockito**: Mocking framework.
-**Postman**: API testing tool.
+- **Java**: Programming language.
+- **Spring Boot**: Framework for building the RESTful API.
+- **GraphQL**: Query language for API (used only for flights list for didactical purposes).
+- **PostgreSQL**: Database for production environment.
+- **H2**: Database for testing environment (used to avoid affecting the main database).
+- **Maven**: Build tool.
+- **JUnit**: Testing framework.
+- **Mockito**: Mocking framework.
+- **Postman**: API testing tool.
 
 ## Data Model (ERD diagram)
 
@@ -91,27 +91,28 @@ This is a simple test flow, but you can test all the endpoints present in the co
 
 ### 1 - Authentication
 
-**Check Roles**: `GET /roles`, Verify available roles and their codes (ADMIN, FLIGHT_MANAGER, TOUR_OPERATOR).
-**Register a User**: `POST /auth/register`, the body is pre-filled in collection if you want.
-**Login**: - `POST /auth/login`, the body is pre-filled in collection if you want.
+- **Check Roles**: `GET /roles`, Verify available roles and their codes (ADMIN, FLIGHT_MANAGER, TOUR_OPERATOR).
+- **Register a User**: `POST /auth/register`, the body is pre-filled in collection if you want.
+- **Login**: - `POST /auth/login`, the body is pre-filled in collection if you want.
 
 In the postman, after login, there is a script for execute the token in the collection variables. (`collectionVariables.set`)
 
 If you want to change logged User, you can do:
-**Logout**: - `POST /auth/logout`, this command clear the token in the collection variables.
+
+- **Logout**: - `POST /auth/logout`, this command clear the token in the collection variables.
 
 ### 2 - Core Operations (Requires Token)
 
-**Create some Users**: `POST /users`, (Admin only). Then you can test all the endpoints for users.
-**Create at least an Aircraft**: `POST /aircrafts`, (Admin/Tour Operator only). Then you can test all the endpoints for aircrafts.
-**Create at least two Airports**: `POST /airports`, (Admin only). Then you can test all the endpoints for airports.
-**Test Compartments**: `POST /compartments`, (Admin only). There are already some compartments in the database but you can test all the endpoints for compartments.
-**Create at least a Flight**: `POST /flights`, (Admin/Flight Manager only). Then you can test all the endpoints for flights (also external APIs refreshWeather `POST /flights/:id/weather/refresh` and convertPrice `GET /flights/:id/price/convert?target=USD`).
-**Create at least a Reservation**: `POST /reservations`, (Admin/Tour Operator only). Then you can test all the endpoints for reservations.
+- **Create some Users**: `POST /users`, (Admin only). Then you can test all the endpoints for users.
+- **Create at least an Aircraft**: `POST /aircrafts`, (Admin/Tour Operator only). Then you can test all the endpoints for aircrafts.
+- **Create at least two Airports**: `POST /airports`, (Admin only). Then you can test all the endpoints for airports.
+- **Test Compartments**: `POST /compartments`, (Admin only). There are already some compartments in the database but you can test all the endpoints for compartments.
+- **Create at least a Flight**: `POST /flights`, (Admin/Flight Manager only). Then you can test all the endpoints for flights (also external APIs refreshWeather `POST /flights/:id/weather/refresh` and convertPrice `GET /flights/:id/price/convert?target=USD`).
+- **Create at least a Reservation**: `POST /reservations`, (Admin/Tour Operator only). Then you can test all the endpoints for reservations.
 
 Almost all GET List endpoints are paginated and some are filterable through query parameters.
 For some controller, the creation is restricted to Admin role, but other endpoints are available for all or some roles.
 
 ### 3 - GraphQL
 
-**List Flights**: `POST /graphql`, List all flights (remember to compile the query in the body).
+- **List Flights**: `POST /graphql`, List all flights (remember to compile the query in the body).
