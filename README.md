@@ -1,6 +1,6 @@
 # BlueSky Airline – Backend Server
 
-This is the backend server for the "BlueSky Airline" management system. It provides a RESTful API and GraphQL structure for managing users, flights, reservations, airports and aircraft. The system is built with Spring Boot and Maven.
+This is the backend server for the "BlueSky Airline" management system. It provides a RESTful API and GraphQL structure for managing users, aircraft, airports, compartments, flights and reservations. The system is built with Spring Boot and Maven.
 The application implements a Test Driven Development (TDD) approach to ensure quality and robustness.
 
 ## Project Overview
@@ -13,6 +13,18 @@ The application handles the core operations of an airline company managent syste
 **Compartment Management**: Full compartments management for role ADMIN.
 **Aircraft and Airports**: Full aircrafts and airports management for roles ADMIN and TOUR_OPERATOR.
 **Reservations**: Full reservations management for roles ADMIN and TOUR_OPERATOR.
+
+## Technologies Used
+
+**Java**: Programming language.
+**Spring Boot**: Framework for building the RESTful API.
+**GraphQL**: Query language for API (used only for flights list for didactical purposes).
+**PostgreSQL**: Database for production environment.
+**H2**: Database for testing environment (used to avoid affecting the main database).
+**Maven**: Build tool.
+**JUnit**: Testing framework.
+**Mockito**: Mocking framework.
+**Postman**: API testing tool.
 
 ## Data Model (ERD diagram)
 
