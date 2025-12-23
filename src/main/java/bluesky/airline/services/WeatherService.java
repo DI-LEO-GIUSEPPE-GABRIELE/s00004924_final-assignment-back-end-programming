@@ -6,6 +6,7 @@ import java.time.Instant;
 import org.springframework.web.client.RestTemplate;
 import bluesky.airline.repositories.WeatherDataRepository;
 import bluesky.airline.entities.WeatherData;
+import java.util.List;
 import java.util.Map;
 import bluesky.airline.dto.weather.WeatherRespDTO;
 import bluesky.airline.entities.Airport;
@@ -36,7 +37,7 @@ public class WeatherService {
             if (main instanceof Map<?, ?> m && m.get("temp") instanceof Number n)
                 temp = n.doubleValue();
             Object weather = res.get("weather");
-            if (weather instanceof java.util.List<?> list && !list.isEmpty()) {
+            if (weather instanceof List<?> list && !list.isEmpty()) {
                 Object w0 = list.get(0);
                 if (w0 instanceof Map<?, ?> wm && wm.get("description") instanceof String s)
                     desc = s;

@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import bluesky.airline.entities.Flight;
 import bluesky.airline.repositories.UserRepository;
 import bluesky.airline.repositories.ReservationRepository;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import bluesky.airline.entities.Reservation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +50,7 @@ public class ReservationService {
 
     // Update a reservation from a ReservationReqDTO
     private void updateReservationFromDTO(Reservation r, ReservationReqDTO body) {
-        java.util.List<Flight> flightList = new java.util.ArrayList<>();
+        List<Flight> flightList = new ArrayList<>();
         if (body.getFlightIds() != null) {
             for (UUID flightId : body.getFlightIds()) {
                 if (flightId == null)
@@ -76,7 +78,7 @@ public class ReservationService {
 
         if (!isTourOperator) {
             throw new ValidationException(
-                    java.util.List.of("userId: User is not a Tour Operator"));
+                    List.of("userId: User is not a Tour Operator"));
         }
         r.setUser(u);
 

@@ -10,9 +10,12 @@ import bluesky.airline.repositories.UserRepository;
 import bluesky.airline.entities.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import bluesky.airline.exceptions.ValidationException;
 import java.util.Optional;
+import java.util.Set;
 
 // Service for User entities
 @Service
@@ -88,8 +91,8 @@ public class UserService {
             String roleName = mapRoleCode(roleCode);
             Role r = roleName == null ? null : roles.findByNameIgnoreCase(roleName).orElse(null);
             if (r == null || !isAllowedRole(r))
-                throw new ValidationException(java.util.List.of("roleCode: Invalid role"));
-            java.util.Set<Role> rs = new java.util.HashSet<>();
+                throw new ValidationException(List.of("roleCode: Invalid role"));
+            Set<Role> rs = new HashSet<>();
             rs.add(r);
             u.setRoles(rs);
         }
@@ -122,9 +125,8 @@ public class UserService {
                 String roleName = mapRoleCode(roleCode);
                 Role r = roleName == null ? null : roles.findByNameIgnoreCase(roleName).orElse(null);
                 if (r == null || !isAllowedRole(r))
-                    throw new ValidationException(
-                            java.util.List.of("roleCode: Invalid role"));
-                java.util.Set<Role> rs = new java.util.HashSet<>();
+                    throw new ValidationException(List.of("roleCode: Invalid role"));
+                Set<Role> rs = new HashSet<>();
                 rs.add(r);
                 existing.setRoles(rs);
             }
@@ -151,7 +153,7 @@ public class UserService {
 
     // Validate user creation/registration data
     private void validateCreate(String email, String username) {
-        java.util.List<String> errors = new java.util.ArrayList<>();
+        List<String> errors = new ArrayList<>();
         if (repo.findByEmailIgnoreCase(email).isPresent())
             errors.add("email: Email already registered");
         if (username != null && repo.findByUsernameIgnoreCase(username).isPresent())
@@ -163,7 +165,7 @@ public class UserService {
 
     // Validate user update data
     private void validateUpdate(UUID id, String email, String username) {
-        java.util.List<String> errors = new java.util.ArrayList<>();
+        List<String> errors = new ArrayList<>();
         boolean existsEmail = repo.findByEmailIgnoreCase(email)
                 .map(u -> !u.getId().equals(id))
                 .orElse(false);

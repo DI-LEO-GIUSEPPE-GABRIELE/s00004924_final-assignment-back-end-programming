@@ -17,7 +17,13 @@ import bluesky.airline.exceptions.NotFoundException;
 import bluesky.airline.exceptions.ValidationException;
 import bluesky.airline.entities.Compartment;
 import bluesky.airline.repositories.FlightRepository;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 // Service for Flight entities
 @Service
@@ -44,12 +50,12 @@ public class FlightService {
         f = flights.save(f);
 
         if (body.getCompartmentCodes() != null && !body.getCompartmentCodes().isEmpty()) {
-            java.util.Set<String> uniqueCodes = new java.util.HashSet<>(body.getCompartmentCodes());
-            java.util.Set<Compartment> validCompartments = new java.util.HashSet<>();
-            java.util.List<String> invalidCodes = new java.util.ArrayList<>();
+            Set<String> uniqueCodes = new HashSet<>(body.getCompartmentCodes());
+            Set<Compartment> validCompartments = new HashSet<>();
+            Set<String> invalidCodes = new HashSet<>();
 
             for (String code : uniqueCodes) {
-                java.util.Optional<Compartment> c = compartments.findByCompartmentCode(code);
+                Optional<Compartment> c = compartments.findByCompartmentCode(code);
                 if (c.isPresent()) {
                     validCompartments.add(c.get());
                 } else {
@@ -60,9 +66,9 @@ public class FlightService {
             if (!invalidCodes.isEmpty()) {
                 String available = compartments.findAll().stream()
                         .map(Compartment::getCompartmentCode)
-                        .collect(java.util.stream.Collectors.joining(", "));
+                        .collect(Collectors.joining(", "));
                 throw new ValidationException(
-                        java.util.List.of("Invalid compartment codes: " + invalidCodes + ". Available: " + available));
+                        List.of("Invalid compartment codes: " + invalidCodes + ". Available: " + available));
             }
             f.setCompartments(validCompartments);
             f = flights.save(f);
@@ -81,12 +87,12 @@ public class FlightService {
         Flight saved = flights.save(f);
 
         if (body.getCompartmentCodes() != null) {
-            java.util.Set<String> uniqueCodes = new java.util.HashSet<>(body.getCompartmentCodes());
-            java.util.Set<Compartment> validCompartments = new java.util.HashSet<>();
-            java.util.List<String> invalidCodes = new java.util.ArrayList<>();
+            Set<String> uniqueCodes = new HashSet<>(body.getCompartmentCodes());
+            Set<Compartment> validCompartments = new HashSet<>();
+            List<String> invalidCodes = new ArrayList<>();
 
             for (String code : uniqueCodes) {
-                java.util.Optional<Compartment> c = compartments.findByCompartmentCode(code);
+                Optional<Compartment> c = compartments.findByCompartmentCode(code);
                 if (c.isPresent()) {
                     validCompartments.add(c.get());
                 } else {
@@ -97,9 +103,9 @@ public class FlightService {
             if (!invalidCodes.isEmpty()) {
                 String available = compartments.findAll().stream()
                         .map(Compartment::getCompartmentCode)
-                        .collect(java.util.stream.Collectors.joining(", "));
+                        .collect(Collectors.joining(", "));
                 throw new ValidationException(
-                        java.util.List.of("Invalid compartment codes: " + invalidCodes + ". Available: " + available));
+                        List.of("Invalid compartment codes: " + invalidCodes + ". Available: " + available));
             }
             f.setCompartments(validCompartments);
             saved = flights.save(f);

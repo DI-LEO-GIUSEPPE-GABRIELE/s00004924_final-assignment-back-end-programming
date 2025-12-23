@@ -8,6 +8,7 @@ import bluesky.airline.exceptions.NotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.List;
 import java.util.UUID;
 
 // Service for Compartment entities
@@ -22,7 +23,7 @@ public class CompartmentService {
     }
 
     // Find all compartments
-    public java.util.List<Compartment> findAll() {
+    public List<Compartment> findAll() {
         return compartments.findAll();
     }
 
