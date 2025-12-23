@@ -49,36 +49,45 @@ Keywords for setup:
 - `openweather.apiKey`: API key for weather data (my API key is in application.properties but you can get it from https://openweathermap.org/).
 - `exchangerate.apiKey`: API key for currency conversion (my API key is in application.properties but you can get it from https://www.exchangerate-api.com/).
 
-### 3. Build & Run
+### Build & Run (using Maven)
+
+<!-- Clean and compile -->
 
 ```bash
-# Clean and compile
 mvn clean compile
+```
 
-# Run the application
+<!-- Run the application -->
+
+```bash
 mvn spring-boot:run
 ```
 
+<!-- Run Tests -->
+
+```bash
+mvn test
+```
+
 The server will start at `http://localhost:3001
-.
 
-## 🧪 How to Test (Step-by-Step)
+## Flow to follow for Test Application
 
-Follow this flow to test the main functionalities using Postman
-or cURL.
+Follow this flow to test the main functionalities using Postman.
+Remember to copy the postman collection file `BlueSky_Airline.postman_collection.json` in the root of the project and import it in Postman.
 
-### Phase 1: Authentication
+### 1 - Authentication
 
-1.  **Register a User** (e.g., as an ADMIN): - `POST /auth/register` - Body: `{"name": "Admin User", "email": "admin@bluesky.com", "password": "password123", "roleCode": 0}` - _Note: roleCode 0=ADMI
-    , 1=FLIGHT_MANAGER, 2=TOUR_OPERATOR_
-2.  **Logi\_**:
-    - `POST /auth/login`
-    - Body: `{"email": "admin@bluesky.com", "password": "password123"}`
-    - **Co_y the Token** returned in the response (`{"token": "eyJhbG..."}`).
+**Check Roles**: `GET /roles`, Verify available roles and their codes (ADMIN, FLIGHT_MANAGER, TOUR_OPERATOR).
+**Register a User**: `POST /auth/register`, the body is pre-filled in collection if you want.
+**Login**: - `POST /auth/login`, the body is pre-filled in collection if you want.
 
-### Phase 2: Core Operations (Requires Token)
+In the postman, after login, there is a script for execute the token in the collection variables. (`collectionVariables.set`)
 
-_Add `Authorization: Bearer <YOUR_TOKEN>` header to all subsequent requests._
+If you want to change logged User, you can do:
+**Logout**: - `POST /auth/logout`, this command clear the token in the collection variables.
+
+### 2 - Core Operations (Requires Token)
 
 3.  **Create a Flight** (Admin/Manager only):
     - `POST /flights`
@@ -92,32 +101,12 @@ _Add `Authorization: Bearer <YOUR_TOKEN>` header to all subsequent requests._
 6.  **Convert Price**:
     - `GET /flights/{id}/price/convert?target=USD`
     - Converts the flight price from EUR to USD.
-
-### Phase 3: User Management
-
 7.  **List Users**:
     - `GET /users`
     - View all registered users.
 8.  **Get User Details**:
     - `GET /users/{id}`
     - Verify the `password` field is **not** present in the response (Security check).
-
-## 📡 API Endpoints Summary
-
-### Auth
-
-- `POST /auth/register` - Register new user
-- `POST /auth/login` - Login and get JWT
-
-### Resources
-
-- `GET /users` - List users
-- `GET /flights` - List flights
-- `GET /airports` - List airports
-- `GET /aircrafts` - List aircraft
-- `GET /reservations` - List reservations
-- `GET /roles` - List roles
-- `GET /operators` - List tour operators
 
 ### GraphQL
 
