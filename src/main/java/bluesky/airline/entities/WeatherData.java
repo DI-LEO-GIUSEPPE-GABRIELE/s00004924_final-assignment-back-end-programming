@@ -4,9 +4,9 @@ import jakarta.persistence.Table;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Entity;
-import java.time.Instant;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Column;
+import java.time.Instant;
 
 // Entity for Weather Data
 @Entity

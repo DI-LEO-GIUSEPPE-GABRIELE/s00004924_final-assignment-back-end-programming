@@ -2,8 +2,8 @@ package bluesky.airline.entities;
 
 import jakarta.persistence.Table;
 import jakarta.persistence.Column;
-import java.util.UUID;
 import jakarta.persistence.Entity;
+import java.util.UUID;
 
 // Entity for Roles
 @Entity

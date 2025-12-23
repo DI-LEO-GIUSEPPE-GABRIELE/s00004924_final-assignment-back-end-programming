@@ -1,16 +1,16 @@
 package bluesky.airline.entities;
 
-import java.util.Set;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.JoinColumn;
-import java.util.HashSet;
 import jakarta.persistence.Column;
-import java.util.UUID;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Entity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.UUID;
+import java.util.HashSet;
+import java.util.Set;
 
 // Entity for Users
 @Entity

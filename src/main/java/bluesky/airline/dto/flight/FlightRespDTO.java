@@ -1,12 +1,12 @@
 package bluesky.airline.dto.flight;
 
 import java.time.Instant;
-import bluesky.airline.dto.airport.AirportRespDTO;
 import java.math.BigDecimal;
-import bluesky.airline.dto.aircraft.AircraftRespDTO;
 import java.util.List;
-import bluesky.airline.entities.enums.FlightStatus;
 import java.util.UUID;
+import bluesky.airline.dto.airport.AirportRespDTO;
+import bluesky.airline.dto.aircraft.AircraftRespDTO;
+import bluesky.airline.entities.enums.FlightStatus;
 
 // DTO for Flight responses
 public class FlightRespDTO {

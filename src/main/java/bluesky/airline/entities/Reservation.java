@@ -3,7 +3,6 @@ package bluesky.airline.entities;
 import java.time.Instant;
 import java.util.List;
 import jakarta.persistence.ManyToOne;
-import bluesky.airline.entities.enums.ReservationStatus;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.Column;
@@ -11,6 +10,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Enumerated;
+import bluesky.airline.entities.enums.ReservationStatus;
 
 // Entity for Reservations
 @Entity
