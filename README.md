@@ -75,6 +75,7 @@ The server will start at `http://localhost:3001
 
 Follow this flow to test the main functionalities using Postman.
 Remember to copy the postman collection file `BlueSky_Airline.postman_collection.json` in the root of the project and import it in Postman.
+This is a simple test flow, but you can test all the endpoints present in the collection.
 
 ### 1 - Authentication
 
@@ -89,27 +90,15 @@ If you want to change logged User, you can do:
 
 ### 2 - Core Operations (Requires Token)
 
-3.  **Create a Flight** (Admin/Manager only):
-    - `POST /flights`
-    - Body: JSON representing a flight (ensure related Airport/Aircraft IDs exist or use existing ones).
-4.  **List Flights**:
-    - `GET /flights`
-    - Check if your new flight appears.
-5.  **Refresh Weather**:
-    - `POST /flights/{id}/weather/refresh`
-    - Fetches live weather for the flight's departure airport.
-6.  **Convert Price**:
-    - `GET /flights/{id}/price/convert?target=USD`
-    - Converts the flight price from EUR to USD.
-7.  **List Users**:
-    - `GET /users`
-    - View all registered users.
-8.  **Get User Details**:
-    - `GET /users/{id}`
-    - Verify the `password` field is **not** present in the response (Security check).
+**Create some Users**: `POST /users`, (Admin only). Then you can test all the endpoints for users.
+**Create at least an Aircraft**: `POST /aircrafts`, (Admin/Tour Operator only). Then you can test all the endpoints for aircrafts.
+**Create at least two Airports**: `POST /airports`, (Admin only). Then you can test all the endpoints for airports.
+**Test Compartments**: `POST /compartments`, (Admin only). There are already some compartments in the database but you can test all the endpoints for compartments.
+**Create at least a Flight**: `POST /flights`, (Admin/Flight Manager only). Then you can test all the endpoints for flights (also external APIs refreshWeather `POST /flights/:id/weather/refresh` and convertPrice `GET /flights/:id/price/convert?target=USD`).
+**Create at least a Reservation**: `POST /reservations`, (Admin/Tour Operator only). Then you can test all the endpoints for reservations.
 
-### GraphQL
+For some controller, the creation is restricted to Admin role, but other endpoints are available for all or some roles.
 
-- `POST /graphql` - Query flights via GraphQL
+### 3 - GraphQL
 
-_For a complete list of payloads and examples, import the `BlueSky_Airline.postman_collection.json` file into Postman._
+**List Flights**: `POST /graphql`, List all flights (remember to compile the query in the body).
