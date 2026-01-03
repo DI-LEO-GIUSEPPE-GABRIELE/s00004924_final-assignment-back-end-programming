@@ -58,8 +58,8 @@ Keywords for setup:
 - `server.port`: 3001
 - `spring.datasource`: DB connection details (in previous step).
 - `jwt.secret`: Secret key for token signing (generate a secure random key long enough 256 bits).
-- `openweather.apiKey`: API key for weather data (my API key is in application.properties but you can get it from https://openweathermap.org/).
-- `exchangerate.apiKey`: API key for currency conversion (my API key is in application.properties but you can get it from https://www.exchangerate-api.com/).
+- `openweather.apiKey`: API key for weather data (you can get it from https://openweathermap.org/).
+- `exchangerate.apiKey`: API key for currency conversion (you can get it from https://www.exchangerate-api.com/).
 
 ### Build and Run (using Maven)
 
