@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Max;
+import org.hibernate.validator.constraints.URL;
 
 // DTO for User requests (update)
 public class UpdateUserRequest {
@@ -24,6 +25,7 @@ public class UpdateUserRequest {
     @Email(message = "email: Invalid email format")
     private String email;
 
+    @URL(message = "avatarUrl: Must be a valid URL")
     private String avatarUrl;
 
     @NotNull(message = "roleCode: Role code is required")

@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import org.hibernate.validator.constraints.URL;
 
 // DTO for User requests (create)
 public class CreateUserRequest {
@@ -28,6 +29,7 @@ public class CreateUserRequest {
     @Size(min = 4, message = "password: Password too short (min 4)")
     private String password;
 
+    @URL(message = "avatarUrl: Must be a valid URL")
     private String avatarUrl;
 
     @NotNull(message = "roleCode: Role code is required")

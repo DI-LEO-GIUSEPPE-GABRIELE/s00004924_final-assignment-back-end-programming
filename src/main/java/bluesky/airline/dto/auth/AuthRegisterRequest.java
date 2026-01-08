@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Max;
+import org.hibernate.validator.constraints.URL;
 
 // DTO for Authentication register requests
 public class AuthRegisterRequest {
@@ -24,6 +25,7 @@ public class AuthRegisterRequest {
     @Email(message = "email: Invalid email format")
     private String email;
 
+    @URL(message = "avatarUrl: Must be a valid URL")
     private String avatarUrl;
 
     @NotBlank(message = "password: Password is required")
