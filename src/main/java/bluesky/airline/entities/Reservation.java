@@ -8,6 +8,8 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Column;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Enumerated;
 import bluesky.airline.entities.enums.ReservationStatus;
@@ -28,9 +30,10 @@ public class Reservation extends BaseUuidEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-    // Many-to-Many: each reservation can have multiple flights
-    @jakarta.persistence.ManyToMany(fetch = FetchType.LAZY)
-    @jakarta.persistence.JoinTable(name = "reservations_flights", joinColumns = @JoinColumn(name = "reservation_id"), inverseJoinColumns = @JoinColumn(name = "flight_id"))
+    // Many-to-Many: each reservation can have multiple flights and each flight can
+    // have multiple reservations
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "reservations_flights", joinColumns = @JoinColumn(name = "reservation_id"), inverseJoinColumns = @JoinColumn(name = "flight_id"))
     private List<Flight> flights;
 
     public Instant getReservationDate() {

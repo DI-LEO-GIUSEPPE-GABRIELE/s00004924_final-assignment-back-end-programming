@@ -56,7 +56,8 @@ public class Flight extends BaseUuidEntity {
     @OneToOne(mappedBy = "flight", fetch = FetchType.LAZY)
     private WeatherData weatherData;
 
-    // Many-to-Many: each flight has many compartments
+    // Many-to-Many: each flight can have many compartments and each compartment can
+    // have many flights
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "flights_compartments", joinColumns = @JoinColumn(name = "flight_id"), inverseJoinColumns = @JoinColumn(name = "compartment_id"))
     private Set<Compartment> compartments = new HashSet<>();
