@@ -26,9 +26,9 @@ The application handles the core operations of an airline company managent syste
 - **Mockito**: Mocking framework.
 - **Postman**: API testing tool.
 
-## Data Model (ERD diagram)
+## Data Model (ER diagram)
 
-The data model is represented by an Entity-Relationship Diagram (ERD) that shows the relationships between the different entities in the system. The ERD is shown in the figure in the route of the project. (erd-diagram.png)
+The data model is represented by an Entity-Relationship Diagram (ER) that shows the relationships between the different entities in the system. The ERD is shown in the figure in the route of the project. (er-diagram.png)
 
 ### Database Setup
 
