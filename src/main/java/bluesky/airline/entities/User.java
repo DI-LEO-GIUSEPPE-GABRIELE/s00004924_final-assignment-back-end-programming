@@ -9,6 +9,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.Entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.UUID;
+import org.hibernate.annotations.CreationTimestamp;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -35,6 +36,10 @@ public class User extends BaseUuidEntity {
     @Column(nullable = true, length = 255)
     @JsonIgnore
     private String password;
+
+    @Column(name = "registration_date", nullable = false, updatable = false)
+    @CreationTimestamp
+    private java.time.Instant registrationDate;
 
     // Many-to-Many: each user can have multiple roles and each role can have
     // multiple users
@@ -114,6 +119,10 @@ public class User extends BaseUuidEntity {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public java.time.Instant getRegistrationDate() {
+        return registrationDate;
     }
 
     public Set<Role> getRoles() {
