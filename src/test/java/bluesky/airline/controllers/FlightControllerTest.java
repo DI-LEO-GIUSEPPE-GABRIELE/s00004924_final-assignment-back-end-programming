@@ -19,6 +19,8 @@ import bluesky.airline.entities.PassengerAircraft;
 import bluesky.airline.entities.WeatherData;
 import bluesky.airline.services.ExchangeRateService;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentMatchers;
+import org.mockito.Mockito;
 import java.math.BigDecimal;
 import java.time.temporal.ChronoUnit;
 import java.time.Instant;
@@ -255,10 +257,10 @@ class FlightControllerTest {
 
                 String id = com.jayway.jsonpath.JsonPath.read(response, "$.id");
 
-                org.mockito.Mockito
-                                .when(exchangeRateService.convert(org.mockito.ArgumentMatchers.any(),
-                                                org.mockito.ArgumentMatchers.anyString(),
-                                                org.mockito.ArgumentMatchers.anyString()))
+                Mockito
+                                .when(exchangeRateService.convert(ArgumentMatchers.any(),
+                                                ArgumentMatchers.anyString(),
+                                                ArgumentMatchers.anyString()))
                                 .thenReturn(new BigDecimal("110.00"));
 
                 mockMvc.perform(get("/flights/" + id + "/price/convert")
@@ -318,13 +320,12 @@ class FlightControllerTest {
                 dto.setTemperature(25.0);
                 dto.setDescription("Sunny");
 
-                org.mockito.Mockito
-                                .when(weatherService.refreshForFlight(org.mockito.ArgumentMatchers.any(),
-                                                org.mockito.ArgumentMatchers.any()))
+                Mockito
+                                .when(weatherService.refreshForFlight(ArgumentMatchers.any(), ArgumentMatchers.any()))
                                 .thenReturn(wd);
 
-                org.mockito.Mockito
-                                .when(weatherService.toDTO(org.mockito.ArgumentMatchers.any()))
+                Mockito
+                                .when(weatherService.toDTO(ArgumentMatchers.any()))
                                 .thenReturn(dto);
 
                 mockMvc.perform(post("/flights/" + id + "/weather/refresh"))

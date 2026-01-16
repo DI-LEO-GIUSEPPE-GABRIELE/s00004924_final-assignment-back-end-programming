@@ -3,6 +3,7 @@ package bluesky.airline.graphql;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import java.util.UUID;
@@ -17,7 +18,7 @@ public class FlightGraphqlController {
 
     @QueryMapping
     public Page<Flight> flights(@Argument int page, @Argument int size) {
-        return flightService.findAll(org.springframework.data.domain.PageRequest.of(page, size));
+        return flightService.findAll(PageRequest.of(page, size));
     }
 
     @QueryMapping

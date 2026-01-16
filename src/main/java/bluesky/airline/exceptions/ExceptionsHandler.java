@@ -1,7 +1,9 @@
 package bluesky.airline.exceptions;
 
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -20,18 +22,18 @@ public class ExceptionsHandler {
 
 	private static final Logger logger = LoggerFactory.getLogger(ExceptionsHandler.class);
 
-	@ExceptionHandler(org.springframework.web.bind.MethodArgumentNotValidException.class)
+	@ExceptionHandler(MethodArgumentNotValidException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public ErrorWithListDTO handleValidationErrors(org.springframework.web.bind.MethodArgumentNotValidException ex) {
+	public ErrorWithListDTO handleValidationErrors(MethodArgumentNotValidException ex) {
 		List<String> errors = ex.getBindingResult().getFieldErrors().stream()
 				.map(error -> error.getField() + ": " + error.getDefaultMessage())
 				.toList();
 		return new ErrorWithListDTO("Validation errors", LocalDateTime.now(), errors);
 	}
 
-	@ExceptionHandler(org.springframework.http.converter.HttpMessageNotReadableException.class)
+	@ExceptionHandler(HttpMessageNotReadableException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public ErrorWithListDTO handleJsonErrors(org.springframework.http.converter.HttpMessageNotReadableException ex) {
+	public ErrorWithListDTO handleJsonErrors(HttpMessageNotReadableException ex) {
 		if (ex.getCause() instanceof com.fasterxml.jackson.databind.exc.InvalidFormatException ifx) {
 			// Handle Enum errors
 			if (ifx.getTargetType() != null && ifx.getTargetType().isEnum()) {
